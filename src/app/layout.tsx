@@ -1,11 +1,13 @@
-import './globals.css'
-import { Nunito } from 'next/font/google'
+import React from "react"
+import { Nunito } from "next/font/google"
 
-const nunito = Nunito({ subsets: ['latin'] })
+import "./globals.css"
+
+const nunito = Nunito({ subsets: ["latin"] })
 
 export const metadata = {
-  title: 'Flex Coach - Dashboard',
-  description: 'Dashboard de nutrição',
+  title: "Flex Coach - Dashboard",
+  description: "Dashboard de nutrição",
 }
 
 export default function RootLayout({
