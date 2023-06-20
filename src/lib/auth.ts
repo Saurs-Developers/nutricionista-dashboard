@@ -3,7 +3,7 @@ import CredentialsProvider from "next-auth/providers/credentials"
 
 import { axiosPublic } from "./axios"
 
-export const options: NextAuthOptions = {
+export const authOptions: NextAuthOptions = {
   providers: [
     CredentialsProvider({
       name: "Login",
@@ -20,12 +20,21 @@ export const options: NextAuthOptions = {
 
         const data = await res.data
 
-        if (res.status === 200 && data) {
-          return data
+        if (res.status === 200) {
+          return { ...data, sexo: true }
         } else {
           return null
         }
       },
     }),
   ],
+  callbacks: {
+    async jwt({ token, user }) {
+      return { ...user, ...token }
+    },
+    async session({ session, token }) {
+      session.user = token
+      return session
+    },
+  },
 }
