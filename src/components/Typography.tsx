@@ -6,6 +6,7 @@ const variants = {
   h2: "scroll-m-20 text-3xl font-semibold tracking-tight transition-colors first:mt-0",
   h3: "scroll-m-20 text-2xl font-semibold tracking-tight",
   h4: "scroll-m-20 text-xl font-semibold tracking-tight",
+  h5: "scroll-m-20 text-lg font-semibold tracking-tight",
   p: "leading-7",
 }
 
@@ -20,10 +21,10 @@ interface TypographyProps {
 export function Typography({
   children,
   className = "",
-  variant = "p",
+  variant,
 }: TypographyProps) {
-  const Component = variant
-  const styleVariant = variants[variant]
+  const Component = variant || "p"
+  const styleVariant = variants[variant || "p"]
 
   return (
     <Component className={clsx(styleVariant, className)}>{children}</Component>
