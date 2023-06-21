@@ -1,14 +1,45 @@
+"use client"
+
+import { useForm } from "react-hook-form"
+import { zodResolver } from "@hookform/resolvers/zod"
 import Image from "next/image"
 import Link from "next/link"
+import { signIn } from "next-auth/react"
+import * as z from "zod"
 
 import { Button } from "@/components/Button"
 import { Input } from "@/components/Input"
 import { Label } from "@/components/Label"
 import { Typography } from "@/components/Typography"
+import { loginSchema } from "@/schemas/login"
 
 import loginTestimonial from "../../../../public/login-testimonial.png"
 
 export default function Login() {
+  type LoginBody = z.infer<typeof loginSchema>
+
+  const {
+    register,
+    handleSubmit,
+    formState: { errors, isValid },
+  } = useForm<LoginBody>({
+    resolver: zodResolver(loginSchema),
+    mode: "onChange",
+  })
+
+  const onSubmit = async (data: LoginBody) => {
+    console.log(data)
+    try {
+      signIn("credentials", {
+        email: data.email,
+        password: data.password,
+        callbackUrl: "http://localhost:3000/",
+      })
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
   return (
     <section className="flex">
       <div className="h-screen w-1/2 bg-white flex items-center justify-center">
@@ -20,27 +51,42 @@ export default function Login() {
             </Typography>
           </header>
           <main className="space-y-6">
-            <div className="grid w-full items-center gap-6">
+            <form
+              onSubmit={handleSubmit(onSubmit)}
+              className="grid w-full items-center gap-6"
+            >
               <div>
                 <Label htmlFor="email">Email</Label>
                 <Input
+                  {...register("email")}
                   className="mt-1"
                   type="email"
                   id="email"
                   placeholder="E-mail"
                 />
+                {errors.email?.message && (
+                  <p className="text-sm text-danger">{errors.email?.message}</p>
+                )}
               </div>
               <div>
                 <Label htmlFor="email">Senha</Label>
                 <Input
+                  {...register("password")}
                   className="mt-1"
                   type="password"
                   id="password"
                   placeholder="********"
                 />
+                {errors.password?.message && (
+                  <p className="text-sm text-danger">
+                    {errors.password?.message}
+                  </p>
+                )}
               </div>
-              <Button variant="outline">Login</Button>
-            </div>
+              <Button disabled={!isValid} variant="default">
+                Login
+              </Button>
+            </form>
           </main>
           <footer className="text-right">
             <Link className="hover:underline" href="#">

@@ -21,7 +21,7 @@ export const authOptions: NextAuthOptions = {
         const data = await res.data
 
         if (res.status === 200) {
-          return { ...data, sexo: true }
+          return { ...data }
         } else {
           return null
         }
@@ -36,5 +36,8 @@ export const authOptions: NextAuthOptions = {
       session.user = token
       return session
     },
+  },
+  pages: {
+    signIn: "/auth/login",
   },
 }
