@@ -1,15 +1,11 @@
-// declare module "next-auth" {
-//   interface User {
-//     refreshToken: string
-//     accessToken: string
-//   }
-// }
+import NextAuth from "next-auth"
+import { JWT } from "next-auth/jwt"
 
-// declare module "next-auth/jwt" {
-//   interface JWT {
-//     name: string
-//     email: string
-//     refreshToken: string
-//     accessToken: string
-//   }
-// }
+declare module "next-auth" {
+  interface Session extends Record<string, unknown> {
+    user: {
+      access_token: string
+      refresh_token: string
+    }
+  }
+}

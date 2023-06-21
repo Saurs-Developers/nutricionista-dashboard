@@ -20,8 +20,8 @@ export const authOptions: NextAuthOptions = {
 
         const data = await res.data
 
-        if (res.status === 200) {
-          return { ...data }
+        if (data) {
+          return data
         } else {
           return null
         }
@@ -29,11 +29,13 @@ export const authOptions: NextAuthOptions = {
     }),
   ],
   callbacks: {
-    async jwt({ token, user }) {
-      return { ...user, ...token }
+    async jwt({ token, user, account }) {
+      console.log({ account })
+
+      return { ...token, ...user }
     },
     async session({ session, token }) {
-      session.user = token
+      session.user = token as any
       return session
     },
   },

@@ -1,6 +1,8 @@
 import React from "react"
 import { Nunito } from "next/font/google"
 
+import { NextAuthSession } from "@/components/NextAuthSession"
+
 import "./globals.css"
 
 const nunito = Nunito({ subsets: ["latin"] })
@@ -17,7 +19,9 @@ export default function RootLayout({
 }) {
   return (
     <html lang="pt-br">
-      <body className={`${nunito.className} bg-zinc-900`}>{children}</body>
+      <NextAuthSession>
+        <body className={`${nunito.className} bg-zinc-900`}>{children}</body>
+      </NextAuthSession>
     </html>
   )
 }
