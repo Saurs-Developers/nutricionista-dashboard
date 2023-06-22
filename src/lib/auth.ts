@@ -1,45 +1,65 @@
+import Cookies from "cookies"
+import { NextApiRequest, NextApiResponse } from "next"
 import { NextAuthOptions } from "next-auth"
 import CredentialsProvider from "next-auth/providers/credentials"
 
-import { axiosPublic } from "./axios"
+import { api } from "./axios"
+import { parseJwt } from "./utils"
 
-export const authOptions: NextAuthOptions = {
-  providers: [
-    CredentialsProvider({
-      name: "Login",
-      credentials: {
-        email: {
-          label: "E-mail",
-          type: "email",
-          placeholder: "email@example.com",
+type NextAuthOptionsCallback = (
+  req: NextApiRequest,
+  res: NextApiResponse,
+) => NextAuthOptions
+
+export const nextAuthOptions: NextAuthOptionsCallback = (req, res) => {
+  return {
+    providers: [
+      CredentialsProvider({
+        name: "Login",
+        credentials: {
+          email: {
+            label: "E-mail",
+            type: "email",
+            placeholder: "email@example.com",
+          },
+          password: { label: "Password", type: "password" },
         },
-        password: { label: "Password", type: "password" },
+        async authorize(credentials) {
+          const cookies = new Cookies(req, res)
+          const axiosResponse = await api.post("/v1/auth/login", credentials)
+          const data = await axiosResponse.data
+
+          cookies.set("token", data.token, {
+            httpOnly: true,
+            path: "/",
+          })
+
+          cookies.set("refresh_token", data.refresh_token, {
+            httpOnly: true,
+            path: "/",
+          })
+
+          const user = parseJwt(data.token)
+
+          if (user) {
+            return user
+          } else {
+            return null
+          }
+        },
+      }),
+    ],
+    callbacks: {
+      async jwt({ token, user }) {
+        return { ...user, ...token }
       },
-      async authorize(credentials) {
-        const res = await axiosPublic.post("/v1/auth/login", credentials)
-
-        const data = await res.data
-
-        if (data) {
-          return data
-        } else {
-          return null
-        }
+      async session({ session, token }) {
+        session.user = token as any
+        return session
       },
-    }),
-  ],
-  callbacks: {
-    async jwt({ token, user, account }) {
-      console.log({ account })
-
-      return { ...token, ...user }
     },
-    async session({ session, token }) {
-      session.user = token as any
-      return session
+    pages: {
+      signIn: "/auth/login",
     },
-  },
-  pages: {
-    signIn: "/auth/login",
-  },
+  }
 }
