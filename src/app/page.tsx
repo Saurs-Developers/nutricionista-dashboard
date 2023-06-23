@@ -1,5 +1,6 @@
 "use client"
 
+import axios from "axios"
 import { signIn, signOut, useSession } from "next-auth/react"
 
 import { Button } from "@/components/Button"
@@ -12,25 +13,31 @@ export default function Page() {
   return (
     <div className="text-white">
       <Typography variant="h4">{JSON.stringify(data, null, 2)}</Typography>
+
       <Typography variant="h4">{status}</Typography>
-      <Button
-        onClick={async () => {
-          try {
-            const res = await api.get("/clientes")
+      <div className="flex flex-col gap-4 mt-4 items-start max-w-[100px]">
+        <Button
+          className="w-full"
+          onClick={async () => {
+            try {
+              const res = await axios.get("/api/request")
 
-            const data = await res.data
-            console.log(res)
-
-            console.log(data)
-          } catch (e) {
-            console.log(e)
-          }
-        }}
-      >
-        fetch
-      </Button>
-      <Button onClick={() => signIn()}>Sign in</Button>
-      <Button onClick={() => signOut()}>Sign out</Button>
+              const data = await res.data
+              console.log(res)
+            } catch (e) {
+              console.log(e)
+            }
+          }}
+        >
+          fetch
+        </Button>
+        <Button className="w-full" onClick={() => signIn()}>
+          Sign in
+        </Button>
+        <Button className="w-full" onClick={() => signOut()}>
+          Sign out
+        </Button>
+      </div>
     </div>
   )
 }

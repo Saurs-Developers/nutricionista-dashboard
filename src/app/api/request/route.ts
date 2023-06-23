@@ -7,8 +7,6 @@ export async function GET() {
 
   const token = cookieStore.get("token")!.value
 
-  console.log(token)
-
   try {
     const res = await axios.request({
       method: "get",
@@ -20,12 +18,8 @@ export async function GET() {
 
     const data = await res.data
 
-    if (res.status === 200) {
-      return NextResponse.json(data)
-    }
-  } catch (e) {
-    console.log(e)
-
-    return NextResponse.json({ message: "Token expired.", status: 401 })
+    return NextResponse.json({ data })
+  } catch (error) {
+    console.log(error)
   }
 }
