@@ -6,3 +6,10 @@ export const api = axios.create({
     "Content-Type": "application/json",
   },
 })
+
+export const handler = axios.create({
+  baseURL: process.env.NEXT_PUBLIC_HANDLER_URL,
+  headers: {
+    "Content-Type": "application/json",
+  },
+})

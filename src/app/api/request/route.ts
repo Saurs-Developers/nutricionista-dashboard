@@ -1,25 +1,61 @@
-import axios from "axios"
 import { cookies } from "next/headers"
 import { NextResponse } from "next/server"
+
+import { Token } from "@/@types/token"
+import { api } from "@/lib/axios"
+import { parseJwt } from "@/lib/utils"
 
 export async function GET() {
   const cookieStore = cookies()
 
-  const token = cookieStore.get("token")!.value
+  const token = cookieStore.get("token")?.value
+  const refresh_token = cookieStore.get("refresh_token")?.value
 
-  try {
-    const res = await axios.request({
-      method: "get",
-      url: `${process.env.NEXT_PUBLIC_BASE_URL}/v1/clientes`,
-      headers: {
-        Authorization: `Bearer ${token}`,
+  const tokenData: Token = parseJwt(token)
+
+  if (tokenData.exp * 1000 < Date.now()) {
+    try {
+      const res = await api.post("/v1/auth/refresh", {
+        refresh_token: refresh_token,
+      })
+
+      const data = res.data
+
+      cookieStore.set("token", data.token, {
+        path: "/",
+        httpOnly: true,
+      })
+
+      cookieStore.set("refresh_token", data.refresh_token, {
+        path: "/",
+        httpOnly: true,
+      })
+
+      return NextResponse.json(
+        { message: "Refreshed and request was done" },
+        {
+          status: res.status,
+        },
+      )
+    } catch (e: any) {
+      cookieStore.set("token", "", {
+        path: "/",
+        httpOnly: true,
+      })
+
+      cookieStore.set("refresh_token", "", {
+        path: "/",
+        httpOnly: true,
+      })
+
+      return NextResponse.json(e)
+    }
+  } else {
+    return NextResponse.json(
+      { message: "Request was done and the token didn't have to be refreshed" },
+      {
+        status: 200,
       },
-    })
-
-    const data = await res.data
-
-    return NextResponse.json({ data })
-  } catch (error) {
-    console.log(error)
+    )
   }
 }
