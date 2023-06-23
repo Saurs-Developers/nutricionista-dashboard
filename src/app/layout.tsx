@@ -20,7 +20,7 @@ export default function RootLayout({
   return (
     <html lang="pt-br">
       <NextAuthSession>
-        <body className={`${nunito.className} bg-zinc-900`}>{children}</body>
+        <body className={`${nunito.className} text-zinc-700`}>{children}</body>
       </NextAuthSession>
     </html>
   )

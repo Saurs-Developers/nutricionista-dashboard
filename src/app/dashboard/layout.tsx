@@ -11,20 +11,20 @@ export default function Layout({ children }: { children: ReactNode }) {
   return (
     <div className="flex">
       <aside
-        className="flex flex-col gap-8 px-4 py-6 border-r-2 border-brand-primary h-screen
+        className="flex flex-col gap-8 p-6 border-r-2 border-brand-primary h-screen
       "
       >
         <div className="flex items-center gap-4">
           <Image src={Logo} alt="" />
-          <Typography variant="h4" weight="bold">
+          <Typography variant="h5" weight="bold">
             G Training
           </Typography>
         </div>
-        <Typography variant="h4" weight="bold">
+        <Typography variant="h5" weight="bold">
           Nutricionista & Personal
         </Typography>
         <nav>
-          <Typography variant="h4">Menu</Typography>
+          <Typography variant="h5">Menu</Typography>
           <div className="flex flex-col gap-4 mt-6">
             <Link className="flex items-center gap-5" href="/dashboard">
               <Users />
