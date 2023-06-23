@@ -57,6 +57,13 @@ export const nextAuthOptions: NextAuthOptionsCallback = (req, res) => {
         session.user = token as any
         return session
       },
+      async redirect({ baseUrl }) {
+        const customUrl = '/dashboard';
+        
+        const finalUrl = baseUrl + customUrl;
+  
+        return finalUrl;
+      },
     },
     pages: {
       signIn: "/auth/login",

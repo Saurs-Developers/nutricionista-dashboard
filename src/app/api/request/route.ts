@@ -3,7 +3,7 @@ import { NextResponse } from "next/server"
 
 import { Token } from "@/@types/token"
 import { api } from "@/lib/axios"
-import { parseJwt } from "@/lib/utils"
+import { clearCookies, parseJwt } from "@/lib/utils"
 
 export async function GET() {
   const cookieStore = cookies()
@@ -11,7 +11,7 @@ export async function GET() {
   const token = cookieStore.get("token")?.value
   const refresh_token = cookieStore.get("refresh_token")?.value
 
-  const tokenData: Token = parseJwt(token)
+  const tokenData = parseJwt(token)
 
   if (tokenData.exp * 1000 < Date.now()) {
     try {
@@ -37,17 +37,8 @@ export async function GET() {
           status: res.status,
         },
       )
-    } catch (e: any) {
-      cookieStore.set("token", "", {
-        path: "/",
-        httpOnly: true,
-      })
-
-      cookieStore.set("refresh_token", "", {
-        path: "/",
-        httpOnly: true,
-      })
-
+    } catch (e) {
+      clearCookies(cookieStore)
       return NextResponse.json(e)
     }
   } else {
