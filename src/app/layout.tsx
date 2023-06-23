@@ -8,7 +8,7 @@ import "./globals.css"
 const nunito = Nunito({ subsets: ["latin"] })
 
 export const metadata = {
-  title: "Flex Coach - Dashboard",
+  title: "G Training - Dashboard",
   description: "Dashboard de nutrição",
 }
 
