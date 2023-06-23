@@ -3,7 +3,7 @@ import { Apple, Dumbbell, Users } from "lucide-react"
 import Image from "next/image"
 import Link from "next/link"
 
-import { Typography } from "@/components/Typography"
+import { Typography } from "@/components/shared/Typography"
 
 import Logo from "../../../public/logo.svg"
 
