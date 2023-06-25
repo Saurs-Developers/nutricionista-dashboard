@@ -20,6 +20,8 @@ import {
 } from "@/components/shared/popover"
 import { cn } from "@/lib/utils"
 
+import { AddPatientDialog } from "./add-patient-dialog"
+
 export function PatientsNavBar() {
   const [open, setOpen] = useState(false)
   const [value, setValue] = useState("")
@@ -97,7 +99,7 @@ export function PatientsNavBar() {
           </PopoverContent>
         </Popover>
       </div>
-      <Button variant="default">Criar paciente</Button>
+      <AddPatientDialog />
     </nav>
   )
 }

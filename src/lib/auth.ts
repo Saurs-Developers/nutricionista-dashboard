@@ -58,11 +58,11 @@ export const nextAuthOptions: NextAuthOptionsCallback = (req, res) => {
         return session
       },
       async redirect({ baseUrl }) {
-        const customUrl = '/dashboard';
-        
-        const finalUrl = baseUrl + customUrl;
-  
-        return finalUrl;
+        const customUrl = "/dashboard"
+
+        const finalUrl = baseUrl + customUrl
+
+        return finalUrl
       },
     },
     pages: {

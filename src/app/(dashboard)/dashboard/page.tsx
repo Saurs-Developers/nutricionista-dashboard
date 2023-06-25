@@ -1,8 +1,8 @@
 "use client"
 
-import { PatientsNavBar } from "@/components/ui/patients-navbar"
 import { Table } from "@/components/shared/table"
 import { Typography } from "@/components/shared/typography"
+import { PatientsNavBar } from "@/components/ui/patients-navbar"
 
 export default function Dashboard() {
   return (

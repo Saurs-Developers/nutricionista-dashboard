@@ -17,7 +17,7 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
       <div>
         {label && (
           <Label className="mb-1" htmlFor="email">
-            Email
+            {label}
           </Label>
         )}
         <input
