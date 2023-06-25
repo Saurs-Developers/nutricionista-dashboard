@@ -1,7 +1,7 @@
 import React from "react"
 import { Nunito } from "next/font/google"
 
-import { NextAuthSession } from "@/components/NextAuthSession"
+import { NextAuthSession } from "@/components/ui/nextauth-session"
 
 import "./globals.css"
 

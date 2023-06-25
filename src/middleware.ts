@@ -4,4 +4,4 @@ export default withAuth(function middleware(req) {
   console.log("ping")
 })
 
-export const config = { matcher: ["/dashboard/:path*", "/api/:path*"] }
+// export const config = { matcher: ["/dashboard/:path*", "/api/:path*"] }

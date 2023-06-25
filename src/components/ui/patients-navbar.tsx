@@ -3,21 +3,21 @@
 import { useState } from "react"
 import { Check, ChevronsUpDown } from "lucide-react"
 
-import { Button } from "@/components/shared/Button"
+import { Button } from "@/components/shared/button"
 import {
   Command,
   CommandEmpty,
   CommandGroup,
   CommandInput,
   CommandItem,
-} from "@/components/shared/Command"
-import { Input } from "@/components/shared/Input"
-import { Label } from "@/components/shared/Label"
+} from "@/components/shared/command"
+import { Input } from "@/components/shared/input"
+import { Label } from "@/components/shared/label"
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
-} from "@/components/shared/Popover"
+} from "@/components/shared/popover"
 import { cn } from "@/lib/utils"
 
 export function PatientsNavBar() {

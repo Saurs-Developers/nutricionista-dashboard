@@ -2,8 +2,8 @@ import * as React from "react"
 
 import { cn } from "@/lib/utils"
 
-import { Label } from "./Label"
-import { Typography } from "./Typography"
+import { Label } from "./label"
+import { Typography } from "./typography"
 
 export interface InputProps
   extends React.InputHTMLAttributes<HTMLInputElement> {

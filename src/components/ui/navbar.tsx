@@ -1,19 +1,19 @@
-import { ReactNode } from "react"
-import { Apple, Dumbbell, Users } from "lucide-react"
-import Image from "next/image"
-import Link from "next/link"
+"use client"
 
-import { Typography } from "@/components/shared/Typography"
+import { Users, Dumbbell, Apple } from "lucide-react";
+import { Typography } from "../shared/typography";
+import Image from "next/image";
 
 import Logo from "../../../public/logo.svg"
+import Link from "next/link";
 
-export default function Layout({ children }: { children: ReactNode }) {
+export function Navbar() {  
   return (
-    <div className="flex">
-      <aside
+    <aside
         className="flex flex-col gap-8 p-6 border-r-2 border-brand-primary h-screen
       "
       >
+        {pathname}
         <div className="flex items-center gap-4">
           <Image src={Logo} alt="" />
           <Typography variant="h5" weight="bold">
@@ -39,7 +39,7 @@ export default function Layout({ children }: { children: ReactNode }) {
             </Link>
             <Link
               className="flex items-center gap-5"
-              href="/dashboard/patients"
+              href="/dashboard/foods"
             >
               <Apple />
               Alimentos
@@ -47,7 +47,5 @@ export default function Layout({ children }: { children: ReactNode }) {
           </div>
         </nav>
       </aside>
-      <main className="px-6 py-12 flex-1">{children}</main>
-    </div>
   )
 }
