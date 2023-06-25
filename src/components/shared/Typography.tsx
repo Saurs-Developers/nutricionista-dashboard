@@ -34,12 +34,18 @@ interface TypographyProps {
 export function Typography({
   children,
   className = "",
-  variant = "body",
+  variant = "p",
   weight = "regular",
 }: TypographyProps) {
   const Component = variant
   const styleVariant = variants[variant]
   const weightVariant = weights[weight]
+
+  if (Component === "body" || Component === "small") {
+    return (
+      <p className={clsx(styleVariant, className, weightVariant)}>{children}</p>
+    )
+  }
 
   return (
     <Component className={clsx(styleVariant, className, weightVariant)}>

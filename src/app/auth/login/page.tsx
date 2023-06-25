@@ -56,17 +56,15 @@ export default function Login() {
               className="grid w-full items-center gap-6"
             >
               <div>
-                <Label htmlFor="email">Email</Label>
                 <Input
                   {...register("email")}
                   className="mt-1"
                   type="email"
                   id="email"
                   placeholder="E-mail"
+                  error={errors.email?.message}
+                  label="E-mail"
                 />
-                {errors.email?.message && (
-                  <p className="text-sm text-danger">{errors.email?.message}</p>
-                )}
               </div>
               <div>
                 <Label htmlFor="email">Senha</Label>
