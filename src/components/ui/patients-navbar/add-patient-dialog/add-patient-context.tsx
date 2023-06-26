@@ -1,12 +1,14 @@
 "use client"
 
-import React, { createContext, ReactNode, useContext, useState } from "react"
+import React, { createContext, ReactNode, useContext } from "react"
+
+import { useMultiStepForm } from "@/hooks/useMultiStepForm"
 
 import { StepOne } from "./step-1"
 import { StepTwo } from "./step-2"
 import { StepThree } from "./step-3"
 
-interface FormStepsContext {
+interface AddPatientContext {
   // eslint-disable-next-line no-undef
   returnCurrentStep: () => JSX.Element
   handleNextStep: () => void
@@ -14,31 +16,16 @@ interface FormStepsContext {
   currentStep: number
 }
 
-export const formStepsContext = createContext({} as FormStepsContext)
+export const addPatientContext = createContext({} as AddPatientContext)
 
 export const steps = [StepOne, StepTwo, StepThree]
 
-export function FormStepsProvider({ children }: { children: ReactNode }) {
-  const [currentStep, setCurrentStep] = useState(0)
-
-  const stepCount = steps.length
-
-  const handleNextStep = () => {
-    if (currentStep < stepCount - 1) {
-      setCurrentStep((prev) => prev + 1)
-    }
-  }
-
-  const handlePreviousStep = () => {
-    if (currentStep > 0) {
-      setCurrentStep((prev) => prev - 1)
-    }
-  }
-
-  const returnCurrentStep = steps[currentStep]
+export function PatientContextProvider({ children }: { children: ReactNode }) {
+  const { currentStep, handleNextStep, handlePreviousStep, returnCurrentStep } =
+    useMultiStepForm(steps)
 
   return (
-    <formStepsContext.Provider
+    <addPatientContext.Provider
       value={{
         returnCurrentStep,
         currentStep,
@@ -47,12 +34,12 @@ export function FormStepsProvider({ children }: { children: ReactNode }) {
       }}
     >
       {children}
-    </formStepsContext.Provider>
+    </addPatientContext.Provider>
   )
 }
 
-export const useFormSteps = () => {
-  const context = useContext(formStepsContext)
+export const useAddPatientContext = () => {
+  const context = useContext(addPatientContext)
 
   if (context === undefined) {
     throw new Error("useFormSteps must be used within a FormStepsProvider")

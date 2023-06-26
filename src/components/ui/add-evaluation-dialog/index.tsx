@@ -1,6 +1,5 @@
-"use client"
-
 import { FormProvider, useForm } from "react-hook-form"
+import { Plus } from "lucide-react"
 
 import { Button } from "@/components/shared/button"
 import {
@@ -11,10 +10,10 @@ import {
   DialogTrigger,
 } from "@/components/shared/dialog"
 
-import { PatientContextProvider } from "./add-patient-context"
+import { AddEvaluationContextProvider } from "./add-evaluation-context"
 import { CurrentStep } from "./current-step"
 
-export function AddPatientDialog() {
+export function AddEvaluationDialog() {
   const methods = useForm()
 
   const onSubmit = (data: any) => {
@@ -24,17 +23,19 @@ export function AddPatientDialog() {
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <Button variant="default">Criar paciente</Button>
+        <Button>
+          Criar avaliação <Plus className="ml-2" size={20} />
+        </Button>
       </DialogTrigger>
       <DialogContent className="max-w-[824px] w-full max-h-[578px] overflow-auto">
         <DialogHeader>
-          <DialogTitle>Criar paciente</DialogTitle>
+          <DialogTitle>Criar avaliação</DialogTitle>
         </DialogHeader>
         <FormProvider {...methods}>
           <form onSubmit={methods.handleSubmit(onSubmit)}>
-            <PatientContextProvider>
+            <AddEvaluationContextProvider>
               <CurrentStep />
-            </PatientContextProvider>
+            </AddEvaluationContextProvider>
             <Button type="submit">Enviar</Button>
           </form>
         </FormProvider>

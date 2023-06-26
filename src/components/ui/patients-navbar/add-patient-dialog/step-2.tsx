@@ -7,7 +7,7 @@ import { Input } from "@/components/shared/input"
 
 import { DynamicRadioField } from "../dynamic-radio-field"
 
-import { useFormSteps } from "./form-steps-context"
+import { useFormSteps } from "./add-patient-context"
 
 export function StepTwo() {
   const { register } = useFormContext()

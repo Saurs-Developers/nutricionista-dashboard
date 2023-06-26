@@ -1,6 +1,7 @@
-import { ReactNode, useState } from "react"
+import { useState } from "react"
 
-export function useMultiStepForm(steps: ReactNode[]) {
+// eslint-disable-next-line no-undef
+export function useMultiStepForm(steps: (() => JSX.Element)[]) {
   const [currentStep, setCurrentStep] = useState(0)
 
   const stepCount = steps.length
@@ -17,22 +18,13 @@ export function useMultiStepForm(steps: ReactNode[]) {
     }
   }
 
-  const handleResetSteps = () => {
-    setCurrentStep(0)
-  }
-
-  const returnCurrentStep = () => {
-    const Step = steps[currentStep]
-
-    return Step
-  }
+  const returnCurrentStep = steps[currentStep]
 
   return {
     currentStep,
     totalSteps: stepCount,
     handleNextStep,
     handlePreviousStep,
-    handleResetSteps,
     returnCurrentStep,
   }
 }

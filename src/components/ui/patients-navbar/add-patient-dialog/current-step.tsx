@@ -1,7 +1,7 @@
-import { steps, useFormSteps } from "./form-steps-context"
+import { steps, useAddPatientContext } from "./add-patient-context"
 
 export function CurrentStep() {
-  const { currentStep } = useFormSteps()
+  const { currentStep } = useAddPatientContext()
 
   const CurrentStep = steps[currentStep]
 

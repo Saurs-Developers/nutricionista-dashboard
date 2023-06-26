@@ -8,7 +8,7 @@ import { DatePicker } from "@/components/shared/date-picker"
 import { Input } from "@/components/shared/input"
 import { Textarea } from "@/components/shared/textarea"
 
-import { useFormSteps } from "./form-steps-context"
+import { useFormSteps } from "./add-patient-context"
 
 export function StepOne() {
   const { register } = useFormContext()

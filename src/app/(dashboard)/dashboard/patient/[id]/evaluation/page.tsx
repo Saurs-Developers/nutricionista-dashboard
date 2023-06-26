@@ -1,3 +1,5 @@
+"use client"
+
 import Link from "next/link"
 
 import {
@@ -7,7 +9,7 @@ import {
   TabsTrigger,
 } from "@/components/shared/tabs"
 import { Typography } from "@/components/shared/typography"
-import { EvaluationContent } from "@/components/ui/evaluation-content"
+import { AddEvaluationDialog } from "@/components/ui/add-evaluation-dialog"
 
 export default function Evaluation() {
   return (
@@ -25,7 +27,12 @@ export default function Evaluation() {
           <TabsTrigger value="diets">Dietas</TabsTrigger>
         </TabsList>
         <TabsContent value="evaluation">
-          <EvaluationContent />
+          {/* <EvaluationContent /> */}
+          <Typography className="my-5">
+            O paciente ainda não possui nenhuma avaliação. Para criar uma,
+            utilize o botão abaixo.
+          </Typography>
+          <AddEvaluationDialog />
         </TabsContent>
         <TabsContent value="workouts">
           <div>Treinos</div>
