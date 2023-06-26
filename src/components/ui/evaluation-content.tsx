@@ -72,15 +72,15 @@ export function EvaluationContent() {
         <Box className="col-span-6">
           <Typography variant="h4">Composição corporal</Typography>
           <div className="grid grid-cols-4 mt-3 gap-4">
-            <Input readOnly label="Coxa" placeholder="78cm" />
-            <Input readOnly label="Abdominal" placeholder="76cm" />
-            <Input readOnly label="Supra ilíaca" placeholder="78cm" />
-            <Input readOnly label="Peitoral" placeholder="101cm" />
-            <Input readOnly label="Axilar-média" placeholder="29cm" />
-            <Input readOnly label="Bicepital" placeholder="29cm" />
-            <Input readOnly label="Tricepital" placeholder="37cm" />
-            <Input readOnly label="Subscapular" placeholder="36cm" />
-            <Input readOnly label="Total" placeholder="60cm" />
+            <Input readOnly label="Coxa" placeholder="7" />
+            <Input readOnly label="Abdominal" placeholder="18" />
+            <Input readOnly label="Supra ilíaca" placeholder="17" />
+            <Input readOnly label="Peitoral" placeholder="5" />
+            <Input readOnly label="Axilar-média" placeholder="14" />
+            <Input readOnly label="Bicepital" placeholder="5" />
+            <Input readOnly label="Tricepital" placeholder="6" />
+            <Input readOnly label="Subscapular" placeholder="14" />
+            <Input readOnly label="Total" placeholder="86" />
           </div>
         </Box>
         <Box className="col-span-4">
@@ -99,12 +99,12 @@ export function EvaluationContent() {
                 </SelectGroup>
               </SelectContent>
             </Select>
-            <Input readOnly label="Peso atual" placeholder="78cm" />
-            <Input readOnly label="Gordura" placeholder="76cm" />
-            <Input readOnly label="Peso magro" placeholder="78cm" />
-            <Input readOnly label="Peso gordo" placeholder="101cm" />
-            <Input readOnly label="GEB" placeholder="29cm" />
-            <Input readOnly label="GET" placeholder="29cm" />
+            <Input readOnly label="Peso atual" placeholder="81,15kg" />
+            <Input readOnly label="Gordura" placeholder="14,10%" />
+            <Input readOnly label="Peso magro" placeholder="69,93kg" />
+            <Input readOnly label="Peso gordo" placeholder="11,52kg" />
+            <Input readOnly label="GEB" placeholder="1945,88kcal" />
+            <Input readOnly label="GET" placeholder="2918,82kcal" />
           </div>
         </Box>
         <Box className="col-span-4 shadow-md rounded-md h-full max-h-[272px]">
