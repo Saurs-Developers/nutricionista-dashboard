@@ -13,7 +13,6 @@ import {
 
 import { CurrentStep } from "./current-step"
 import { FormStepsProvider } from "./form-steps-context"
-import { StepThree } from "./step-3"
 
 export function AddPatientDialog() {
   const methods = useForm()

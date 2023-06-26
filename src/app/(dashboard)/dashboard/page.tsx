@@ -1,5 +1,7 @@
 "use client"
 
+import Link from "next/link"
+
 import { Table } from "@/components/shared/table"
 import { Typography } from "@/components/shared/typography"
 import { PatientsNavBar } from "@/components/ui/patients-navbar"
@@ -22,64 +24,9 @@ export default function Dashboard() {
         <Table.Body>
           <Table.Row>
             <Table.Cell leftBorder>
-              <a href="#" className="hover:underline">
+              <Link href="/dashboard/patient/12345" className="hover:underline">
                 Samuel Luiz
-              </a>
-            </Table.Cell>
-            <Table.Cell>05 jun 2023</Table.Cell>
-            <Table.Cell>Parnaíba, PI</Table.Cell>
-            <Table.Cell>Brasil</Table.Cell>
-            <Table.Cell rightBorder>Basic</Table.Cell>
-          </Table.Row>
-          <Table.Row>
-            <Table.Cell leftBorder>
-              <a href="#" className="hover:underline">
-                Samuel Luiz
-              </a>
-            </Table.Cell>
-            <Table.Cell>05 jun 2023</Table.Cell>
-            <Table.Cell>Parnaíba, PI</Table.Cell>
-            <Table.Cell>Brasil</Table.Cell>
-            <Table.Cell rightBorder>Basic</Table.Cell>
-          </Table.Row>
-          <Table.Row>
-            <Table.Cell leftBorder>
-              <a href="#" className="hover:underline">
-                Samuel Luiz
-              </a>
-            </Table.Cell>
-            <Table.Cell>05 jun 2023</Table.Cell>
-            <Table.Cell>Parnaíba, PI</Table.Cell>
-            <Table.Cell>Brasil</Table.Cell>
-            <Table.Cell rightBorder>Basic</Table.Cell>
-          </Table.Row>
-          <Table.Row>
-            <Table.Cell leftBorder>
-              <a href="#" className="hover:underline">
-                Samuel Luiz
-              </a>
-            </Table.Cell>
-            <Table.Cell>05 jun 2023</Table.Cell>
-            <Table.Cell>Parnaíba, PI</Table.Cell>
-            <Table.Cell>Brasil</Table.Cell>
-            <Table.Cell rightBorder>Basic</Table.Cell>
-          </Table.Row>
-          <Table.Row>
-            <Table.Cell leftBorder>
-              <a href="#" className="hover:underline">
-                Samuel Luiz
-              </a>
-            </Table.Cell>
-            <Table.Cell>05 jun 2023</Table.Cell>
-            <Table.Cell>Parnaíba, PI</Table.Cell>
-            <Table.Cell>Brasil</Table.Cell>
-            <Table.Cell rightBorder>Basic</Table.Cell>
-          </Table.Row>
-          <Table.Row>
-            <Table.Cell leftBorder>
-              <a href="#" className="hover:underline">
-                Samuel Luiz
-              </a>
+              </Link>
             </Table.Cell>
             <Table.Cell>05 jun 2023</Table.Cell>
             <Table.Cell>Parnaíba, PI</Table.Cell>
