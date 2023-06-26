@@ -9,20 +9,6 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/shared/dialog"
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "@/components/shared/form"
-import { Input } from "@/components/shared/input"
-import { Label } from "@/components/shared/label"
-import { Textarea } from "@/components/shared/textarea"
-import { Typography } from "@/components/shared/typography"
-
-import { DynamicRadioField } from "../dynamic-radio-field"
 
 import { StepOne } from "./setp-1"
 import { StepTwo } from "./step-2"
@@ -44,13 +30,13 @@ export function AddPatientDialog() {
         <DialogHeader>
           <DialogTitle>Criar paciente</DialogTitle>
         </DialogHeader>
-        <Form {...methods}>
+        <FormProvider {...methods}>
           <form onSubmit={methods.handleSubmit(onSubmit)}>
-            {/* <StepOne /> */}
+            <StepOne />
             <StepTwo />
-            {/* <StepThree /> */}
+            <StepThree />
           </form>
-        </Form>
+        </FormProvider>
         <DialogFooter>
           <Button type="submit">Save changes</Button>
         </DialogFooter>

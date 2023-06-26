@@ -1,6 +1,5 @@
 import { Controller, useFormContext } from "react-hook-form"
 
-import { Button } from "@/components/shared/button"
 import { Input } from "@/components/shared/input"
 import { Label } from "@/components/shared/label"
 import { RadioGroup, RadioGroupItem } from "@/components/shared/radio-group"
@@ -8,9 +7,14 @@ import { RadioGroup, RadioGroupItem } from "@/components/shared/radio-group"
 interface DynamicRadioFieldProps {
   field: string
   hasField: string
+  label: string
 }
 
-export function DynamicRadioField({ field, hasField }: DynamicRadioFieldProps) {
+export function DynamicRadioField({
+  field,
+  hasField,
+  label,
+}: DynamicRadioFieldProps) {
   const { register, control, watch } = useFormContext()
 
   let hasFieldValue = watch(hasField)
@@ -18,9 +22,7 @@ export function DynamicRadioField({ field, hasField }: DynamicRadioFieldProps) {
   return (
     <section className="flex flex-col gap-4">
       <div className="space-y-4">
-        <Label htmlFor={hasField}>
-          Possui histórico de doenças na família?
-        </Label>
+        <Label htmlFor={hasField}>{label}</Label>
         <Controller
           name={hasField}
           control={control}
