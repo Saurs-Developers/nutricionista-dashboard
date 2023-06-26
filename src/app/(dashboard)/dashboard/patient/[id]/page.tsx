@@ -1,4 +1,4 @@
-import { File } from "lucide-react"
+import { File, Pencil } from "lucide-react"
 import Link from "next/link"
 
 import { Box } from "@/components/shared/box"
@@ -20,9 +20,14 @@ export default function Patient() {
       </Button>
       <div className="grid grid-cols-12 gap-y-4 gap-5 mt-8">
         <Box className="col-span-4">
-          <Typography weight="bold" variant="h4">
-            Dados
-          </Typography>
+          <div className="flex items-center justify-between">
+            <Typography weight="bold" variant="h4">
+              Dados
+            </Typography>
+            <button>
+              <Pencil size={16} />
+            </button>
+          </div>
           <div className="space-y-4 mt-3">
             <Input readOnly label="Nome" value="Samuel Luiz" />
             <Input readOnly label="E-mail" value="samukzik69@gmail.com" />
@@ -34,9 +39,14 @@ export default function Patient() {
           </div>
         </Box>
         <Box className="col-span-8">
-          <Typography weight="bold" variant="h4">
-            Observações
-          </Typography>
+          <div className="flex items-center justify-between">
+            <Typography weight="bold" variant="h4">
+              Observações
+            </Typography>
+            <button>
+              <Pencil size={16} />
+            </button>
+          </div>
           <div className="grid grid-cols-2 gap-4 mt-3">
             <Input
               readOnly
