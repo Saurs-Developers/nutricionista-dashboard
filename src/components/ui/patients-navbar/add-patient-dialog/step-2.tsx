@@ -7,8 +7,11 @@ import { Input } from "@/components/shared/input"
 
 import { DynamicRadioField } from "../dynamic-radio-field"
 
+import { useFormSteps } from "./form-steps-context"
+
 export function StepTwo() {
   const { register } = useFormContext()
+  const { handlePreviousStep } = useFormSteps()
 
   return (
     <div className="flex flex-col gap-4">
@@ -77,7 +80,12 @@ export function StepTwo() {
         placeholder="Ex: Aanda de skate"
         label="Outras observações"
       />
-      <Button type="submit">Salvar</Button>
+      <div className="flex items-center justify-between">
+        <Button onClick={handlePreviousStep} type="button">
+          Voltar
+        </Button>
+        <Button type="submit">Finalizar</Button>
+      </div>
     </div>
   )
 }
