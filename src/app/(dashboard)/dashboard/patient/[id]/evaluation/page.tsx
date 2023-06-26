@@ -7,6 +7,7 @@ import {
   TabsTrigger,
 } from "@/components/shared/tabs"
 import { Typography } from "@/components/shared/typography"
+import { EvaluationContent } from "@/components/ui/evaluation-content"
 
 export default function Evaluation() {
   return (
@@ -24,7 +25,7 @@ export default function Evaluation() {
           <TabsTrigger value="diets">Dietas</TabsTrigger>
         </TabsList>
         <TabsContent value="evaluation">
-          <div>Avaliação</div>
+          <EvaluationContent />
         </TabsContent>
         <TabsContent value="workouts">
           <div>Treinos</div>

@@ -15,9 +15,11 @@ export default function Patient() {
       <Link className="block underline my-8" href="/dashboard">
         Voltar para a listagem de pacientes
       </Link>
-      <Button>
-        Acompanhamento <File className="ml-2" size={20} />
-      </Button>
+      <Link href="/dashboard/patient/12345/evaluation">
+        <Button>
+          Acompanhamento <File className="ml-2" size={20} />
+        </Button>
+      </Link>
       <div className="grid grid-cols-12 gap-y-4 gap-5 mt-8">
         <Box className="col-span-4">
           <div className="flex items-center justify-between">
