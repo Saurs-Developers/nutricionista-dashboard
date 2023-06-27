@@ -8,11 +8,11 @@ import { DatePicker } from "@/components/shared/date-picker"
 import { Input } from "@/components/shared/input"
 import { Textarea } from "@/components/shared/textarea"
 
-import { useFormSteps } from "./add-patient-context"
+import { useAddPatientContext } from "./add-patient-context"
 
 export function StepOne() {
   const { register } = useFormContext()
-  const { handleNextStep } = useFormSteps()
+  const { handleNextStep } = useAddPatientContext()
 
   return (
     <div className="grid grid-cols-2 gap-y-4 gap-x-6">

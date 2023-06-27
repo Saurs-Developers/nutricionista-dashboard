@@ -12,6 +12,8 @@ import {
 
 import { AddEvaluationContextProvider } from "./add-evaluation-context"
 import { CurrentStep } from "./current-step"
+import { StepTwo } from "./step-2"
+import { StepThree } from "./step-3"
 
 export function AddEvaluationDialog() {
   const methods = useForm()
@@ -27,7 +29,7 @@ export function AddEvaluationDialog() {
           Criar avaliação <Plus className="ml-2" size={20} />
         </Button>
       </DialogTrigger>
-      <DialogContent className="max-w-[824px] w-full max-h-[578px] overflow-auto">
+      <DialogContent className="max-w-[824px] w-full max-h-[586px] overflow-auto">
         <DialogHeader>
           <DialogTitle>Criar avaliação</DialogTitle>
         </DialogHeader>
@@ -36,7 +38,6 @@ export function AddEvaluationDialog() {
             <AddEvaluationContextProvider>
               <CurrentStep />
             </AddEvaluationContextProvider>
-            <Button type="submit">Enviar</Button>
           </form>
         </FormProvider>
       </DialogContent>

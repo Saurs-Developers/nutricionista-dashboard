@@ -7,11 +7,11 @@ import { Input } from "@/components/shared/input"
 
 import { DynamicRadioField } from "../dynamic-radio-field"
 
-import { useFormSteps } from "./add-patient-context"
+import { useAddPatientContext } from "./add-patient-context"
 
 export function StepTwo() {
   const { register } = useFormContext()
-  const { handlePreviousStep } = useFormSteps()
+  const { handlePreviousStep } = useAddPatientContext()
 
   return (
     <div className="flex flex-col gap-4">

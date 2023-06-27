@@ -1,12 +1,16 @@
 import { Controller, useFormContext } from "react-hook-form"
 import { Dumbbell, Flame, Zap } from "lucide-react"
 
+import { Button } from "@/components/shared/button"
 import { Input } from "@/components/shared/input"
 import { Label } from "@/components/shared/label"
 import { RadioGroup, RadioGroupItem } from "@/components/shared/radio-group"
 import { Typography } from "@/components/shared/typography"
 
+import { useAddEvaluationContext } from "./add-evaluation-context"
+
 export function StepOne() {
+  const { handleNextStep } = useAddEvaluationContext()
   const { register, control } = useFormContext()
 
   return (
@@ -29,11 +33,10 @@ export function StepOne() {
       />
       <Input
         {...register("objetivo")}
-        className="col-span-2"
+        containerStyles="col-span-2"
         label="Objetivo"
         placeholder="Ex: Perder gordura e ganhar massa muscular"
       />
-
       <div className="col-span-2">
         <Typography className="mb-4">Plano</Typography>
         <Controller
@@ -67,6 +70,11 @@ export function StepOne() {
             </RadioGroup>
           )}
         />
+        <div className="flex justify-end col-span-2">
+          <Button type="button" onClick={handleNextStep}>
+            Próximo
+          </Button>
+        </div>
       </div>
     </div>
   )
