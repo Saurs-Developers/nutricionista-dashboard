@@ -20,14 +20,7 @@ interface TableComponents {
 }
 
 const Table: FC<IProps> & TableComponents = ({ children, className }) => (
-  <table
-    className={clsx(
-      "border-separate border-spacing-y-4 w-full mt-6",
-      className,
-    )}
-  >
-    {children}
-  </table>
+  <table className={clsx(" w-full mt-8", className)}>{children}</table>
 )
 
 Table.Head = ({ children, className }: IProps) => (
@@ -39,7 +32,7 @@ Table.Head = ({ children, className }: IProps) => (
 Table.Head.displayName = "Table.Head"
 
 Table.HeadCell = ({ children, className }: IProps) => (
-  <th className={clsx("px-4 py-3 font-bold", className)}>{children}</th>
+  <th className={clsx("px-4 py-6 font-medium", className)}>{children}</th>
 )
 
 Table.HeadCell.displayName = "Table.HeadCell"
@@ -51,7 +44,9 @@ Table.Body = ({ children, className }: IProps) => (
 Table.Body.displayName = "Table.Body"
 
 Table.Row = ({ children, className }: IProps) => (
-  <tr className={clsx("text-left text-slate-600", className)}>{children}</tr>
+  <tr className={clsx("text-left text-slate-600 border-t-2", className)}>
+    {children}
+  </tr>
 )
 
 Table.Row.displayName = "Table.Row"
@@ -62,7 +57,7 @@ Table.Cell = ({
   rightBorder,
   className,
 }: ITableCellProps) => {
-  const cellDefaultStyles = "h-[68px] px-4 border-y-2 font-bold"
+  const cellDefaultStyles = "h-[68px] px-4 font-medium"
   const cellLeftBorderStyles = "border-l-2 rounded-l-[8px]"
   const cellRightBorderStyles = "border-r-2 rounded-r-[8px]"
 

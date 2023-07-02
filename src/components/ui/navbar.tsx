@@ -6,8 +6,9 @@ import Image from "next/image"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
 
+import { Typography } from "@/components/shared/typography"
+
 import Logo from "../../../public/logo.svg"
-import { Typography } from "../shared/typography"
 
 export function Navbar() {
   const pathname = usePathname()

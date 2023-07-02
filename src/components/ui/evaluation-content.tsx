@@ -15,8 +15,6 @@ import {
 
 import { Box } from "@/components/shared/box"
 import { Input } from "@/components/shared/input"
-import { Typography } from "@/components/shared/typography"
-
 import {
   Select,
   SelectContent,
@@ -25,7 +23,8 @@ import {
   SelectLabel,
   SelectTrigger,
   SelectValue,
-} from "../shared/select"
+} from "@/components/shared/select"
+import { Typography } from "@/components/shared/typography"
 
 export function EvaluationContent() {
   const data = [
@@ -71,6 +70,23 @@ export function EvaluationContent() {
         </Box>
         <Box className="col-span-6">
           <Typography variant="h4">Composição corporal</Typography>
+          <Select>
+            <SelectTrigger className="col-span-3 mt-3">
+              <SelectValue placeholder="Selecionar cálculo" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectGroup>
+                <SelectLabel>Fórmulas</SelectLabel>
+                <SelectItem value="banana">
+                  3 Pregas - Jackson & Pollock
+                </SelectItem>
+                <SelectItem value="blueberry">4 pregas - Faulkner</SelectItem>
+                <SelectItem value="apple">
+                  7 pregas - Jackson, Pollock & Ward
+                </SelectItem>
+              </SelectGroup>
+            </SelectContent>
+          </Select>
           <div className="grid grid-cols-4 mt-3 gap-4">
             <Input readOnly label="Coxa" placeholder="7" />
             <Input readOnly label="Abdominal" placeholder="18" />
@@ -86,19 +102,6 @@ export function EvaluationContent() {
         <Box className="col-span-4">
           <Typography variant="h4">Resultados</Typography>
           <div className="grid grid-cols-3 mt-3 gap-4">
-            <Select>
-              <SelectTrigger className="col-span-3">
-                <SelectValue placeholder="Selecionar cálculo" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectGroup>
-                  <SelectLabel>Fórmulas</SelectLabel>
-                  <SelectItem value="apple">Harris bennedict</SelectItem>
-                  <SelectItem value="banana">3 Dobras</SelectItem>
-                  <SelectItem value="blueberry">Não lembro kk</SelectItem>
-                </SelectGroup>
-              </SelectContent>
-            </Select>
             <Input readOnly label="Peso atual" placeholder="81,15kg" />
             <Input readOnly label="Gordura" placeholder="14,10%" />
             <Input readOnly label="Peso magro" placeholder="69,93kg" />

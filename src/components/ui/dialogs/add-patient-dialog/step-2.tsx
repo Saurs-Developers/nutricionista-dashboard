@@ -4,8 +4,7 @@ import { useFormContext } from "react-hook-form"
 
 import { Button } from "@/components/shared/button"
 import { Input } from "@/components/shared/input"
-
-import { DynamicRadioField } from "../dynamic-radio-field"
+import { DynamicRadioField } from "@/components/ui/patients-navbar/dynamic-radio-field"
 
 import { useAddPatientContext } from "./add-patient-context"
 

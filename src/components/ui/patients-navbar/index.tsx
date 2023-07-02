@@ -3,6 +3,7 @@
 import { useState } from "react"
 import { Check, ChevronsUpDown } from "lucide-react"
 
+import { Region } from "@/@types"
 import { Button } from "@/components/shared/button"
 import {
   Command,
@@ -18,36 +19,12 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/shared/popover"
+import { AddPatientDialog } from "@/components/ui/dialogs/add-patient-dialog"
 import { cn } from "@/lib/utils"
 
-import { AddPatientDialog } from "./add-patient-dialog"
-
-export function PatientsNavBar() {
+export function PatientsNavBar({ states }: { states: Region[] }) {
   const [open, setOpen] = useState(false)
   const [value, setValue] = useState("")
-
-  const frameworks = [
-    {
-      value: "next.js",
-      label: "Next.js",
-    },
-    {
-      value: "sveltekit",
-      label: "SvelteKit",
-    },
-    {
-      value: "nuxt.js",
-      label: "Nuxt.js",
-    },
-    {
-      value: "remix",
-      label: "Remix",
-    },
-    {
-      value: "astro",
-      label: "Astro",
-    },
-  ]
 
   return (
     <nav className="flex items-end gap-5 w-full mt-9">
@@ -66,20 +43,20 @@ export function PatientsNavBar() {
               className="w-[200px] justify-between"
             >
               {value
-                ? frameworks.find((framework) => framework.value === value)
-                    ?.label
-                : "Select framework..."}
+                ? states.find((state) => state.nome.toLowerCase() === value)
+                    ?.nome
+                : "Selecionar estado..."}
               <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
             </Button>
           </PopoverTrigger>
-          <PopoverContent className="w-[200px] p-0">
+          <PopoverContent className="w-[var(--radix-popover-trigger-width)] p-0">
             <Command>
-              <CommandInput placeholder="Search framework..." />
-              <CommandEmpty>No framework found.</CommandEmpty>
+              <CommandInput placeholder="Procurar estado..." />
+              <CommandEmpty>Estao não encontrado.</CommandEmpty>
               <CommandGroup>
-                {frameworks.map((framework) => (
+                {states.map((state) => (
                   <CommandItem
-                    key={framework.value}
+                    key={state.nome}
                     onSelect={(currentValue) => {
                       setValue(currentValue === value ? "" : currentValue)
                       setOpen(false)
@@ -88,10 +65,12 @@ export function PatientsNavBar() {
                     <Check
                       className={cn(
                         "mr-2 h-4 w-4",
-                        value === framework.value ? "opacity-100" : "opacity-0",
+                        value === state.nome.toLowerCase()
+                          ? "opacity-100"
+                          : "opacity-0",
                       )}
                     />
-                    {framework.label}
+                    {state.nome}
                   </CommandItem>
                 ))}
               </CommandGroup>

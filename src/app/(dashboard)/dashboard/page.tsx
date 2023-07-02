@@ -1,40 +1,24 @@
-"use client"
-
-import Link from "next/link"
-
-import { Table } from "@/components/shared/table"
 import { Typography } from "@/components/shared/typography"
+import { PatientList } from "@/components/ui/patient-list"
 import { PatientsNavBar } from "@/components/ui/patients-navbar"
 
-export default function Dashboard() {
+export default async function Dashboard() {
+  const res = await fetch(
+    "http://servicodados.ibge.gov.br/api/v1/localidades/estados",
+  )
+
+  const data = await res.json()
+
   return (
     <div>
       <Typography weight="bold" variant="h2">
         Pacientes
       </Typography>
-      <PatientsNavBar />
-      <Table>
-        <Table.Head>
-          <Table.HeadCell>Nome</Table.HeadCell>
-          <Table.HeadCell>Data de vencimento</Table.HeadCell>
-          <Table.HeadCell>Cidade</Table.HeadCell>
-          <Table.HeadCell>País</Table.HeadCell>
-          <Table.HeadCell>Plano</Table.HeadCell>
-        </Table.Head>
-        <Table.Body>
-          <Table.Row>
-            <Table.Cell leftBorder>
-              <Link href="/dashboard/patient/12345" className="hover:underline">
-                Samuel Luiz
-              </Link>
-            </Table.Cell>
-            <Table.Cell>05 jun 2023</Table.Cell>
-            <Table.Cell>Parnaíba, PI</Table.Cell>
-            <Table.Cell>Brasil</Table.Cell>
-            <Table.Cell rightBorder>Basic</Table.Cell>
-          </Table.Row>
-        </Table.Body>
-      </Table>
+      <PatientsNavBar states={data} />
+      <PatientList />
+      {/* <Typography variant="body" className="mt-5">
+        Você não possui nenhum paciente cadastrado.
+      </Typography> */}
     </div>
   )
 }
