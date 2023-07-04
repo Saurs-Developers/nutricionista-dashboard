@@ -4,14 +4,14 @@ import clsx from "clsx"
 import { Apple, Dumbbell, Users } from "lucide-react"
 import Image from "next/image"
 import Link from "next/link"
-import { usePathname } from "next/navigation"
+import { useSelectedLayoutSegment } from "next/navigation"
 
 import { Typography } from "@/components/shared/typography"
 
 import Logo from "../../../public/logo.svg"
 
 export function Navbar() {
-  const pathname = usePathname()
+  const activeSegment = useSelectedLayoutSegment()
 
   return (
     <aside
@@ -33,7 +33,8 @@ export function Navbar() {
           <Link
             className={clsx(
               "flex items-center gap-5 p-2 rounded-md",
-              pathname === "/dashboard" && "bg-slate-100",
+              (activeSegment === null || activeSegment === "patient") &&
+                "bg-slate-100",
             )}
             href="/dashboard"
           >
@@ -43,7 +44,7 @@ export function Navbar() {
           <Link
             className={clsx(
               "flex items-center gap-5 p-2 rounded-md",
-              pathname === "/dashboard/exercises" && "bg-slate-100",
+              activeSegment === "exercises" && "bg-slate-100",
             )}
             href="/dashboard/exercises"
           >
@@ -53,7 +54,7 @@ export function Navbar() {
           <Link
             className={clsx(
               "flex items-center gap-5 p-2 rounded-md",
-              pathname === "/dashboard/foods" && "bg-slate-100",
+              activeSegment === "foods" && "bg-slate-100",
             )}
             href="/dashboard/foods"
           >

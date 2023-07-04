@@ -28,7 +28,11 @@ import {
 import { Typography } from "@/components/shared/typography"
 import { cn } from "@/lib/utils"
 
+import { useAddWorkoutContext } from "./add-workout-context"
+
 export function StepTwo() {
+  const { handlePreviousStep } = useAddWorkoutContext()
+
   const [open, setOpen] = useState(false)
   const [value, setValue] = useState("")
 
@@ -260,8 +264,8 @@ export function StepTwo() {
         </Button>
       </section>
       <footer className="flex justify-between">
-        <Button>Voltar</Button>
-        <Button>Finalizar</Button>
+        <Button onClick={() => handlePreviousStep()}>Voltar</Button>
+        <Button type="submit">Finalizar</Button>
       </footer>
     </div>
   )

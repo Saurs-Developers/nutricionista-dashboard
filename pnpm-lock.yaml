@@ -65,6 +65,9 @@ dependencies:
   jotai:
     specifier: ^2.2.1
     version: 2.2.1(react@18.2.0)
+  libphonenumber-js:
+    specifier: ^1.10.37
+    version: 1.10.37
   lucide-react:
     specifier: ^0.246.0
     version: 0.246.0(react@18.2.0)
@@ -3657,6 +3660,10 @@ packages:
     dependencies:
       prelude-ls: 1.2.1
       type-check: 0.4.0
+
+  /libphonenumber-js@1.10.37:
+    resolution: {integrity: sha512-Z10PCaOCiAxbUxLyR31DNeeNugSVP6iv/m7UrSKS5JHziEMApJtgku4e9Q69pzzSC9LnQiM09sqsGf2ticZnMw==}
+    dev: false
 
   /lilconfig@2.1.0:
     resolution: {integrity: sha512-utWOt/GHzuUxnLKxB6dk81RoOeoNeHgbrXiuGk4yyF5qlRz+iIVWu56E2fqGHFrXz0QNUhLB/8nKqvRH66JKGQ==}
