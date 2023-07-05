@@ -9,6 +9,7 @@ import {
   TabsTrigger,
 } from "@/components/shared/tabs"
 import { Typography } from "@/components/shared/typography"
+import { AddEvaluationDialog } from "@/components/ui/dialogs/add-evaluation-dialog"
 import { EvaluationContent } from "@/components/ui/evaluation-content"
 import { PatientData } from "@/components/ui/patient-data"
 import { PatientWorkouts } from "@/components/ui/patient-workouts"
@@ -30,12 +31,12 @@ export default function Evaluation() {
           <TabsTrigger value="patient_data">Dados do paciente</TabsTrigger>
         </TabsList>
         <TabsContent value="evaluation">
-          <EvaluationContent />
-          {/* <Typography variant="body" className="my-5">
+          {/* <EvaluationContent /> */}
+          <Typography variant="body" className="my-5">
             O paciente ainda não possui nenhuma avaliação. Para criar uma,
             utilize o botão abaixo.
-          </Typography> */}
-          {/* <AddEvaluationDialog /> */}
+          </Typography>
+          <AddEvaluationDialog />
         </TabsContent>
         <TabsContent value="workouts">
           <PatientWorkouts />

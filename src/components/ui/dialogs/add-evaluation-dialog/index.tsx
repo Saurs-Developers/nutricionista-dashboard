@@ -1,4 +1,5 @@
 import { FormProvider, useForm } from "react-hook-form"
+import { zodResolver } from "@hookform/resolvers/zod"
 import { Plus } from "lucide-react"
 
 import { Button } from "@/components/shared/button"
@@ -9,18 +10,19 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/shared/dialog"
+import {
+  AddEvaluationSchema,
+  addEvaluationSchema,
+} from "@/schemas/add_evaluation"
 
 import { AddEvaluationContextProvider } from "./add-evaluation-context"
 import { CurrentStep } from "./current-step"
-import { StepTwo } from "./step-2"
-import { StepThree } from "./step-3"
 
 export function AddEvaluationDialog() {
-  const methods = useForm()
-
-  const onSubmit = (data: any) => {
-    console.log(data)
-  }
+  const methods = useForm<AddEvaluationSchema>({
+    resolver: zodResolver(addEvaluationSchema),
+    mode: "onChange",
+  })
 
   return (
     <Dialog>
@@ -34,11 +36,12 @@ export function AddEvaluationDialog() {
           <DialogTitle>Criar avaliação</DialogTitle>
         </DialogHeader>
         <FormProvider {...methods}>
-          <form onSubmit={methods.handleSubmit(onSubmit)}>
-            <AddEvaluationContextProvider>
-              <CurrentStep />
-            </AddEvaluationContextProvider>
-          </form>
+          <AddEvaluationContextProvider>
+            <CurrentStep />
+          </AddEvaluationContextProvider>
+          <Button onClick={() => console.log(methods.formState.errors)}>
+            Erros
+          </Button>
         </FormProvider>
       </DialogContent>
     </Dialog>
