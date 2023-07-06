@@ -1,6 +1,13 @@
 "use client"
 
-import React, { createContext, ReactNode, useContext } from "react"
+import React, {
+  createContext,
+  Dispatch,
+  ReactNode,
+  SetStateAction,
+  useContext,
+  useState,
+} from "react"
 
 import { useMultiStepForm } from "@/hooks/useMultiStepForm"
 
@@ -14,6 +21,8 @@ interface AddEvaluationContext {
   handleNextStep: () => void
   handlePreviousStep: () => void
   currentStep: number
+  waterConsumption: number
+  setWaterConsumption: Dispatch<SetStateAction<number>>
 }
 
 export const addEvaluationContext = createContext({} as AddEvaluationContext)
@@ -28,9 +37,13 @@ export function AddEvaluationContextProvider({
   const { currentStep, handleNextStep, handlePreviousStep, returnCurrentStep } =
     useMultiStepForm(steps)
 
+  const [waterConsumption, setWaterConsumption] = useState(0)
+
   return (
     <addEvaluationContext.Provider
       value={{
+        waterConsumption,
+        setWaterConsumption,
         returnCurrentStep,
         currentStep,
         handleNextStep,
@@ -49,8 +62,21 @@ export const useAddEvaluationContext = () => {
     throw new Error("useFormSteps must be used within a FormStepsProvider")
   }
 
-  const { handleNextStep, handlePreviousStep, returnCurrentStep, currentStep } =
-    context
+  const {
+    handleNextStep,
+    handlePreviousStep,
+    returnCurrentStep,
+    currentStep,
+    waterConsumption,
+    setWaterConsumption,
+  } = context
 
-  return { handleNextStep, handlePreviousStep, returnCurrentStep, currentStep }
+  return {
+    handleNextStep,
+    handlePreviousStep,
+    returnCurrentStep,
+    currentStep,
+    waterConsumption,
+    setWaterConsumption,
+  }
 }

@@ -6,21 +6,30 @@ import { Input } from "@/components/shared/input"
 import { Label } from "@/components/shared/label"
 import { RadioGroup, RadioGroupItem } from "@/components/shared/radio-group"
 import { Typography } from "@/components/shared/typography"
-import { AddEvaluationSchema } from "@/schemas/add_evaluation"
+import { doubleMask, numberMask } from "@/utils/masks"
 
 import { useAddEvaluationContext } from "./add-evaluation-context"
 
 export function StepOne() {
-  const { handleNextStep } = useAddEvaluationContext()
-  const { register, control, setValue, watch } =
-    useFormContext<AddEvaluationSchema>()
+  const { handleNextStep, waterConsumption, setWaterConsumption } =
+    useAddEvaluationContext()
+  const { register, control, setValue, watch } = useFormContext()
 
   const peso = watch("peso")
-  const consumo_ideal_agua = watch("consumo_ideal_agua")
 
   return (
     <div className="grid grid-cols-2 gap-y-4 gap-x-6">
-      <Input {...register("peso")} label="Peso (kg)" placeholder="Ex: 84" />
+      <Input
+        {...register("peso", {
+          onChange: (e) => {
+            console.log(e.target.value)
+            setValue("peso", doubleMask(e.target.value))
+          },
+        })}
+        maxLength={5}
+        label="Peso (kg)"
+        placeholder="Ex: 84"
+      />
       <Input
         {...register("altura")}
         label="Altura (cm)"
@@ -32,15 +41,20 @@ export function StepOne() {
         placeholder="Ex: 12/8"
       />
       <Input
-        {...register("fc_repouso")}
+        {...register("fc_repouso", {
+          onChange: (e) => {
+            setValue("fc_repouso", numberMask(e.target.value))
+          },
+        })}
+        maxLength={3}
         label="F.C Repouso (bpm)"
         placeholder="Ex: 85"
       />
       <Input
-        value={Number(consumo_ideal_agua) / Number(peso)}
+        value={waterConsumption}
         onChange={(e) => {
-          console.log(consumo_ideal_agua, peso, e.target.value)
-          setValue("consumo_ideal_agua", Number(e.target.value) * Number(peso))
+          setWaterConsumption(Number(e.target.value))
+          setValue("consumo_ideal_agua", waterConsumption * Number(peso) * 10)
         }}
         label="Quantidade de água (ml/kg corporal)"
         placeholder="Ex: 50"

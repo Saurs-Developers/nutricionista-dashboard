@@ -10,7 +10,6 @@ import {
 } from "@/components/shared/tabs"
 import { Typography } from "@/components/shared/typography"
 import { AddEvaluationDialog } from "@/components/ui/dialogs/add-evaluation-dialog"
-import { EvaluationContent } from "@/components/ui/evaluation-content"
 import { PatientData } from "@/components/ui/patient-data"
 import { PatientWorkouts } from "@/components/ui/patient-workouts"
 
