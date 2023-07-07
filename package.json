@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev",
+    "dev": "next dev --turbo",
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
@@ -33,7 +33,7 @@
     "jotai": "^2.2.1",
     "libphonenumber-js": "^1.10.37",
     "lucide-react": "^0.246.0",
-    "next": "13.4.7",
+    "next": "13.4.9",
     "next-auth": "^4.22.1",
     "postcss": "8.4.23",
     "react": "18.2.0",
