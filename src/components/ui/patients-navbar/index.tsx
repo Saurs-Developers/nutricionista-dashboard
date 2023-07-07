@@ -1,9 +1,7 @@
 "use client"
 
 import { useState } from "react"
-import axios from "axios"
 import { Check, ChevronsUpDown } from "lucide-react"
-import { signOut } from "next-auth/react"
 
 import { Region } from "@/@types"
 import { Button } from "@/components/shared/button"
@@ -22,7 +20,7 @@ import {
   PopoverTrigger,
 } from "@/components/shared/popover"
 import { AddPatientDialog } from "@/components/ui/dialogs/add-patient-dialog"
-import { clearCookies, cn } from "@/lib/utils"
+import { cn } from "@/lib/utils"
 
 export function PatientsNavBar({ states }: { states: Region[] }) {
   const [open, setOpen] = useState(false)
@@ -80,13 +78,6 @@ export function PatientsNavBar({ states }: { states: Region[] }) {
           </PopoverContent>
         </Popover>
       </div>
-      <button
-        onClick={() => {
-          signOut()
-        }}
-      >
-        Logout
-      </button>
       <AddPatientDialog />
     </nav>
   )
