@@ -25,7 +25,10 @@ export function PatientWorkouts() {
             <Table.Cell>Quadríceps</Table.Cell>
             <Table.Cell className="flex items-center gap-4">
               <WorkoutDialog />
-              <Trash2 className="text-red-500" />
+              <DestructiveActionDialog
+                title="Excluir treino"
+                description="Você realmente deseja excluir este treino?"
+              />
             </Table.Cell>
           </Table.Row>
           <Table.Row>
@@ -34,7 +37,10 @@ export function PatientWorkouts() {
             <Table.Cell>Quadríceps</Table.Cell>
             <Table.Cell className="flex items-center gap-4">
               <WorkoutDialog />
-              <Trash2 className="text-red-500" />
+              <DestructiveActionDialog
+                title="Excluir treino"
+                description="Você realmente deseja excluir este treino?"
+              />
             </Table.Cell>
           </Table.Row>
           <Table.Row>
@@ -43,7 +49,10 @@ export function PatientWorkouts() {
             <Table.Cell>Quadríceps</Table.Cell>
             <Table.Cell className="flex items-center gap-4">
               <WorkoutDialog />
-              <Trash2 className="text-red-500" />
+              <DestructiveActionDialog
+                title="Excluir treino"
+                description="Você realmente deseja excluir este treino?"
+              />
             </Table.Cell>
           </Table.Row>
           <Table.Row>

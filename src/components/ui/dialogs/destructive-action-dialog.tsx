@@ -1,14 +1,16 @@
-import { ReactNode } from "react"
-import { Eye, Trash2 } from "lucide-react"
+import { Trash2 } from "lucide-react"
 
-import { Button } from "@/components/shared/button"
 import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "@/components/shared/dialog"
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/shared/alert-dialog"
 
 interface Props {
   title: string
@@ -17,27 +19,23 @@ interface Props {
 
 export function DestructiveActionDialog({ title, description }: Props) {
   return (
-    <Dialog>
-      <DialogTrigger asChild>
+    <AlertDialog>
+      <AlertDialogTrigger asChild>
         <button>
-          <Trash2 size={24} />
+          <Trash2 className="text-destructive" size={24} />
         </button>
-      </DialogTrigger>
+      </AlertDialogTrigger>
 
-      <DialogContent className="max-w-[480] w-full">
-        <DialogHeader>
-          <DialogTitle>{title}</DialogTitle>
-        </DialogHeader>
-        <div>{description}</div>
-        <div className="flex w-full gap-4 items-center">
-          <Button className="flex-1" variant="destructive">
-            Sim
-          </Button>
-          <Button className="flex-1" variant="default">
-            Não
-          </Button>
-        </div>
-      </DialogContent>
-    </Dialog>
+      <AlertDialogContent className="max-w-[480] w-full">
+        <AlertDialogHeader>
+          <AlertDialogTitle>{title}</AlertDialogTitle>
+          <AlertDialogDescription>{description}</AlertDialogDescription>
+        </AlertDialogHeader>
+        <AlertDialogFooter className="flex w-full gap-4 items-center">
+          <AlertDialogAction className="flex-1">Sim</AlertDialogAction>
+          <AlertDialogCancel className="flex-1">Não</AlertDialogCancel>
+        </AlertDialogFooter>
+      </AlertDialogContent>
+    </AlertDialog>
   )
 }

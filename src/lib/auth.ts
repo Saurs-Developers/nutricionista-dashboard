@@ -12,6 +12,8 @@ type NextAuthOptionsCallback = (
 ) => NextAuthOptions
 
 export const nextAuthOptions: NextAuthOptionsCallback = (req, res) => {
+  const cookies = new Cookies(req, res)
+
   return {
     providers: [
       CredentialsProvider({
@@ -25,7 +27,6 @@ export const nextAuthOptions: NextAuthOptionsCallback = (req, res) => {
           password: { label: "Password", type: "password" },
         },
         async authorize(credentials) {
-          const cookies = new Cookies(req, res)
           const axiosResponse = await api.post("/v1/auth/login", credentials)
           const data = await axiosResponse.data
 
@@ -67,6 +68,19 @@ export const nextAuthOptions: NextAuthOptionsCallback = (req, res) => {
     },
     pages: {
       signIn: "/auth/login",
+    },
+    events: {
+      async signOut() {
+        cookies.set("token", "", {
+          httpOnly: true,
+          path: "/",
+        })
+
+        cookies.set("refresh_token", "", {
+          httpOnly: true,
+          path: "/",
+        })
+      },
     },
   }
 }

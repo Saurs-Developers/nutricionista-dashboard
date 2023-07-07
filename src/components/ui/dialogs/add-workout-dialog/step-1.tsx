@@ -5,6 +5,7 @@ import { Checkbox } from "@/components/shared/checkbox"
 import { Input } from "@/components/shared/input"
 import { Label } from "@/components/shared/label"
 import { Textarea } from "@/components/shared/textarea"
+import { weekDays } from "@/utils/weekdays"
 
 import { useAddWorkoutContext } from "./add-workout-context"
 
@@ -12,15 +13,6 @@ export function StepOne() {
   const { register } = useFormContext()
   const { handleNextStep } = useAddWorkoutContext()
 
-  const weekDays = [
-    { id: "segunda-feira", label: "Segunda-feira" },
-    { id: "terca-feira", label: "Terça-feira" },
-    { id: "quarta-feira", label: "Quarta-feira" },
-    { id: "quinta-feira", label: "Quinta-feira" },
-    { id: "sexta-feira", label: "Sexta-feira" },
-    { id: "sabado", label: "Sábado" },
-    { id: "domingo", label: "Domingo" },
-  ]
   return (
     <div className="flex flex-col gap-4">
       <Input {...register("nome")} label="Nome" placeholder="Ex: treino A" />

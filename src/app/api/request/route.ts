@@ -1,7 +1,6 @@
 import { cookies } from "next/headers"
 import { NextResponse } from "next/server"
 
-import { Token } from "@/@types/token"
 import { api } from "@/lib/axios"
 import { clearCookies, parseJwt } from "@/lib/utils"
 

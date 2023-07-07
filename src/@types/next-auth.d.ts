@@ -1,5 +1,7 @@
+import { User as NextAuthUser } from "next-auth"
+
 declare module "next-auth" {
-  interface User {
+  interface User extends NextAuthUser {
     id: string
     name?: string | null
     email?: string | null
