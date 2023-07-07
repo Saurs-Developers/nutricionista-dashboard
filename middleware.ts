@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server"
 import { withAuth } from "next-auth/middleware"
 
-import { parseJwt } from "./lib/utils"
+import { parseJwt } from "./src/lib/utils"
 
 export default withAuth(async function middleware(req, res) {
   const token = req.cookies.get("token")?.value
@@ -34,6 +34,7 @@ export default withAuth(async function middleware(req, res) {
           value: data.refresh_token,
           httpOnly: true,
         })
+
         console.log("tokens successfully refreshed")
       } else if (tokenRes.status === 401) {
         response.cookies.delete("token")
@@ -44,7 +45,7 @@ export default withAuth(async function middleware(req, res) {
         })
       }
     } else {
-      console.log("its all fine")
+      console.log("tokens still valid")
     }
   } else {
     response.cookies.delete("next-auth.session-token")
@@ -54,5 +55,5 @@ export default withAuth(async function middleware(req, res) {
 })
 
 export const config = {
-  matcher: ["/dashboard/:path*", "/api/:path*"],
+  matcher: ["/dashboard/:path*"],
 }
