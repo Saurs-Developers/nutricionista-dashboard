@@ -1,8 +1,9 @@
 import Link from "next/link"
 
+import { Cliente } from "@/@types/clientes"
 import { Table } from "@/components/shared/table"
 
-export function PatientList() {
+export function PatientList({ data }: { data: Cliente[] }) {
   return (
     <Table>
       <Table.Head>
@@ -10,53 +11,29 @@ export function PatientList() {
         <Table.HeadCell>Data de vencimento</Table.HeadCell>
         <Table.HeadCell>Cidade</Table.HeadCell>
         <Table.HeadCell>País</Table.HeadCell>
-        <Table.HeadCell>Plano</Table.HeadCell>
+        <Table.HeadCell>Status</Table.HeadCell>
       </Table.Head>
       <Table.Body>
-        <Table.Row>
-          <Table.Cell>
-            <Link href="/dashboard/patient/12345" className="hover:underline">
-              Samuel Luiz
-            </Link>
-          </Table.Cell>
-          <Table.Cell>05 jun 2023</Table.Cell>
-          <Table.Cell>Parnaíba, PI</Table.Cell>
-          <Table.Cell>Brasil</Table.Cell>
-          <Table.Cell>Basic</Table.Cell>
-        </Table.Row>
-        <Table.Row>
-          <Table.Cell>
-            <Link href="/dashboard/patient/12345" className="hover:underline">
-              Samuel Luiz
-            </Link>
-          </Table.Cell>
-          <Table.Cell>05 jun 2023</Table.Cell>
-          <Table.Cell>Parnaíba, PI</Table.Cell>
-          <Table.Cell>Brasil</Table.Cell>
-          <Table.Cell>Basic</Table.Cell>
-        </Table.Row>
-        <Table.Row>
-          <Table.Cell>
-            <Link href="/dashboard/patient/12345" className="hover:underline">
-              Samuel Luiz
-            </Link>
-          </Table.Cell>
-          <Table.Cell>05 jun 2023</Table.Cell>
-          <Table.Cell>Parnaíba, PI</Table.Cell>
-          <Table.Cell>Brasil</Table.Cell>
-          <Table.Cell>Basic</Table.Cell>
-        </Table.Row>
-        <Table.Row>
-          <Table.Cell>
-            <Link href="/dashboard/patient/12345" className="hover:underline">
-              Samuel Luiz
-            </Link>
-          </Table.Cell>
-          <Table.Cell>05 jun 2023</Table.Cell>
-          <Table.Cell>Parnaíba, PI</Table.Cell>
-          <Table.Cell>Brasil</Table.Cell>
-          <Table.Cell>Basic</Table.Cell>
-        </Table.Row>
+        {data.map((cliente) => {
+          return (
+            <Table.Row key={cliente.id}>
+              <Table.Cell>
+                <Link
+                  href="/dashboard/patient/12345"
+                  className="hover:underline"
+                >
+                  {cliente.nome}
+                </Link>
+              </Table.Cell>
+              <Table.Cell>{cliente.data_nascimento}</Table.Cell>
+              <Table.Cell>{cliente.estado}</Table.Cell>
+              <Table.Cell>Brasil</Table.Cell>
+              <Table.Cell className="capitalize">
+                {cliente.status.toLocaleLowerCase()}
+              </Table.Cell>
+            </Table.Row>
+          )
+        })}
       </Table.Body>
     </Table>
   )
