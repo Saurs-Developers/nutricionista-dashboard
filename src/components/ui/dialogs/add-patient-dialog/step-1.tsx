@@ -43,17 +43,20 @@ export function StepOne() {
     register,
     control,
     setValue,
+    getValues,
     formState: { errors, isValid },
   } = useFormContext<AddPatientSchema>()
+
   const { handleNextStep, cidades, estados, uf, setUf, isCidadesLoading } =
     useAddPatientContext()
 
   const [open, setOpen] = useState(false)
-  const [cidade, setCidade] = useState("")
   const [cidadeSearch, setCidadeSearch] = useState("")
 
+  const cidadeForm = getValues("cidade")
+
   useEffect(() => {
-    setCidade("")
+    setValue("cidade", "")
   }, [uf, cidadeSearch])
 
   return (
@@ -64,128 +67,6 @@ export function StepOne() {
         placeholder="Ex: Alírio"
         error={errors.nome?.message}
       />
-      <Input
-        {...register("email")}
-        label="E-mail"
-        placeholder="Ex: email@exemplo.com"
-        error={errors.email?.message}
-      />
-      <div className="flex flex-col justify-start gap-1 h-[4.25rem]">
-        <Label className="text-sm">Estado</Label>
-        <Select
-          value={uf.length > 0 ? uf : undefined}
-          onValueChange={(value) => {
-            setUf(value)
-          }}
-        >
-          <SelectTrigger>
-            <SelectValue placeholder="Selecionar" />
-          </SelectTrigger>
-          <SelectContent position="popper">
-            <SelectGroup>
-              {estados?.map((estado, key) => {
-                return (
-                  <SelectItem key={key} value={estado.sigla}>
-                    {estado.nome}, ({estado.sigla})
-                  </SelectItem>
-                )
-              })}
-            </SelectGroup>
-          </SelectContent>
-        </Select>
-        {errors.estado?.message && (
-          <p className="text-red-500 text-sm mt-1">{errors.estado?.message}</p>
-        )}
-      </div>
-      <div className="flex flex-col justify-start gap-1 h-[4.25rem]">
-        <Label className="block text-sm">Cidade</Label>
-        <Popover open={open} onOpenChange={setOpen}>
-          <PopoverTrigger
-            disabled={cidades?.length === 0 || isCidadesLoading}
-            asChild
-          >
-            <Button
-              variant="outline-default"
-              role="combobox"
-              aria-expanded={open}
-              className="justify-between"
-            >
-              {cidade
-                ? cidades?.find(
-                    (municipio) => municipio.nome.toLowerCase() === cidade,
-                  )?.nome
-                : "Selecionar cidade..."}
-              <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
-            </Button>
-          </PopoverTrigger>
-          <PopoverContent className="w-[var(--radix-popover-trigger-width)] p-0 h-full">
-            <Command shouldFilter={false}>
-              <CommandInput
-                onValueChange={(e) => setCidadeSearch(e)}
-                placeholder="Procurar cidade..."
-              />
-              <CommandEmpty>Cidade não encontrada</CommandEmpty>
-              <CommandGroup className="h-full">
-                {cidades
-                  ?.filter((cidade) =>
-                    cidade.nome
-                      .toLowerCase()
-                      .includes(cidadeSearch?.toLowerCase()),
-                  )
-                  .slice(0, 10)
-                  .map((municipio, key) => {
-                    return (
-                      <CommandItem
-                        key={municipio.id}
-                        onSelect={(currentValue) => {
-                          setCidade(currentValue === cidade ? "" : currentValue)
-                          setOpen(false)
-                        }}
-                      >
-                        <Check
-                          className={cn(
-                            "mr-2 h-4 w-4",
-                            cidade === municipio.nome.toLowerCase()
-                              ? "opacity-100"
-                              : "opacity-0",
-                          )}
-                        />
-                        {municipio.nome}
-                      </CommandItem>
-                    )
-                  })}
-              </CommandGroup>
-            </Command>
-          </PopoverContent>
-        </Popover>
-      </div>
-      <div className="flex flex-col justify-start gap-1 h-[4.25rem]">
-        <Label className="text-sm">Sexo</Label>
-        <Controller
-          control={control}
-          name="sexo"
-          render={({ field: { onChange, value } }) => (
-            <>
-              <Select value={value} onValueChange={onChange}>
-                <SelectTrigger>
-                  <SelectValue placeholder="Selecionar" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectGroup>
-                    <SelectItem value="masculino">Masculino</SelectItem>
-                    <SelectItem value="feminino">Feminino</SelectItem>
-                  </SelectGroup>
-                </SelectContent>
-              </Select>
-              {errors.sexo?.message && (
-                <p className="text-red-500 text-sm mt-1">
-                  {errors.sexo?.message}
-                </p>
-              )}
-            </>
-          )}
-        />
-      </div>
       <div className="flex flex-col justify-start gap-1 h-[4.25rem]">
         <Label className="text-sm">Data de nascimento</Label>
         <Controller
@@ -227,6 +108,133 @@ export function StepOne() {
           )}
           control={control}
         />
+      </div>
+      <Input
+        {...register("email")}
+        label="E-mail"
+        placeholder="Ex: email@exemplo.com"
+        error={errors.email?.message}
+      />
+
+      <div className="flex flex-col justify-start gap-1 h-[4.25rem]">
+        <Label className="text-sm">Sexo</Label>
+        <Controller
+          control={control}
+          name="sexo"
+          render={({ field: { onChange, value } }) => (
+            <>
+              <Select value={value} onValueChange={onChange}>
+                <SelectTrigger>
+                  <SelectValue placeholder="Selecionar" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectGroup>
+                    <SelectItem value="MASCULINO">Masculino</SelectItem>
+                    <SelectItem value="FEMININO">Feminino</SelectItem>
+                  </SelectGroup>
+                </SelectContent>
+              </Select>
+              {errors.sexo?.message && (
+                <p className="text-red-500 text-sm mt-1">
+                  {errors.sexo?.message}
+                </p>
+              )}
+            </>
+          )}
+        />
+      </div>
+      <div className="flex flex-col justify-start gap-1 h-[4.25rem]">
+        <Label className="text-sm">Estado</Label>
+        <Select
+          value={uf.length > 0 ? uf : undefined}
+          onValueChange={(value) => {
+            setUf(value)
+            setValue("estado", value)
+          }}
+        >
+          <SelectTrigger>
+            <SelectValue placeholder="Selecionar" />
+          </SelectTrigger>
+          <SelectContent position="popper">
+            <SelectGroup>
+              {estados?.map((estado, key) => {
+                return (
+                  <SelectItem key={key} value={estado.sigla}>
+                    {estado.nome}, ({estado.sigla})
+                  </SelectItem>
+                )
+              })}
+            </SelectGroup>
+          </SelectContent>
+        </Select>
+        {errors.estado?.message && (
+          <p className="text-red-500 text-sm mt-1">{errors.estado?.message}</p>
+        )}
+      </div>
+      <div className="flex flex-col justify-start gap-1 h-[4.25rem]">
+        <Label className="block text-sm">Cidade</Label>
+        <Popover open={open} onOpenChange={setOpen}>
+          <PopoverTrigger
+            disabled={cidades?.length === 0 || isCidadesLoading}
+            asChild
+          >
+            <Button
+              variant="outline-default"
+              role="combobox"
+              aria-expanded={open}
+              className="justify-between"
+            >
+              {cidadeForm
+                ? cidades?.find(
+                    (municipio) => municipio.nome.toLowerCase() === cidadeForm,
+                  )?.nome
+                : "Selecionar cidade..."}
+              <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+            </Button>
+          </PopoverTrigger>
+          <PopoverContent className="w-[var(--radix-popover-trigger-width)] p-0 h-full">
+            <Command shouldFilter={false}>
+              <CommandInput
+                onValueChange={(e) => setCidadeSearch(e)}
+                placeholder="Procurar cidade..."
+              />
+              <CommandEmpty>Cidade não encontrada</CommandEmpty>
+              <CommandGroup className="h-full">
+                {cidades
+                  ?.filter((cidade) =>
+                    cidade.nome
+                      .toLowerCase()
+                      .includes(cidadeSearch?.toLowerCase()),
+                  )
+                  .slice(0, 10)
+                  .map((municipio, key) => {
+                    return (
+                      <CommandItem
+                        key={municipio.id}
+                        onSelect={(currentValue) => {
+                          setValue(
+                            "cidade",
+                            currentValue === cidadeForm ? "" : currentValue,
+                          )
+                          setOpen(false)
+                        }}
+                      >
+                        <Check
+                          className={cn(
+                            "mr-2 h-4 w-4",
+                            cidadeForm === municipio.nome.toLowerCase()
+                              ? "opacity-100"
+                              : "opacity-0",
+                          )}
+                        />
+                        {municipio.nome}
+                      </CommandItem>
+                    )
+                  })}
+              </CommandGroup>
+            </Command>
+          </PopoverContent>
+        </Popover>
       </div>
       <Input
         label="N. de telefone"

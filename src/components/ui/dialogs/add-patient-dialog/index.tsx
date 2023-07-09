@@ -46,6 +46,7 @@ export function AddPatientDialog() {
         <FormProvider {...methods}>
           <PatientContextProvider>
             <CurrentStep />
+            <button onClick={() => methods.reset()}>Reset</button>
           </PatientContextProvider>
         </FormProvider>
       </DialogContent>
