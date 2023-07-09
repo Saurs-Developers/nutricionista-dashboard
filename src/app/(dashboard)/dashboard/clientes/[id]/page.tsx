@@ -24,7 +24,7 @@ export default async function Dashboard({ searchParams, params }: Props) {
       <Typography weight="bold" variant="h2">
         Pacientes
       </Typography>
-      <PatientsNavBar pageNumber={id} states={estados} />
+      <PatientsNavBar states={estados} />
       {clientes.results.length > 0 ? (
         <PatientList data={clientes.results} />
       ) : (

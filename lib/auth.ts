@@ -59,7 +59,7 @@ export const nextAuthOptions: NextAuthOptionsCallback = (req, res) => {
         return session
       },
       async redirect({ baseUrl }) {
-        const customUrl = "/dashboard"
+        const customUrl = "/dashboard/clientes/1"
 
         const finalUrl = baseUrl + customUrl
 

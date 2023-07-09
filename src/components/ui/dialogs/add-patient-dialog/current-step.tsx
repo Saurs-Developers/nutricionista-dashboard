@@ -11,8 +11,6 @@ export function CurrentStep() {
 
   const onSubmit = (data: any) => {
     console.log(data)
-    // handleNextStep()
-    // reset()
   }
 
   return (

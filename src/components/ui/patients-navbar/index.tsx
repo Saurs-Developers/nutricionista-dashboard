@@ -25,18 +25,17 @@ import { cn } from "@/lib/utils"
 
 interface Props {
   states: Region[]
-  pageNumber: number
 }
 
-export function PatientsNavBar({ states, pageNumber }: Props) {
+export function PatientsNavBar({ states }: Props) {
+  const router = useRouter()
+
   const url = new URL(window.location.href)
   const params = new URLSearchParams(url.search)
 
   const [open, setOpen] = useState(false)
   const value = useRef(params.get("estado") ?? "")
   const [search, setSearch] = useState(params.get("nome") ?? "")
-
-  const router = useRouter()
 
   useEffect(() => {
     const timeout = setTimeout(() => {

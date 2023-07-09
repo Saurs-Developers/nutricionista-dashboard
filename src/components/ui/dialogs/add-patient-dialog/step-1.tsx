@@ -4,12 +4,10 @@ import { useEffect, useState } from "react"
 import { SelectSingleEventHandler } from "react-day-picker"
 import { Controller, useFormContext } from "react-hook-form"
 import { Label } from "@radix-ui/react-label"
-import { useQuery } from "@tanstack/react-query"
 import { format } from "date-fns"
 import { ptBR } from "date-fns/locale"
 import { CalendarIcon, Check, ChevronsUpDown } from "lucide-react"
 
-import { District, State } from "@/@types"
 import { Button } from "@/components/shared/button"
 import { Calendar } from "@/components/shared/calendar"
 import {
@@ -34,7 +32,6 @@ import {
   SelectValue,
 } from "@/components/shared/select"
 import { Textarea } from "@/components/shared/textarea"
-import { client } from "@/lib/axios"
 import { cn } from "@/lib/utils"
 import { AddPatientSchema } from "@/schemas/add_patient"
 import { numberMask } from "@/utils/masks"
@@ -46,49 +43,18 @@ export function StepOne() {
     register,
     control,
     setValue,
-    watch,
     formState: { errors, isValid },
   } = useFormContext<AddPatientSchema>()
-  const { handleNextStep } = useAddPatientContext()
+  const { handleNextStep, cidades, estados, uf, setUf, isCidadesLoading } =
+    useAddPatientContext()
 
-  const uf = watch("estado")
-
-  const [cidade, setCidade] = useState("")
   const [open, setOpen] = useState(false)
-
-  const { data: estados, isLoading: isEstadosLoading } = useQuery<State[]>({
-    queryKey: ["states"],
-    queryFn: async () => {
-      const states = await client.get(
-        "http://servicodados.ibge.gov.br/api/v1/localidades/estados",
-      )
-
-      const data = await states.data
-
-      return data
-    },
-  })
-
-  const { data: cidades, isLoading: isCidadesLoading } = useQuery<District[]>({
-    queryKey: ["cities", uf],
-    queryFn: async () => {
-      const cidades = await client.get(
-        "https://servicodados.ibge.gov.br/api/v1/localidades/estados/" +
-          uf +
-          "/distritos",
-      )
-
-      const data = await cidades.data
-
-      return data
-    },
-  })
-
-  !isCidadesLoading && console.log(cidades)
+  const [cidade, setCidade] = useState("")
+  const [cidadeSearch, setCidadeSearch] = useState("")
 
   useEffect(() => {
     setCidade("")
-  }, [uf])
+  }, [uf, cidadeSearch])
 
   return (
     <div className="grid grid-cols-2 gap-y-4 gap-x-6">
@@ -106,41 +72,36 @@ export function StepOne() {
       />
       <div className="flex flex-col justify-start gap-1 h-[4.25rem]">
         <Label className="text-sm">Estado</Label>
-        <Controller
-          control={control}
-          name="estado"
-          render={({ field: { onChange, value } }) => (
-            <>
-              <Select value={value} onValueChange={onChange}>
-                <SelectTrigger className={isEstadosLoading ? "disabled" : ""}>
-                  <SelectValue placeholder="Selecionar" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectGroup>
-                    {estados?.map((estado, key) => {
-                      return (
-                        <SelectItem key={key} value={estado.sigla}>
-                          {estado.nome}, ({estado.sigla})
-                        </SelectItem>
-                      )
-                    })}
-                  </SelectGroup>
-                </SelectContent>
-              </Select>
-              {errors.estado?.message && (
-                <p className="text-red-500 text-sm mt-1">
-                  {errors.estado?.message}
-                </p>
-              )}
-            </>
-          )}
-        />
+        <Select
+          value={uf.length > 0 ? uf : undefined}
+          onValueChange={(value) => {
+            setUf(value)
+          }}
+        >
+          <SelectTrigger>
+            <SelectValue placeholder="Selecionar" />
+          </SelectTrigger>
+          <SelectContent position="popper">
+            <SelectGroup>
+              {estados?.map((estado, key) => {
+                return (
+                  <SelectItem key={key} value={estado.sigla}>
+                    {estado.nome}, ({estado.sigla})
+                  </SelectItem>
+                )
+              })}
+            </SelectGroup>
+          </SelectContent>
+        </Select>
+        {errors.estado?.message && (
+          <p className="text-red-500 text-sm mt-1">{errors.estado?.message}</p>
+        )}
       </div>
       <div className="flex flex-col justify-start gap-1 h-[4.25rem]">
         <Label className="block text-sm">Cidade</Label>
         <Popover open={open} onOpenChange={setOpen}>
           <PopoverTrigger
-            className={isEstadosLoading ? "disabled" : ""}
+            disabled={cidades?.length === 0 || isCidadesLoading}
             asChild
           >
             <Button
@@ -158,29 +119,41 @@ export function StepOne() {
             </Button>
           </PopoverTrigger>
           <PopoverContent className="w-[var(--radix-popover-trigger-width)] p-0 h-full">
-            <Command>
-              <CommandInput placeholder="Procurar cidade..." />
+            <Command shouldFilter={false}>
+              <CommandInput
+                onValueChange={(e) => setCidadeSearch(e)}
+                placeholder="Procurar cidade..."
+              />
               <CommandEmpty>Cidade não encontrada</CommandEmpty>
               <CommandGroup className="h-full">
-                {cidades?.map((municipio) => (
-                  <CommandItem
-                    key={municipio.id}
-                    onSelect={(currentValue) => {
-                      setCidade(currentValue === cidade ? "" : currentValue)
-                      setOpen(false)
-                    }}
-                  >
-                    <Check
-                      className={cn(
-                        "mr-2 h-4 w-4",
-                        cidade === municipio.nome.toLowerCase()
-                          ? "opacity-100"
-                          : "opacity-0",
-                      )}
-                    />
-                    {municipio.nome}
-                  </CommandItem>
-                ))}
+                {cidades
+                  ?.filter((cidade) =>
+                    cidade.nome
+                      .toLowerCase()
+                      .includes(cidadeSearch?.toLowerCase()),
+                  )
+                  .slice(0, 10)
+                  .map((municipio, key) => {
+                    return (
+                      <CommandItem
+                        key={municipio.id}
+                        onSelect={(currentValue) => {
+                          setCidade(currentValue === cidade ? "" : currentValue)
+                          setOpen(false)
+                        }}
+                      >
+                        <Check
+                          className={cn(
+                            "mr-2 h-4 w-4",
+                            cidade === municipio.nome.toLowerCase()
+                              ? "opacity-100"
+                              : "opacity-0",
+                          )}
+                        />
+                        {municipio.nome}
+                      </CommandItem>
+                    )
+                  })}
               </CommandGroup>
             </Command>
           </PopoverContent>
