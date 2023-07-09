@@ -15,9 +15,9 @@ export function Pagination({ lastPage, currentPage }: Props) {
       <Link
         className={clsx(
           "flex items-center gap-2",
-          currentPage === 0 ? "opacity-50 pointer-events-none" : "",
+          currentPage === 1 ? "opacity-50 pointer-events-none" : "",
         )}
-        href={`/dashboard/${currentPage - 1}`}
+        href={`/dashboard/clientes/${currentPage - 1}`}
       >
         <ChevronLeft /> Prev
       </Link>
@@ -27,10 +27,10 @@ export function Pagination({ lastPage, currentPage }: Props) {
             <Link
               className={clsx(
                 "flex items-center justify-center rounded-[8px] h-7 w-7",
-                key === currentPage ? "bg-neutral-200" : "",
+                key + 1 === currentPage ? "bg-neutral-200" : "",
               )}
               key={key}
-              href={`/dashboard/${key}`}
+              href={`/dashboard/clientes/${key + 1}`}
             >
               {key + 1}
             </Link>
@@ -40,9 +40,9 @@ export function Pagination({ lastPage, currentPage }: Props) {
       <Link
         className={clsx(
           "flex items-center gap-2",
-          currentPage === lastPage - 1 ? "opacity-50 pointer-events-none" : "",
+          currentPage === lastPage ? "opacity-50 pointer-events-none" : "",
         )}
-        href={`/dashboard/${currentPage + 1}`}
+        href={`/dashboard/clientes/${currentPage + 1}`}
       >
         Next <ChevronRight />
       </Link>

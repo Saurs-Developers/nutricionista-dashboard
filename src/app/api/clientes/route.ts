@@ -8,6 +8,7 @@ export async function GET(req: Request) {
   const url = new URL(req.url)
 
   const page = url.searchParams.get("page")
+  const estado = url.searchParams.get("estado")
 
   const token = cookieStore.get("token")?.value
   const userData = parseJwt(token)
@@ -19,7 +20,9 @@ export async function GET(req: Request) {
         userData.user_id +
         "?page=" +
         page +
-        "&size=3",
+        "&size=6" +
+        "&estado=" +
+        estado,
       {
         headers: {
           Authorization: "Bearer " + token,

@@ -6,28 +6,24 @@ import { Typography } from "@/components/shared/typography"
 import { PatientList } from "@/components/ui/patient-list"
 import { PatientsNavBar } from "@/components/ui/patients-navbar"
 
-export default async function Dashboard({
-  params,
-}: {
-  params: { id: string }
-}) {
+interface Props {
+  searchParams: { [key: string]: string | string[] | undefined }
+  params: { id: number }
+}
+
+export default async function Dashboard({ searchParams, params }: Props) {
   const { id } = params
+  const { estado } = searchParams
 
   const estados = await getEstados()
-  const res = await fetch("http://localhost:3000/api/clientes?page=" + id, {
-    headers: headers(),
-  })
-
-  const clientes: ClientesResponse = await res.json()
-
-  console.log(clientes)
+  const clientes = await getClientes(id - 1, estado as string)
 
   return (
     <div>
       <Typography weight="bold" variant="h2">
         Pacientes
       </Typography>
-      <PatientsNavBar states={estados} />
+      <PatientsNavBar pageNumber={id} states={estados} />
       {clientes.results.length > 0 ? (
         <PatientList data={clientes.results} />
       ) : (
@@ -36,21 +32,11 @@ export default async function Dashboard({
         </Typography>
       )}
       <Pagination
-        currentPage={clientes.current_page}
+        currentPage={clientes.current_page + 1}
         lastPage={clientes.total_pages}
       />
     </div>
   )
-}
-
-const getClientes = async (id: number) => {
-  const res = await fetch("http://localhost:3000/api/clientes?page=" + id, {
-    headers: headers(),
-  })
-
-  const data = await res.json()
-
-  return data
 }
 
 const getEstados = async () => {
@@ -61,4 +47,18 @@ const getEstados = async () => {
   const data = await res.json()
 
   return data
+}
+
+const getClientes = async (id: number, estado: string) => {
+  const res = await fetch(
+    "http://localhost:3000/api/clientes?page=" + id + "&estado=" + estado,
+    {
+      headers: headers(),
+      cache: "no-store",
+    },
+  )
+
+  const clientes: ClientesResponse = await res.json()
+
+  return clientes
 }

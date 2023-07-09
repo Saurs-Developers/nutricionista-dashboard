@@ -1,7 +1,8 @@
 "use client"
 
-import { useState } from "react"
+import { ChangeEvent, useEffect, useRef, useState } from "react"
 import { Check, ChevronsUpDown } from "lucide-react"
+import { useRouter } from "next/navigation"
 
 import { Region } from "@/@types"
 import { Button } from "@/components/shared/button"
@@ -22,15 +23,58 @@ import {
 import { AddPatientDialog } from "@/components/ui/dialogs/add-patient-dialog"
 import { cn } from "@/lib/utils"
 
-export function PatientsNavBar({ states }: { states: Region[] }) {
+interface Props {
+  states: Region[]
+  pageNumber: number
+}
+
+export function PatientsNavBar({ states, pageNumber }: Props) {
   const [open, setOpen] = useState(false)
   const [value, setValue] = useState("")
+  const [search, setSearch] = useState("")
+
+  const router = useRouter()
+
+  const url = new URL(window.location.href)
+  const params = new URLSearchParams(url.search)
+
+  useEffect(() => {
+    const timeout = setTimeout(() => {
+      if (search !== "") {
+        params.set("nome", search)
+      } else {
+        params.delete("nome")
+      }
+
+      url.search = params.toString()
+      router.push(url.search)
+    }, 1000)
+
+    return () => {
+      clearTimeout(timeout)
+    }
+  }, [search])
+
+  useEffect(() => {
+    if (value !== "") {
+      params.set("estado", value)
+    } else {
+      params.delete("estado")
+    }
+
+    url.search = params.toString()
+    router.push(url.search)
+  }, [value])
+
+  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
+    setSearch(e.target.value)
+  }
 
   return (
     <nav className="flex items-end gap-5 w-full mt-9">
       <div className="flex flex-col gap-2 max-w-[364px] w-full">
         <Label>Pesquisar</Label>
-        <Input placeholder="Ex: Alírio" />
+        <Input onChange={handleChange} placeholder="Ex: Alírio" />
       </div>
       <div className="flex flex-col gap-2">
         <Label>Estado</Label>
@@ -52,7 +96,7 @@ export function PatientsNavBar({ states }: { states: Region[] }) {
           <PopoverContent className="w-[var(--radix-popover-trigger-width)] p-0">
             <Command>
               <CommandInput placeholder="Procurar estado..." />
-              <CommandEmpty>Estao não encontrado.</CommandEmpty>
+              <CommandEmpty>Estado não encontrado.</CommandEmpty>
               <CommandGroup>
                 {states.map((state) => (
                   <CommandItem

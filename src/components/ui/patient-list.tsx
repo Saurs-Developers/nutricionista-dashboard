@@ -9,7 +9,7 @@ export function PatientList({ data }: { data: Cliente[] }) {
       <Table.Head>
         <Table.HeadCell>Nome</Table.HeadCell>
         <Table.HeadCell>Data de vencimento</Table.HeadCell>
-        <Table.HeadCell>Cidade</Table.HeadCell>
+        <Table.HeadCell>Estado</Table.HeadCell>
         <Table.HeadCell>País</Table.HeadCell>
         <Table.HeadCell>Status</Table.HeadCell>
       </Table.Head>
@@ -19,7 +19,7 @@ export function PatientList({ data }: { data: Cliente[] }) {
             <Table.Row key={cliente.id}>
               <Table.Cell>
                 <Link
-                  href="/dashboard/patient/12345"
+                  href={"/dashboard/cliente/" + cliente.id}
                   className="hover:underline"
                 >
                   {cliente.nome}

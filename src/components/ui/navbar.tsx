@@ -33,10 +33,12 @@ export function Navbar() {
             <Link
               className={clsx(
                 "flex items-center gap-5 p-2 rounded-md",
-                (activeSegment === null || activeSegment === "patient") &&
+                (activeSegment === null ||
+                  activeSegment === "clientes" ||
+                  activeSegment === "cliente") &&
                   "bg-slate-100",
               )}
-              href="/dashboard"
+              href="/dashboard/clientes/1"
             >
               <Users />
               Pacientes
@@ -44,9 +46,9 @@ export function Navbar() {
             <Link
               className={clsx(
                 "flex items-center gap-5 p-2 rounded-md",
-                activeSegment === "exercises" && "bg-slate-100",
+                activeSegment === "exercicios" && "bg-slate-100",
               )}
-              href="/dashboard/exercises"
+              href="/dashboard/exercicios"
             >
               <Dumbbell />
               Exercícios
@@ -54,9 +56,9 @@ export function Navbar() {
             <Link
               className={clsx(
                 "flex items-center gap-5 p-2 rounded-md",
-                activeSegment === "foods" && "bg-slate-100",
+                activeSegment === "comidas" && "bg-slate-100",
               )}
-              href="/dashboard/foods"
+              href="/dashboard/comidas"
             >
               <Apple />
               Alimentos

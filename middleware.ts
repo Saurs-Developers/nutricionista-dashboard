@@ -35,7 +35,7 @@ export default withAuth(async function middleware(req, res) {
           httpOnly: true,
         })
 
-        console.log("tokens successfully refreshed")
+        console.log("tokens were successfully refreshed")
       } else if (tokenRes.status === 401) {
         response.cookies.delete("token")
         response.cookies.delete("refresh_token")
@@ -45,7 +45,7 @@ export default withAuth(async function middleware(req, res) {
         })
       }
     } else {
-      console.log("tokens still valid")
+      console.log("tokens are still valid")
     }
   } else {
     response.cookies.delete("next-auth.session-token")
