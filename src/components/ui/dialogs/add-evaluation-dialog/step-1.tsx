@@ -22,7 +22,6 @@ export function StepOne() {
       <Input
         {...register("peso", {
           onChange: (e) => {
-            console.log(e.target.value)
             setValue("peso", doubleMask(e.target.value))
           },
         })}

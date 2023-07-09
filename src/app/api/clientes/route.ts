@@ -9,26 +9,27 @@ export async function GET(req: Request) {
 
   const page = url.searchParams.get("page")
   const estado = url.searchParams.get("estado")
+  const nome = url.searchParams.get("nome")
+
+  console.log(estado, nome)
 
   const token = cookieStore.get("token")?.value
   const userData = parseJwt(token)
 
   try {
-    const res = await fetch(
+    let apiUrl =
       process.env.NEXT_PUBLIC_BASE_URL +
-        "/v1/clientes/profissionais/" +
-        userData.user_id +
-        "?page=" +
-        page +
-        "&size=6" +
-        "&estado=" +
-        estado,
-      {
-        headers: {
-          Authorization: "Bearer " + token,
-        },
+      "/v1/clientes/profissionais/" +
+      userData.user_id +
+      "?page=" +
+      page +
+      "&size=6"
+
+    const res = await fetch(apiUrl, {
+      headers: {
+        Authorization: "Bearer " + token,
       },
-    )
+    })
 
     const clientes = await res.json()
 

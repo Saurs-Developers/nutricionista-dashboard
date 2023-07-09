@@ -39,7 +39,7 @@ export function AddPatientDialog() {
       <DialogTrigger asChild>
         <Button variant="default">Criar paciente</Button>
       </DialogTrigger>
-      <DialogContent className="max-w-[824px] w-full max-h-[586px] overflow-auto">
+      <DialogContent className="max-w-[824px] w-full max-h-[602px] overflow-auto">
         <DialogHeader>
           <DialogTitle>Criar paciente</DialogTitle>
         </DialogHeader>

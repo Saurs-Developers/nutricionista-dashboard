@@ -14,9 +14,10 @@ interface Props {
 export default async function Dashboard({ searchParams, params }: Props) {
   const { id } = params
   const { estado } = searchParams
+  const { nome } = searchParams
 
   const estados = await getEstados()
-  const clientes = await getClientes(id - 1, estado as string)
+  const clientes = await getClientes(id - 1, estado as string, nome as string)
 
   return (
     <div>
@@ -49,9 +50,14 @@ const getEstados = async () => {
   return data
 }
 
-const getClientes = async (id: number, estado: string) => {
+const getClientes = async (id: number, estado: string, nome: string) => {
   const res = await fetch(
-    "http://localhost:3000/api/clientes?page=" + id + "&estado=" + estado,
+    "http://localhost:3000/api/clientes?page=" +
+      id +
+      "&estado=" +
+      estado +
+      "&nome=" +
+      nome,
     {
       headers: headers(),
       cache: "no-store",

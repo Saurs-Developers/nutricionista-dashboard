@@ -29,18 +29,18 @@ interface Props {
 }
 
 export function PatientsNavBar({ states, pageNumber }: Props) {
-  const [open, setOpen] = useState(false)
-  const [value, setValue] = useState("")
-  const [search, setSearch] = useState("")
-
-  const router = useRouter()
-
   const url = new URL(window.location.href)
   const params = new URLSearchParams(url.search)
 
+  const [open, setOpen] = useState(false)
+  const value = useRef(params.get("estado") ?? "")
+  const [search, setSearch] = useState(params.get("nome") ?? "")
+
+  const router = useRouter()
+
   useEffect(() => {
     const timeout = setTimeout(() => {
-      if (search !== "") {
+      if (search.length > 0) {
         params.set("nome", search)
       } else {
         params.delete("nome")
@@ -56,15 +56,15 @@ export function PatientsNavBar({ states, pageNumber }: Props) {
   }, [search])
 
   useEffect(() => {
-    if (value !== "") {
-      params.set("estado", value)
+    if (value.current.length > 0) {
+      params.set("estado", value.current)
     } else {
       params.delete("estado")
     }
 
     url.search = params.toString()
     router.push(url.search)
-  }, [value])
+  }, [value.current])
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     setSearch(e.target.value)
@@ -74,7 +74,11 @@ export function PatientsNavBar({ states, pageNumber }: Props) {
     <nav className="flex items-end gap-5 w-full mt-9">
       <div className="flex flex-col gap-2 max-w-[364px] w-full">
         <Label>Pesquisar</Label>
-        <Input onChange={handleChange} placeholder="Ex: Alírio" />
+        <Input
+          defaultValue={search}
+          onChange={handleChange}
+          placeholder="Ex: Alírio"
+        />
       </div>
       <div className="flex flex-col gap-2">
         <Label>Estado</Label>
@@ -86,9 +90,10 @@ export function PatientsNavBar({ states, pageNumber }: Props) {
               aria-expanded={open}
               className="w-[200px] justify-between"
             >
-              {value
-                ? states.find((state) => state.nome.toLowerCase() === value)
-                    ?.nome
+              {value.current
+                ? states.find(
+                    (state) => state.nome.toLowerCase() === value.current,
+                  )?.nome ?? "Selecionar estado..."
                 : "Selecionar estado..."}
               <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
             </Button>
@@ -102,14 +107,15 @@ export function PatientsNavBar({ states, pageNumber }: Props) {
                   <CommandItem
                     key={state.nome}
                     onSelect={(currentValue) => {
-                      setValue(currentValue === value ? "" : currentValue)
+                      value.current =
+                        currentValue === value.current ? "" : currentValue
                       setOpen(false)
                     }}
                   >
                     <Check
                       className={cn(
                         "mr-2 h-4 w-4",
-                        value === state.nome.toLowerCase()
+                        value.current === state.nome.toLowerCase()
                           ? "opacity-100"
                           : "opacity-0",
                       )}
