@@ -1,9 +1,8 @@
-import { NextResponse } from "next/server"
-import { withAuth } from "next-auth/middleware"
+import { NextRequest, NextResponse } from "next/server"
 
 import { parseJwt } from "./src/lib/utils"
 
-export default withAuth(async function middleware(req, res) {
+export async function middleware(req: NextRequest, res: NextResponse) {
   const token = req.cookies.get("token")?.value
   const refresh_token = req.cookies.get("refresh_token")?.value
 
@@ -52,8 +51,8 @@ export default withAuth(async function middleware(req, res) {
   }
 
   return response
-})
+}
 
 export const config = {
-  matcher: ["/dashboard/:path*"],
+  matcher: ["/dashboard/:path*", "/api/:path*"],
 }

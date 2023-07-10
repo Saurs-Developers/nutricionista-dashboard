@@ -1,7 +1,7 @@
 "use client"
 
 import { useEffect, useState } from "react"
-import { SelectSingleEventHandler } from "react-day-picker"
+import { Matcher, SelectSingleEventHandler } from "react-day-picker"
 import { Controller, useFormContext } from "react-hook-form"
 import { Label } from "@radix-ui/react-label"
 import { format } from "date-fns"
@@ -67,7 +67,7 @@ export function StepOne() {
         placeholder="Ex: Alírio"
         error={errors.nome?.message}
       />
-      <div className="flex flex-col justify-start gap-1 h-[4.25rem]">
+      <div className="flex flex-col justify-end gap-1 h-[4.25rem]">
         <Label className="text-sm">Data de nascimento</Label>
         <Controller
           name="data_nascimento"
@@ -84,7 +84,7 @@ export function StepOne() {
                   >
                     <CalendarIcon className="mr-2 h-4 w-4" />
                     {value ? (
-                      format(value, "PPP", { locale: ptBR })
+                      format(new Date(value), "PPP", { locale: ptBR })
                     ) : (
                       <span>Selecionar data</span>
                     )}
@@ -93,8 +93,8 @@ export function StepOne() {
                 <PopoverContent align="start" className="p-0">
                   <Calendar
                     mode="single"
-                    selected={value}
-                    onSelect={onChange as SelectSingleEventHandler}
+                    selected={new Date(value)}
+                    onSelect={onChange as unknown as SelectSingleEventHandler}
                     initialFocus
                   />
                 </PopoverContent>
@@ -116,7 +116,7 @@ export function StepOne() {
         error={errors.email?.message}
       />
 
-      <div className="flex flex-col justify-start gap-1 h-[4.25rem]">
+      <div className="flex flex-col justify-end gap-1 h-[4.25rem]">
         <Label className="text-sm">Sexo</Label>
         <Controller
           control={control}

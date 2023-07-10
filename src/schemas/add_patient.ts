@@ -1,3 +1,4 @@
+import { format } from "date-fns"
 import { AsYouType } from "libphonenumber-js"
 import * as z from "zod"
 
@@ -157,7 +158,11 @@ export const addPatientSchema = z.z.object({
   estado: z.string().nonempty({ message: "Este campo é obrigatório." }),
   cidade: z.string().nonempty({ message: "Este campo é obrigatório." }),
   sexo: z.string({ required_error: "Este campo é obrigatório" }),
-  data_nascimento: z.date({ required_error: "Este campo é obrigatório" }),
+  data_nascimento: z
+    .date({ required_error: "Este campo é obrigatório" })
+    .transform((data) => {
+      return format(data, "yyyy-MM-dd")
+    }),
   notas: z.string().optional(),
   contato: z
     .string()

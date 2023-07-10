@@ -9,6 +9,7 @@ import {
   useState,
 } from "react"
 import { useQuery } from "@tanstack/react-query"
+import axios from "axios"
 
 import { District, State } from "@/@types"
 import { useMultiStepForm } from "@/hooks/useMultiStepForm"
@@ -44,7 +45,7 @@ export function PatientContextProvider({ children }: { children: ReactNode }) {
   const { data: estados, isLoading: isEstadosLoading } = useQuery<State[]>({
     queryKey: ["states"],
     queryFn: async () => {
-      const states = await client.get(
+      const states = await axios.get(
         "http://servicodados.ibge.gov.br/api/v1/localidades/estados",
       )
 
@@ -57,7 +58,7 @@ export function PatientContextProvider({ children }: { children: ReactNode }) {
   const { data: cidades, isLoading: isCidadesLoading } = useQuery<District[]>({
     queryKey: ["cities", uf],
     queryFn: async () => {
-      const cidades = await client.get(
+      const cidades = await axios.get(
         "https://servicodados.ibge.gov.br/api/v1/localidades/estados/" +
           uf +
           "/distritos",

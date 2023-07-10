@@ -19,7 +19,7 @@ export function PatientList({ data }: { data: Cliente[] }) {
             <Table.Row key={cliente.id}>
               <Table.Cell>
                 <Link
-                  href={"/dashboard/cliente/" + cliente.id}
+                  href={"/dashboard/cliente/" + cliente.id + "/avaliacao"}
                   className="hover:underline"
                 >
                   {cliente.nome}

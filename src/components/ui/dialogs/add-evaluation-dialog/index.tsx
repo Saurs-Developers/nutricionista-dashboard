@@ -42,7 +42,6 @@ export function AddEvaluationDialog() {
           <Button onClick={() => console.log(methods.formState.errors)}>
             Erros
           </Button>
-          <Button onClick={() => console.log(methods.reset())}>Reset</Button>
         </FormProvider>
       </DialogContent>
     </Dialog>
