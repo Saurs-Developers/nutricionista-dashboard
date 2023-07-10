@@ -34,7 +34,11 @@ export async function middleware(req: NextRequest, res: NextResponse) {
           httpOnly: true,
         })
 
+        req.headers.set("token", data.token)
+        req.headers.set("refresh_token", data.refresh_tokentoken)
+
         console.log("tokens were successfully refreshed")
+        return response
       } else if (tokenRes.status === 401) {
         response.cookies.delete("token")
         response.cookies.delete("refresh_token")
