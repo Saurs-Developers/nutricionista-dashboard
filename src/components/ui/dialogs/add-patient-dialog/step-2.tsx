@@ -1,6 +1,8 @@
 "use client"
 
+import { useState } from "react"
 import { useFormContext } from "react-hook-form"
+import { Loader2Icon } from "lucide-react"
 
 import { Button } from "@/components/shared/button"
 import { Input } from "@/components/shared/input"
@@ -12,9 +14,9 @@ import { useAddPatientContext } from "./add-patient-context"
 export function StepTwo() {
   const {
     register,
-    formState: { errors, isValid },
+    formState: { errors },
   } = useFormContext<AddPatientSchema>()
-  const { handlePreviousStep } = useAddPatientContext()
+  const { handlePreviousStep, isSubmitLoading } = useAddPatientContext()
 
   return (
     <div className="flex flex-col gap-4">
@@ -99,7 +101,10 @@ export function StepTwo() {
         <Button onClick={handlePreviousStep} type="button">
           Voltar
         </Button>
-        <Button disabled={!isValid} type="submit">
+        <Button disabled={isSubmitLoading} type="submit">
+          {isSubmitLoading && (
+            <Loader2Icon className="w-4 h-4 mr-2 animate-spin" />
+          )}
           Finalizar
         </Button>
       </div>

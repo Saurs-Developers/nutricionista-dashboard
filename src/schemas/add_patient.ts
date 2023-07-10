@@ -149,14 +149,17 @@ const observacaoSchema = z
 
 export const addPatientSchema = z.z.object({
   nome: z
-    .string()
-    .min(1, { message: "Este campo é obrigatório." })
+    .string({ required_error: "Este campo é obrigatório." })
     .regex(nameRegex, {
       message: "Não são permitidos caracteres especiais.",
     }),
-  email: z.string().email({ message: "Insira um endereço de e-mail válido." }),
-  estado: z.string().nonempty({ message: "Este campo é obrigatório." }),
-  cidade: z.string().nonempty({ message: "Este campo é obrigatório." }),
+  email: z
+    .string({ required_error: "Este campo é obrigatório" })
+    .email({ message: "Insira um endereço de e-mail válido." }),
+  estado: z.string({ required_error: "Este campo é obrigatório." }),
+  cidade: z
+    .string({ required_error: "Este campo é obrigatório." })
+    .nonempty({ message: "Este campo é obrigatório." }),
   sexo: z.string({ required_error: "Este campo é obrigatório" }),
   data_nascimento: z
     .date({ required_error: "Este campo é obrigatório" })
@@ -164,18 +167,15 @@ export const addPatientSchema = z.z.object({
       return format(data, "yyyy-MM-dd")
     }),
   notas: z.string().optional(),
-  contato: z
-    .string()
-    .min(1, { message: "Este campo é obrigatório" })
-    .refine(
-      (value) => {
-        const phoneNumber = new AsYouType().input(value)
-        return phoneNumber.length >= 10
-      },
-      {
-        message: "Número de celular inválido.",
-      },
-    ),
+  contato: z.string({ required_error: "Este campo é obrigatório." }).refine(
+    (value) => {
+      const phoneNumber = new AsYouType().input(value)
+      return phoneNumber.length >= 10
+    },
+    {
+      message: "Número de celular inválido.",
+    },
+  ),
   objetivo: z.string().optional(),
   observacao: observacaoSchema,
 })

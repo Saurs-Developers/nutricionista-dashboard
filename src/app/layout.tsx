@@ -1,8 +1,8 @@
 import React from "react"
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query"
 import { Nunito } from "next/font/google"
 
 import { QueryProvider } from "@/components/query-provider"
+import { Toaster } from "@/components/shared/toaster"
 import { NextAuthSession } from "@/components/ui/nextauth-session"
 
 import "./globals.css"
@@ -25,6 +25,7 @@ export default function RootLayout({
         <NextAuthSession>
           <body className={`${nunito.className} text-zinc-700`}>
             {children}
+            <Toaster />
           </body>
         </NextAuthSession>
       </QueryProvider>

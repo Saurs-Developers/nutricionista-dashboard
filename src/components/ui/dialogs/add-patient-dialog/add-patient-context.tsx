@@ -8,10 +8,12 @@ import {
   useContext,
   useState,
 } from "react"
-import { useQuery } from "@tanstack/react-query"
+import { useMutation, useQuery } from "@tanstack/react-query"
 import axios from "axios"
 
 import { District, State } from "@/@types"
+import { Cliente } from "@/@types/clientes"
+import { toast } from "@/components/shared/use-toast"
 import { useMultiStepForm } from "@/hooks/useMultiStepForm"
 import { client } from "@/lib/axios"
 
@@ -30,6 +32,8 @@ interface AddPatientContext {
   cidades?: District[]
   estados?: State[]
   isCidadesLoading?: boolean
+  submitCliente: (data: Cliente) => void
+  isSubmitLoading: boolean
 }
 
 export const addPatientContext = createContext({} as AddPatientContext)
@@ -61,18 +65,41 @@ export function PatientContextProvider({ children }: { children: ReactNode }) {
       const cidades = await axios.get(
         "https://servicodados.ibge.gov.br/api/v1/localidades/estados/" +
           uf +
-          "/distritos",
+          "/municipios",
       )
 
       const data = await cidades.data
 
       return data
     },
+    cacheTime: Infinity,
+  })
+
+  const { mutate: submitCliente, isLoading: isSubmitLoading } = useMutation({
+    mutationFn: async (data: Cliente) => {
+      const res = await client.post("/clientes", {
+        data,
+      })
+
+      return res
+    },
+    onError: (e) => {
+      toast({
+        title: "Ocorreu um erro ao cadastrar o paciente.",
+        description:
+          "Se o erro persistir, contate um administrador. Mensagem: " + e,
+      })
+    },
+    onSuccess: () => {
+      handleNextStep()
+    },
   })
 
   return (
     <addPatientContext.Provider
       value={{
+        submitCliente,
+        isSubmitLoading,
         uf,
         isCidadesLoading,
         setUf,
@@ -98,6 +125,8 @@ export const useAddPatientContext = () => {
 
   const {
     handleNextStep,
+    submitCliente,
+    isSubmitLoading,
     handlePreviousStep,
     returnCurrentStep,
     currentStep,
@@ -110,6 +139,8 @@ export const useAddPatientContext = () => {
 
   return {
     handleNextStep,
+    submitCliente,
+    isSubmitLoading,
     handlePreviousStep,
     returnCurrentStep,
     currentStep,

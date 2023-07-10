@@ -1,12 +1,12 @@
 "use client"
 
 import { useEffect, useState } from "react"
-import { Matcher, SelectSingleEventHandler } from "react-day-picker"
+import { SelectSingleEventHandler } from "react-day-picker"
 import { Controller, useFormContext } from "react-hook-form"
 import { Label } from "@radix-ui/react-label"
 import { format } from "date-fns"
 import { ptBR } from "date-fns/locale"
-import { CalendarIcon, Check, ChevronsUpDown } from "lucide-react"
+import { CalendarIcon, Check, ChevronsUpDown, Loader2Icon } from "lucide-react"
 
 import { Button } from "@/components/shared/button"
 import { Calendar } from "@/components/shared/calendar"
@@ -184,6 +184,9 @@ export function StepOne() {
               aria-expanded={open}
               className="justify-between"
             >
+              {isCidadesLoading && (
+                <Loader2Icon className="w-4 h-4 animate-spin" />
+              )}
               {cidadeForm
                 ? cidades?.find(
                     (municipio) => municipio.nome.toLowerCase() === cidadeForm,

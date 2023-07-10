@@ -1,3 +1,5 @@
+import format from "date-fns/format"
+import { ptBR } from "date-fns/locale"
 import Link from "next/link"
 
 import { Cliente } from "@/@types/clientes"
@@ -8,7 +10,7 @@ export function PatientList({ data }: { data: Cliente[] }) {
     <Table>
       <Table.Head>
         <Table.HeadCell>Nome</Table.HeadCell>
-        <Table.HeadCell>Data de vencimento</Table.HeadCell>
+        <Table.HeadCell>Data de nascimento</Table.HeadCell>
         <Table.HeadCell>Estado</Table.HeadCell>
         <Table.HeadCell>País</Table.HeadCell>
         <Table.HeadCell>Status</Table.HeadCell>
@@ -25,7 +27,11 @@ export function PatientList({ data }: { data: Cliente[] }) {
                   {cliente.nome}
                 </Link>
               </Table.Cell>
-              <Table.Cell>{cliente.data_nascimento}</Table.Cell>
+              <Table.Cell>
+                {format(new Date(cliente.data_nascimento), "PPP", {
+                  locale: ptBR,
+                })}
+              </Table.Cell>
               <Table.Cell>{cliente.estado}</Table.Cell>
               <Table.Cell>Brasil</Table.Cell>
               <Table.Cell className="capitalize">

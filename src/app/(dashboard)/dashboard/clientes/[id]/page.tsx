@@ -16,15 +16,10 @@ export default async function Dashboard({ searchParams, params }: Props) {
   const { estado } = searchParams
   const { nome } = searchParams
 
-  const estados = await getEstados()
   const clientes = await getClientes(id - 1, estado as string, nome as string)
 
   return (
     <div>
-      <Typography weight="bold" variant="h2">
-        Pacientes
-      </Typography>
-      <PatientsNavBar states={estados} />
       {clientes.results.length > 0 ? (
         <PatientList data={clientes.results} />
       ) : (
@@ -40,16 +35,6 @@ export default async function Dashboard({ searchParams, params }: Props) {
   )
 }
 
-const getEstados = async () => {
-  const res = await fetch(
-    "http://servicodados.ibge.gov.br/api/v1/localidades/estados",
-  )
-
-  const data = await res.json()
-
-  return data
-}
-
 const getClientes = async (id: number, estado: string, nome: string) => {
   const res = await fetch(
     "http://localhost:3000/api/clientes?page=" +
@@ -61,6 +46,9 @@ const getClientes = async (id: number, estado: string, nome: string) => {
     {
       headers: headers(),
       cache: "no-store",
+      next: {
+        tags: ["clientes"],
+      },
     },
   )
 

@@ -1,12 +1,16 @@
 import axios from "axios"
+import { revalidateTag } from "next/cache"
 import { cookies } from "next/headers"
-import { NextResponse } from "next/server"
+import { NextRequest, NextResponse } from "next/server"
 
 import { parseJwt } from "@/lib/utils"
 
-export async function GET(req: Request) {
+export async function GET(req: NextRequest) {
   const cookieStore = cookies()
   const url = new URL(req.url)
+  const tag = req.nextUrl.searchParams.get("tag")
+  console.log(tag)
+  revalidateTag(tag as string)
 
   const page = url.searchParams.get("page")
   const estado = url.searchParams.get("estado")
@@ -22,7 +26,7 @@ export async function GET(req: Request) {
       userData.user_id +
       "?page=" +
       page +
-      "&size=6"
+      "&size=6&orderBy=createdAt"
 
     const res = await fetch(apiUrl, {
       headers: {
@@ -41,7 +45,7 @@ export async function GET(req: Request) {
 export async function POST(req: Request) {
   const cookieStore = cookies()
 
-  const request = await req.json() // req now contains body
+  const request = await req.json()
 
   const token = cookieStore.get("token")?.value
 
@@ -69,9 +73,12 @@ export async function POST(req: Request) {
     }
   }
 
-  return NextResponse.json({
-    error: "API request failed after maximum retries",
-  })
+  return NextResponse.json(
+    {
+      error: "API request failed after maximum retries",
+    },
+    { status: 400 },
+  )
 }
 
 function delay(ms: number) {
