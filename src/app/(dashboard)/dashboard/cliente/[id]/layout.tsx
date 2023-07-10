@@ -6,10 +6,14 @@ import ClienteTabs from "@/components/ui/cliente-tabs"
 
 interface Props {
   children: ReactNode
-  id: string
+  params: { id: number }
 }
 
-export default async function Layout({ children, id }: Props) {
+export default async function Layout({ children, params }: Props) {
+  const id = params.id
+
+  console.log(id)
+
   return (
     <div>
       <Link

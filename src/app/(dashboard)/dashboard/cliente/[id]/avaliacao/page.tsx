@@ -16,5 +16,5 @@ export default async function Evaluation() {
   //   process.env.NEXT_PUBLIC_HANDLER_URL + "/v1/clientes/" + id,
   // )
 
-  return <div>asdfafsd</div>
+  return <div>avaliacao</div>
 }

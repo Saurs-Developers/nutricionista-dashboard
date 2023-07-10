@@ -1,5 +1,4 @@
 import axios from "axios"
-import { revalidateTag } from "next/cache"
 import { cookies } from "next/headers"
 import { NextRequest, NextResponse } from "next/server"
 
@@ -8,9 +7,6 @@ import { parseJwt } from "@/lib/utils"
 export async function GET(req: NextRequest) {
   const cookieStore = cookies()
   const url = new URL(req.url)
-  const tag = req.nextUrl.searchParams.get("tag")
-  console.log(tag)
-  revalidateTag(tag as string)
 
   const page = url.searchParams.get("page")
   const estado = url.searchParams.get("estado")

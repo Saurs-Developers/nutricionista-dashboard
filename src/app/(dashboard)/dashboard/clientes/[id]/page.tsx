@@ -4,7 +4,6 @@ import { ClientesResponse } from "@/@types/clientes"
 import { Pagination } from "@/components/shared/pagination"
 import { Typography } from "@/components/shared/typography"
 import { PatientList } from "@/components/ui/patient-list"
-import { PatientsNavBar } from "@/components/ui/patients-navbar"
 
 interface Props {
   searchParams: { [key: string]: string | string[] | undefined }
