@@ -1,3 +1,5 @@
+"use client"
+
 import { FormProvider, useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { Plus } from "lucide-react"
@@ -38,6 +40,9 @@ export function AddEvaluationDialog() {
         <FormProvider {...methods}>
           <AddEvaluationContextProvider>
             <CurrentStep />
+            <button onClick={() => console.log(methods.getValues())}>
+              Valores
+            </button>
           </AddEvaluationContextProvider>
           <Button onClick={() => console.log(methods.formState.errors)}>
             Erros

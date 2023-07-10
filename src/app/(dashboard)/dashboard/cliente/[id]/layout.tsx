@@ -3,7 +3,6 @@ import { ArrowLeft } from "lucide-react"
 import { headers } from "next/headers"
 import Link from "next/link"
 
-import { Cliente } from "@/@types/clientes"
 import { Typography } from "@/components/shared/typography"
 import ClienteTabs from "@/components/ui/cliente-tabs"
 
@@ -39,9 +38,9 @@ const getCliente = async (id: number) => {
 
   const headerCollection = new Headers(headersInstance)
 
-  headerCollection.append("x-api-uri", "/v1/clientes")
+  headerCollection.append("x-api-uri", "/v1/clientes/" + id)
 
-  const res = await fetch("http://localhost:3000/api/avaliacoes", {
+  const res = await fetch("http://localhost:3000/api/clientes", {
     headers: headerCollection,
   })
 

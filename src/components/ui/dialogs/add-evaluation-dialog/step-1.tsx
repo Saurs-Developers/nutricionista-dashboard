@@ -6,7 +6,7 @@ import { Input } from "@/components/shared/input"
 import { Label } from "@/components/shared/label"
 import { RadioGroup, RadioGroupItem } from "@/components/shared/radio-group"
 import { Typography } from "@/components/shared/typography"
-import { doubleMask, numberMask } from "@/utils/masks"
+import { bloodPressureMask, doubleMask, numberMask } from "@/utils/masks"
 
 import { useAddEvaluationContext } from "./add-evaluation-context"
 
@@ -21,26 +21,39 @@ export function StepOne() {
     <div className="grid grid-cols-2 gap-y-4 gap-x-6">
       <Input
         {...register("peso", {
+          valueAsNumber: true,
           onChange: (e) => {
             setValue("peso", doubleMask(e.target.value))
           },
         })}
-        maxLength={5}
+        maxLength={6}
         label="Peso (kg)"
         placeholder="Ex: 84"
       />
       <Input
-        {...register("altura")}
+        {...register("altura", {
+          valueAsNumber: true,
+          onChange: (e) => {
+            setValue("altura", numberMask(e.target.value))
+          },
+        })}
         label="Altura (cm)"
         placeholder="Ex: 183"
+        maxLength={3}
       />
       <Input
-        {...register("pressao_arterial")}
+        {...register("pressao_arterial", {
+          onChange: (e) => {
+            setValue("pressao_arterial", bloodPressureMask(e.target.value))
+          },
+        })}
         label="Pressão arterial (sis/dia)"
         placeholder="Ex: 12/8"
+        maxLength={5}
       />
       <Input
         {...register("fc_repouso", {
+          valueAsNumber: true,
           onChange: (e) => {
             setValue("fc_repouso", numberMask(e.target.value))
           },
@@ -53,7 +66,10 @@ export function StepOne() {
         value={waterConsumption}
         onChange={(e) => {
           setWaterConsumption(Number(e.target.value))
-          setValue("consumo_ideal_agua", waterConsumption * Number(peso) * 10)
+          setValue(
+            "consumo_ideal_agua",
+            Math.floor(waterConsumption * Number(peso) * 10),
+          )
         }}
         label="Quantidade de água (ml/kg corporal)"
         placeholder="Ex: 50"

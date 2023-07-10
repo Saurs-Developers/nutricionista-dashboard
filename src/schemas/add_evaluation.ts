@@ -1,7 +1,9 @@
 import * as z from "zod"
 
+import { doubleMask } from "@/utils/masks"
+
 const perimetrosSchema = z.object({
-  torax: z.string().transform((data) => Number(data)),
+  torax: z.string().transform((data) => doubleMask(data)),
   antebraco_d: z.string().transform((data) => Number(data)),
   coxa_d: z.string().transform((data) => Number(data)),
   cintura: z.string().transform((data) => Number(data)),
@@ -31,7 +33,7 @@ const composicaoSchema = z.object({
   opcional_2: z.string().transform((data) => Number(data)),
 })
 
-export const addEvaluationSchema = z.z.object({
+export const addEvaluationSchema = z.object({
   peso: z.string().transform((data) => Number(data)),
   altura: z.string().transform((data) => Number(data)),
   pressao_arterial: z.string(),
