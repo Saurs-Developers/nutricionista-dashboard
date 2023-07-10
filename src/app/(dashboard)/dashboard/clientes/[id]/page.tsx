@@ -15,6 +15,8 @@ export default async function Dashboard({ searchParams, params }: Props) {
   const { estado } = searchParams
   const { nome } = searchParams
 
+  getClientes(id, estado as string, nome as string)
+
   const clientes = await getClientes(id - 1, estado as string, nome as string)
 
   return (
@@ -35,21 +37,26 @@ export default async function Dashboard({ searchParams, params }: Props) {
 }
 
 const getClientes = async (id: number, estado: string, nome: string) => {
-  const res = await fetch(
-    "http://localhost:3000/api/clientes?page=" +
-      id +
-      "&estado=" +
-      estado +
-      "&nome=" +
-      nome,
-    {
-      headers: headers(),
-      cache: "no-store",
-      next: {
-        tags: ["clientes"],
-      },
-    },
-  )
+  const sessionData = await fetch("http://localhost:3000/api/auth/session", {
+    headers: headers(),
+  })
+
+  const session = await sessionData.json()
+
+  const apiUri =
+    "/v1/clientes/profissionais/" +
+    session.user.user_id +
+    "?page=" +
+    id +
+    "&size=6&orderBy=createdAt"
+
+  const headersInstance = headers()
+  const headerCollection = new Headers(headersInstance)
+  headerCollection.append("x-api-uri", apiUri)
+
+  const res = await fetch("http://localhost:3000/api/clientes", {
+    headers: headerCollection,
+  })
 
   const clientes: ClientesResponse = await res.json()
 
