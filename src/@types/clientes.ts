@@ -1,5 +1,29 @@
 import { PaginatedResponse } from "."
 
+export interface Observacao {
+  possui_historico_doenca_familiar: boolean
+  historico_doenca_familiar: string
+  possui_historico_doenca_pessoal: boolean
+  historico_doenca_pessoal: string
+  possui_lesao_musculoesqueletica: boolean
+  lesao_musculoesqueletica: string
+  possui_historico_cirurgia: boolean
+  historico_cirurgia: string
+  possui_medicacao: boolean
+  medicacao: string
+  possui_habito_fumar_ou_beber: boolean
+  habito_fumar_ou_beber: string
+  possui_alergia_alimentar: boolean
+  alergia_alimentar: string
+  possui_alergia_medicamento: boolean
+  alergia_medicamento: string
+  preferencia_ou_aversao_alimentar: string
+  avaliacao_postural_e_mudancas_musculoesqueleticas: string
+  tempo_trabalho_diario: string
+  ciclo_sono: string
+  outras_observacoes: string
+}
+
 export interface Cliente {
   id: string
   nome: string
@@ -8,7 +32,7 @@ export interface Cliente {
   sexo: string
   estado: string
   cidade: string
-  observacao: any[]
+  observacao: Observacao
   notas: string
   contato: string
   receitas: any[]

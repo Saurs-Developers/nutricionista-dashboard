@@ -1,8 +1,7 @@
 "use client"
 
 import { useEffect, useState } from "react"
-import { data } from "autoprefixer"
-import { formatDistance, formatDistanceStrict } from "date-fns"
+import { formatDistanceStrict } from "date-fns"
 import { Zap } from "lucide-react"
 import {
   Bar,
@@ -16,7 +15,7 @@ import {
   YAxis,
 } from "recharts"
 
-import { Avaliacao, ComposicaoCorporal } from "@/@types/avaliacao"
+import { Avaliacao } from "@/@types/avaliacao"
 import { Cliente } from "@/@types/clientes"
 import { Formulas } from "@/@types/formulas"
 import { Box } from "@/components/shared/box"
@@ -31,17 +30,7 @@ import {
   SelectValue,
 } from "@/components/shared/select"
 import { Typography } from "@/components/shared/typography"
-import {
-  calculaGeb,
-  calculaPercentual,
-  gebHomem,
-  gebMulher,
-  quatroPregas,
-  setePregasHomem,
-  setePregasMulher,
-  tresPregasHomem,
-  tresPregasMulher,
-} from "@/utils/formulas"
+import { calculaGeb, calculaPercentual } from "@/utils/formulas"
 
 export function EvaluationContent({
   evaluation,
