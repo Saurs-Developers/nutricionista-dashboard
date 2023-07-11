@@ -157,9 +157,7 @@ export const addPatientSchema = z.z.object({
     .string({ required_error: "Este campo é obrigatório" })
     .email({ message: "Insira um endereço de e-mail válido." }),
   estado: z.string({ required_error: "Este campo é obrigatório." }),
-  cidade: z
-    .string({ required_error: "Este campo é obrigatório." })
-    .nonempty({ message: "Este campo é obrigatório." }),
+  cidade: z.string({ required_error: "Este campo é obrigatório." }),
   sexo: z.string({ required_error: "Este campo é obrigatório" }),
   data_nascimento: z
     .date({ required_error: "Este campo é obrigatório" })

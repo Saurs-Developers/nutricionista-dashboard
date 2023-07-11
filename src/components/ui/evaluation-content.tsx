@@ -1,5 +1,8 @@
 "use client"
 
+import { useEffect, useState } from "react"
+import { data } from "autoprefixer"
+import { formatDistance, formatDistanceStrict } from "date-fns"
 import { Zap } from "lucide-react"
 import {
   Bar,
@@ -13,6 +16,9 @@ import {
   YAxis,
 } from "recharts"
 
+import { Avaliacao, ComposicaoCorporal } from "@/@types/avaliacao"
+import { Cliente } from "@/@types/clientes"
+import { Formulas } from "@/@types/formulas"
 import { Box } from "@/components/shared/box"
 import { Input } from "@/components/shared/input"
 import {
@@ -25,20 +31,87 @@ import {
   SelectValue,
 } from "@/components/shared/select"
 import { Typography } from "@/components/shared/typography"
+import {
+  calculaGeb,
+  calculaPercentual,
+  gebHomem,
+  gebMulher,
+  quatroPregas,
+  setePregasHomem,
+  setePregasMulher,
+  tresPregasHomem,
+  tresPregasMulher,
+} from "@/utils/formulas"
 
-export function EvaluationContent() {
+export function EvaluationContent({
+  evaluation,
+  cliente,
+}: {
+  cliente: Cliente
+  evaluation: Avaliacao
+}) {
+  const total =
+    evaluation.composicao_corporal.coxa +
+    evaluation.composicao_corporal.abdomen +
+    evaluation.composicao_corporal.suprailiaca +
+    evaluation.composicao_corporal.peitoral +
+    evaluation.composicao_corporal.axilar_media +
+    evaluation.composicao_corporal.bicepital +
+    evaluation.composicao_corporal.tricipital +
+    evaluation.composicao_corporal.subescapular
+
+  const idade = parseInt(
+    formatDistanceStrict(new Date(cliente.data_nascimento), new Date(), {
+      unit: "year",
+    }),
+  )
+
+  const geb = calculaGeb(
+    cliente.sexo,
+    evaluation.peso,
+    evaluation.altura,
+    idade,
+  ).toFixed(2)
+
+  const [formula, setFormula] = useState<Formulas>(Formulas["3_PREGAS"])
+  const [percentual, setPercentual] = useState(
+    calculaPercentual(
+      cliente.sexo,
+      formula,
+      evaluation.composicao_corporal,
+      idade,
+    ),
+  )
+
+  const pesoGordo = (evaluation.peso * (percentual / 100)).toFixed(2)
+
+  const pesoMagro = (evaluation.peso - Number(pesoGordo)).toFixed(2)
+
+  const get = (Number(geb) * evaluation.fator_atv_fisica).toFixed(2)
+
+  useEffect(() => {
+    setPercentual(
+      calculaPercentual(
+        cliente.sexo,
+        formula,
+        evaluation.composicao_corporal,
+        idade,
+      ),
+    )
+  }, [formula])
+
   const data = [
     {
       name: "Peso atual",
-      porcentagem: 81.15,
+      kg: evaluation.peso,
     },
     {
       name: "Peso Gordo",
-      porcentagem: 11.52,
+      kg: pesoGordo,
     },
     {
       name: "Peso Magro",
-      porcentagem: 69.63,
+      kg: pesoMagro,
     },
   ]
 
@@ -54,60 +127,160 @@ export function EvaluationContent() {
         <Box className="col-span-6">
           <Typography variant="h4">Perímetros</Typography>
           <div className="grid grid-cols-4 mt-3 gap-4">
-            <Input readOnly label="Tórax" placeholder="78cm" />
-            <Input readOnly label="Cintura" placeholder="76cm" />
-            <Input readOnly label="Abdômem" placeholder="78cm" />
-            <Input readOnly label="Quadril" placeholder="101cm" />
-            <Input readOnly label="Antrebraço D." placeholder="29cm" />
-            <Input readOnly label="Antrebraço E." placeholder="29cm" />
-            <Input readOnly label="Braço D." placeholder="37cm" />
-            <Input readOnly label="Braço E." placeholder="36cm" />
-            <Input readOnly label="Coxa D." placeholder="60cm" />
-            <Input readOnly label="Coxa E." placeholder="61cm" />
-            <Input readOnly label="Panturrilha D." placeholder="40cm" />
-            <Input readOnly label="Panturrilha E." placeholder="40cm" />
+            <Input
+              value={evaluation.perimetro.torax + "cm"}
+              readOnly
+              label="Tórax"
+            />
+            <Input
+              value={evaluation.perimetro.cintura + "cm"}
+              readOnly
+              label="Cintura"
+            />
+            <Input
+              value={evaluation.perimetro.abdominal + "cm"}
+              readOnly
+              label="Abdômem"
+            />
+            <Input
+              value={evaluation.perimetro.quadril + "cm"}
+              readOnly
+              label="Quadril"
+            />
+            <Input
+              value={evaluation.perimetro.antebraco_d + "cm"}
+              readOnly
+              label="Antrebraço D."
+            />
+            <Input
+              value={evaluation.perimetro.antebraco_e + "cm"}
+              readOnly
+              label="Antrebraço E."
+            />
+            <Input
+              value={evaluation.perimetro.braco_d + "cm"}
+              readOnly
+              label="Braço D."
+            />
+            <Input
+              value={evaluation.perimetro.braco_e + "cm"}
+              readOnly
+              label="Braço E."
+            />
+            <Input
+              value={evaluation.perimetro.coxa_d + "cm"}
+              readOnly
+              label="Coxa D."
+            />
+            <Input
+              value={evaluation.perimetro.coxa_e + "cm"}
+              readOnly
+              label="Coxa E."
+            />
+            <Input
+              value={evaluation.perimetro.panturrilha_d + "cm"}
+              readOnly
+              label="Panturrilha D."
+            />
+            <Input
+              value={evaluation.perimetro.panturrilha_e + "cm"}
+              readOnly
+              label="Panturrilha E."
+            />
           </div>
         </Box>
         <Box className="col-span-6">
           <Typography variant="h4">Composição corporal</Typography>
-          <Select>
+          <Select
+            value={formula}
+            onValueChange={setFormula as (value: string) => void}
+          >
             <SelectTrigger className="col-span-3 mt-3">
               <SelectValue placeholder="Selecionar cálculo" />
             </SelectTrigger>
             <SelectContent>
               <SelectGroup>
                 <SelectLabel>Fórmulas</SelectLabel>
-                <SelectItem value="banana">
+                <SelectItem value={Formulas["3_PREGAS"]}>
                   3 Pregas - Jackson & Pollock
                 </SelectItem>
-                <SelectItem value="blueberry">4 pregas - Faulkner</SelectItem>
-                <SelectItem value="apple">
+                <SelectItem value={Formulas["4_PREGAS"]}>
+                  4 pregas - Faulkner
+                </SelectItem>
+                <SelectItem value={Formulas["7_PREGAS"]}>
                   7 pregas - Jackson, Pollock & Ward
                 </SelectItem>
               </SelectGroup>
             </SelectContent>
           </Select>
           <div className="grid grid-cols-4 mt-3 gap-4">
-            <Input readOnly label="Coxa" placeholder="7" />
-            <Input readOnly label="Abdominal" placeholder="18" />
-            <Input readOnly label="Supra ilíaca" placeholder="17" />
-            <Input readOnly label="Peitoral" placeholder="5" />
-            <Input readOnly label="Axilar-média" placeholder="14" />
-            <Input readOnly label="Bicepital" placeholder="5" />
-            <Input readOnly label="Tricepital" placeholder="6" />
-            <Input readOnly label="Subscapular" placeholder="14" />
-            <Input readOnly label="Total" placeholder="86" />
+            <Input
+              value={evaluation.composicao_corporal.coxa}
+              readOnly
+              label="Coxa"
+            />
+            <Input
+              value={evaluation.composicao_corporal.abdomen}
+              readOnly
+              label="Abdominal"
+            />
+            <Input
+              value={evaluation.composicao_corporal.suprailiaca}
+              readOnly
+              label="Supra ilíaca"
+            />
+            <Input
+              value={evaluation.composicao_corporal.peitoral}
+              readOnly
+              label="Peitoral"
+            />
+            <Input
+              value={evaluation.composicao_corporal.axilar_media}
+              readOnly
+              label="Axilar-média"
+            />
+            <Input
+              value={evaluation.composicao_corporal.bicepital}
+              readOnly
+              label="Bicepital"
+            />
+            <Input
+              value={evaluation.composicao_corporal.tricipital}
+              readOnly
+              label="Tricepital"
+            />
+            <Input
+              value={evaluation.composicao_corporal.subescapular}
+              readOnly
+              label="Subscapular"
+            />
+            <Input
+              value={evaluation.composicao_corporal.subescapular}
+              readOnly
+              label="Panturrilha"
+            />
+            <Input
+              value={evaluation.composicao_corporal.subescapular}
+              readOnly
+              label="Opcional 1"
+            />
+            <Input
+              value={evaluation.composicao_corporal.subescapular}
+              readOnly
+              label="Opcional 2"
+            />
+            <Input value={total} readOnly label="Total" placeholder="86" />
           </div>
         </Box>
         <Box className="col-span-4">
           <Typography variant="h4">Resultados</Typography>
           <div className="grid grid-cols-3 mt-3 gap-4">
-            <Input readOnly label="Peso atual" placeholder="81,15kg" />
-            <Input readOnly label="Gordura" placeholder="14,10%" />
-            <Input readOnly label="Peso magro" placeholder="69,93kg" />
-            <Input readOnly label="Peso gordo" placeholder="11,52kg" />
-            <Input readOnly label="GEB" placeholder="1945,88kcal" />
-            <Input readOnly label="GET" placeholder="2918,82kcal" />
+            <Input value={evaluation.peso + "kg"} readOnly label="Peso atual" />
+            <Input value={percentual + "%"} readOnly label="Gordura" />
+            <Input value={pesoMagro + "kg"} readOnly label="Peso magro" />
+            <Input value={pesoGordo + "kg"} readOnly label="Peso gordo" />
+            <Input value={geb} readOnly label="GEB (kcal)" />
+            <Input value={get} readOnly label="GET (kcal)" />
           </div>
         </Box>
         <Box className="col-span-4 shadow-md rounded-md h-full max-h-[272px]">
@@ -119,7 +292,7 @@ export function EvaluationContent() {
               <YAxis width={32} />
               <Tooltip />
               <ReferenceLine y={0} stroke="#000" />
-              <Bar dataKey="porcentagem" fill="#16a34a" />
+              <Bar dataKey="kg" fill="#16a34a" />
             </BarChart>
           </ResponsiveContainer>
         </Box>

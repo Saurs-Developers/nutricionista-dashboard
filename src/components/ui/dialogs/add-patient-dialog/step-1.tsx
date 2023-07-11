@@ -44,6 +44,7 @@ export function StepOne() {
     control,
     setValue,
     getValues,
+    watch,
     formState: { errors, isValid },
   } = useFormContext<AddPatientSchema>()
 
@@ -55,9 +56,12 @@ export function StepOne() {
 
   const cidadeForm = getValues("cidade")
 
+  const estado = watch("estado")
+
   useEffect(() => {
     setValue("cidade", "")
-  }, [uf, cidadeSearch])
+    setUf(estado)
+  }, [uf, cidadeSearch, estado])
 
   return (
     <div className="grid grid-cols-2 gap-y-4 gap-x-6">
@@ -142,30 +146,31 @@ export function StepOne() {
       </div>
       <div>
         <Label className="text-sm">Estado</Label>
-        <Select
-          value={uf.length > 0 ? uf : undefined}
-          onValueChange={(value) => {
-            setUf(value)
-            setValue("estado", value)
-          }}
-        >
-          <SelectTrigger>
-            <SelectValue placeholder="Selecionar" />
-          </SelectTrigger>
-          <SelectContent position="popper">
-            <SelectGroup>
-              {estados?.map((estado, key) => {
-                return (
-                  <SelectItem key={key} value={estado.sigla}>
-                    {estado.nome}, ({estado.sigla})
-                  </SelectItem>
-                )
-              })}
-            </SelectGroup>
-          </SelectContent>
-        </Select>
+        <Controller
+          name="estado"
+          render={({ field: { onChange, value } }) => (
+            <Select value={value} onValueChange={onChange}>
+              <SelectTrigger>
+                <SelectValue placeholder="Selecionar" />
+              </SelectTrigger>
+              <SelectContent position="popper">
+                <SelectGroup>
+                  {estados?.map((estado, key) => {
+                    return (
+                      <SelectItem key={key} value={estado.sigla}>
+                        {estado.nome}, ({estado.sigla})
+                      </SelectItem>
+                    )
+                  })}
+                </SelectGroup>
+              </SelectContent>
+            </Select>
+          )}
+        />
         {errors.estado?.message && (
-          <p className="text-red-500 text-sm mt-1">{errors.estado?.message}</p>
+          <p className="leading-7 text-sm text-danger mt-1 text-red-500 font-normal">
+            {errors.estado?.message}
+          </p>
         )}
       </div>
       <div>

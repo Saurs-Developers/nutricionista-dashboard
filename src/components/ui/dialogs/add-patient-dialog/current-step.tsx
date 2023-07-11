@@ -19,11 +19,11 @@ export function CurrentStep() {
 
   const onSubmit = (data: AddPatientSchema) => {
     submitCliente(data)
-    reset()
+    // reset()
 
-    setTimeout(() => {
-      router.refresh()
-    }, 5000)
+    // setTimeout(() => {
+    //   router.refresh()
+    // }, 5000)
   }
 
   return (

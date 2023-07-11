@@ -49,12 +49,17 @@ export async function middleware(req: NextRequest, res: NextResponse) {
       }
     }
   } else {
+    response.cookies.delete("token")
+    response.cookies.delete("refresh_token")
     response.cookies.delete("next-auth.session-token")
+    await fetch("http://localhost/api/v1/auth/signout", {
+      method: "POST",
+    })
   }
 
   return response
 }
 
 export const config = {
-  matcher: ["/dashboard/:path*", "/api/:path*"],
+  matcher: ["/api/:path*"],
 }

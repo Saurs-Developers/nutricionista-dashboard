@@ -78,13 +78,18 @@ export function PatientContextProvider({ children }: { children: ReactNode }) {
 
   const { mutate: submitCliente, isLoading: isSubmitLoading } = useMutation({
     mutationFn: async (data: AddPatientSchema) => {
-      const res = await client.post("/clientes", {
-        data,
-        headers: {
-          "Content-Type": "application/json",
-          "x-api-uri": "/v1/clientes/",
+      const res = await client.post(
+        "/clientes",
+        {
+          data,
         },
-      })
+        {
+          headers: {
+            "Content-Type": "application/json",
+            "x-api-uri": "/v1/clientes",
+          },
+        },
+      )
 
       return res
     },

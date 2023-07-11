@@ -6,6 +6,9 @@ import { Session } from "next-auth"
 export async function IsSignedIn({ children }: { children: ReactNode }) {
   const res = await fetch("http://localhost:3000/api/auth/session", {
     headers: headers(),
+    next: {
+      revalidate: 60 * 20,
+    },
   })
 
   const data: Session = await res.json()
