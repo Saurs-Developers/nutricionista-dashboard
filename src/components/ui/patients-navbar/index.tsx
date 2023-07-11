@@ -21,7 +21,7 @@ import {
   PopoverTrigger,
 } from "@/components/shared/popover"
 import { AddPatientDialog } from "@/components/ui/dialogs/add-patient-dialog"
-import { cn } from "@/lib/utils"
+import { cn } from "@/utils/styles"
 
 interface Props {
   states: Region[]

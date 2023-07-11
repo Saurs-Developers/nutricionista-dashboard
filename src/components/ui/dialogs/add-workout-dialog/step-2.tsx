@@ -26,7 +26,7 @@ import {
   SelectValue,
 } from "@/components/shared/select"
 import { Typography } from "@/components/shared/typography"
-import { cn } from "@/lib/utils"
+import { cn } from "@/utils/styles"
 
 import { useAddWorkoutContext } from "./add-workout-context"
 

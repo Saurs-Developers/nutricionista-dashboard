@@ -1,6 +1,6 @@
 import * as React from "react"
 
-import { cn } from "@/lib/utils"
+import { cn } from "@/utils/styles"
 
 import { Label } from "./label"
 import { Typography } from "./typography"

@@ -1,19 +1,15 @@
 import { ReactNode } from "react"
-import { headers } from "next/headers"
 import { redirect } from "next/navigation"
-import { Session } from "next-auth"
+import { getServerSession } from "next-auth"
+
+import { nextAuthConfig } from "@/lib/auth"
 
 export async function IsSignedIn({ children }: { children: ReactNode }) {
-  const res = await fetch("http://localhost:3000/api/auth/session", {
-    headers: headers(),
-    next: {
-      revalidate: 60 * 20,
-    },
-  })
+  const session = await getServerSession(nextAuthConfig)
 
-  const data: Session = await res.json()
+  console.log(session)
 
-  if (!data.user) return redirect("/auth/login")
+  if (!session) redirect("/auth/login")
 
   return <>{children}</>
 }

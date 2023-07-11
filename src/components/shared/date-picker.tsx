@@ -12,7 +12,7 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/shared/popover"
-import { cn } from "@/lib/utils"
+import { cn } from "@/utils/styles"
 
 export function DatePicker() {
   const [date, setDate] = React.useState<Date>()

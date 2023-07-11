@@ -6,7 +6,7 @@ import { ptBR } from "date-fns/locale"
 import { ChevronDown, ChevronLeft, ChevronRight } from "lucide-react"
 
 import { buttonVariants } from "@/components/shared/button"
-import { cn } from "@/lib/utils"
+import { cn } from "@/utils/styles"
 
 export type CalendarProps = React.ComponentProps<typeof DayPicker>
 

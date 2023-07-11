@@ -3,7 +3,7 @@
 import Link from "next/link"
 import { useSelectedLayoutSegment } from "next/navigation"
 
-import { cn } from "@/lib/utils"
+import { cn } from "@/utils/styles"
 
 export default function ClienteTabs({ id }: { id: number }) {
   const pathName = useSelectedLayoutSegment()

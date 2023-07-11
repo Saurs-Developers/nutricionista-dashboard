@@ -10,13 +10,13 @@ import {
 } from "react"
 import { useMutation, useQuery } from "@tanstack/react-query"
 import axios from "axios"
+import { useRouter } from "next/navigation"
 
 import { District, State } from "@/@types"
-import { Cliente } from "@/@types/clientes"
 import { toast } from "@/components/shared/use-toast"
 import { useMultiStepForm } from "@/hooks/useMultiStepForm"
-import { client } from "@/lib/axios"
 import { AddPatientSchema } from "@/schemas/add_patient"
+import { client } from "@/utils/api"
 
 import { StepOne } from "./step-1"
 import { StepTwo } from "./step-2"
@@ -44,6 +44,8 @@ export const steps = [StepOne, StepTwo, StepThree]
 export function PatientContextProvider({ children }: { children: ReactNode }) {
   const { currentStep, handleNextStep, handlePreviousStep, returnCurrentStep } =
     useMultiStepForm(steps)
+
+  const router = useRouter()
 
   const [uf, setUf] = useState("")
 
@@ -94,6 +96,7 @@ export function PatientContextProvider({ children }: { children: ReactNode }) {
       return res
     },
     onError: (e) => {
+      console.log(e)
       toast({
         title: "Ocorreu um erro ao cadastrar o paciente.",
         description:

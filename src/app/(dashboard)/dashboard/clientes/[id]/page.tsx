@@ -15,23 +15,25 @@ export default async function Dashboard({ searchParams, params }: Props) {
   const { estado } = searchParams
   const { nome } = searchParams
 
-  getClientes(id, estado as string, nome as string)
+  // getClientes(id, estado as string, nome as string)
 
-  const clientes = await getClientes(id - 1, estado as string, nome as string)
+  // const clientes = await getClientes(id - 1, estado as string, nome as string)
 
   return (
     <div>
-      {clientes.results.length > 0 ? (
-        <PatientList data={clientes.results} />
-      ) : (
-        <Typography variant="body" className="mt-5">
-          Você não possui nenhum paciente cadastrado.
-        </Typography>
-      )}
-      <Pagination
-        currentPage={clientes.current_page + 1}
-        lastPage={clientes.total_pages}
-      />
+      {/* {clientes.results.length > 0 ? (
+        <>
+          <PatientList data={clientes.results} />
+          <Pagination
+            currentPage={clientes.current_page + 1}
+            lastPage={clientes.total_pages}
+          />
+        </>
+      ) : ( */}
+      <Typography variant="body" className="mt-5">
+        Você não possui nenhum paciente cadastrado.
+      </Typography>
+      {/* )} */}
     </div>
   )
 }

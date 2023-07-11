@@ -32,7 +32,7 @@ import {
   SelectValue,
 } from "@/components/shared/select"
 import { Textarea } from "@/components/shared/textarea"
-import { cn } from "@/lib/utils"
+import { cn } from "@/utils/styles"
 import { AddPatientSchema } from "@/schemas/add_patient"
 import { numberMask } from "@/utils/masks"
 

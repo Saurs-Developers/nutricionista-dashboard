@@ -13,8 +13,8 @@ import { useRouter } from "next/navigation"
 
 import { toast } from "@/components/shared/use-toast"
 import { useMultiStepForm } from "@/hooks/useMultiStepForm"
-import { client } from "@/lib/axios"
 import { AddEvaluationSchema } from "@/schemas/add_evaluation"
+import { client } from "@/utils/api"
 
 import { StepOne } from "./step-1"
 import { StepTwo } from "./step-2"
