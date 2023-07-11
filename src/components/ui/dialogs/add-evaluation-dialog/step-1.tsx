@@ -1,4 +1,3 @@
-import { ChangeEvent } from "react"
 import { Controller, useFormContext } from "react-hook-form"
 import { Dumbbell, Flame, Zap } from "lucide-react"
 
@@ -7,7 +6,10 @@ import { Input } from "@/components/shared/input"
 import { Label } from "@/components/shared/label"
 import { RadioGroup, RadioGroupItem } from "@/components/shared/radio-group"
 import { Typography } from "@/components/shared/typography"
-import { AddEvaluationSchema } from "@/schemas/add_evaluation"
+import {
+  AddEvaluationSchemaInput,
+  AddEvaluationSchemaOutput,
+} from "@/schemas/add_evaluation"
 import { bloodPressureMask, doubleMask, numberMask } from "@/utils/masks"
 
 import { useAddEvaluationContext } from "./add-evaluation-context"
@@ -15,8 +17,17 @@ import { useAddEvaluationContext } from "./add-evaluation-context"
 export function StepOne() {
   const { handleNextStep, waterConsumption, setWaterConsumption } =
     useAddEvaluationContext()
-  const { register, control, setValue, watch } =
-    useFormContext<AddEvaluationSchema>()
+  const {
+    register,
+    control,
+    setValue,
+    watch,
+    formState: { errors },
+  } = useFormContext<
+    AddEvaluationSchemaInput,
+    never,
+    AddEvaluationSchemaOutput
+  >()
 
   const peso = watch("peso")
 
@@ -35,6 +46,7 @@ export function StepOne() {
           },
         })}
         maxLength={6}
+        error={errors.peso?.message}
         label="Peso (kg)"
         placeholder="Ex: 84"
       />
@@ -50,6 +62,7 @@ export function StepOne() {
           },
         })}
         maxLength={3}
+        error={errors.altura?.message}
         label="Altura (cm)"
         placeholder="Ex: 183"
       />
@@ -62,6 +75,7 @@ export function StepOne() {
         label="Pressão arterial (sis/dia)"
         placeholder="Ex: 12/8"
         maxLength={5}
+        error={errors.pressao_arterial?.message}
       />
       <Input
         {...register("fc_repouso", {
@@ -75,6 +89,7 @@ export function StepOne() {
           },
         })}
         maxLength={3}
+        error={errors.fc_repouso?.message}
         label="F.C Repouso (bpm)"
         placeholder="Ex: 85"
       />
@@ -90,6 +105,7 @@ export function StepOne() {
         label="Quantidade de água (ml/kg corporal)"
         placeholder="Ex: 50"
         maxLength={2}
+        error={errors.consumo_ideal_agua?.message}
       />
       <Input
         readOnly
@@ -101,6 +117,7 @@ export function StepOne() {
         containerStyles="col-span-2"
         label="Objetivo"
         placeholder="Ex: Perder gordura e ganhar massa muscular"
+        error={errors.objetivo?.message}
       />
       <div className="col-span-2">
         <Typography className="mb-4">Plano</Typography>

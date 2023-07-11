@@ -1,107 +1,85 @@
 import * as z from "zod"
 
+const nullValidation = z
+  .number({ invalid_type_error: "Este campo deve ser um número" })
+  .positive()
+  .nullable()
+  .transform((value, ctx) => {
+    if (value == null) {
+      ctx.addIssue({
+        code: "invalid_type",
+        expected: "number",
+        received: "null",
+      })
+      return z.NEVER
+    }
+    return value
+  })
+
 const perimetrosSchema = z.object({
-  torax: z.union([z.number(), z.null()], {
-    required_error: "Este campo é obrigatório",
-  }),
-  antebraco_d: z.union([z.number(), z.null()], {
-    required_error: "Este campo é obrigatório",
-  }),
-  coxa_d: z.union([z.number(), z.null()], {
-    required_error: "Este campo é obrigatório",
-  }),
-  cintura: z.union([z.number(), z.null()], {
-    required_error: "Este campo é obrigatório",
-  }),
-  antebraco_e: z.union([z.number(), z.null()], {
-    required_error: "Este campo é obrigatório",
-  }),
-  coxa_e: z.union([z.number(), z.null()], {
-    required_error: "Este campo é obrigatório",
-  }),
-  abdominal: z.union([z.number(), z.null()], {
-    required_error: "Este campo é obrigatório",
-  }),
-  braco_d: z.union([z.number(), z.null()], {
-    required_error: "Este campo é obrigatório",
-  }),
-  panturrilha_d: z.union([z.number(), z.null()], {
-    required_error: "Este campo é obrigatório",
-  }),
-  quadril: z.union([z.number(), z.null()], {
-    required_error: "Este campo é obrigatório",
-  }),
-  braco_e: z.union([z.number(), z.null()], {
-    required_error: "Este campo é obrigatório",
-  }),
-  panturrilha_e: z.union([z.number(), z.null()], {
-    required_error: "Este campo é obrigatório",
-  }),
-  pescoco: z.union([z.number(), z.null()], {
-    required_error: "Este campo é obrigatório",
-  }),
-  ombro: z.union([z.number(), z.null()], {
-    required_error: "Este campo é obrigatório",
-  }),
+  torax: nullValidation,
+  antebraco_d: nullValidation,
+  coxa_d: nullValidation,
+  cintura: nullValidation,
+  antebraco_e: nullValidation,
+  coxa_e: nullValidation,
+  abdominal: nullValidation,
+  braco_d: nullValidation,
+  panturrilha_d: nullValidation,
+  quadril: nullValidation,
+  braco_e: nullValidation,
+  panturrilha_e: nullValidation,
+  pescoco: nullValidation,
+  ombro: nullValidation,
 })
 
 const composicaoSchema = z.object({
-  abdomen: z.union([z.number(), z.null()], {
-    required_error: "Este campo é obrigatório",
-  }),
-  coxa: z.union([z.number(), z.null()], {
-    required_error: "Este campo é obrigatório",
-  }),
-  suprailiaca: z.union([z.number(), z.null()], {
-    required_error: "Este campo é obrigatório",
-  }),
-  peitoral: z.union([z.number(), z.null()], {
-    required_error: "Este campo é obrigatório",
-  }),
-  axilar_media: z.union([z.number(), z.null()], {
-    required_error: "Este campo é obrigatório",
-  }),
-  bicepital: z.union([z.number(), z.null()], {
-    required_error: "Este campo é obrigatório",
-  }),
-  tricipital: z.union([z.number(), z.null()], {
-    required_error: "Este campo é obrigatório",
-  }),
-  panturrilha: z.union([z.number(), z.null()], {
-    required_error: "Este campo é obrigatório",
-  }),
-  subescapular: z.union([z.number(), z.null()], {
-    required_error: "Este campo é obrigatório",
-  }),
-  opcional_1: z.union([z.number(), z.null()], {
-    required_error: "Este campo é obrigatório",
-  }),
-  opcional_2: z.union([z.number(), z.null()], {
-    required_error: "Este campo é obrigatório",
-  }),
+  abdomen: nullValidation,
+  coxa: nullValidation,
+  suprailiaca: nullValidation,
+  peitoral: nullValidation,
+  axilar_media: nullValidation,
+  bicepital: nullValidation,
+  tricipital: nullValidation,
+  panturrilha: nullValidation,
+  subescapular: nullValidation,
+  opcional_1: nullValidation,
+  opcional_2: nullValidation,
 })
 
 export const addEvaluationSchema = z.object({
-  peso: z.union([z.number(), z.null()], {
-    required_error: "Este campo é obrigatório",
-  }),
-  altura: z.union([z.number(), z.null()], {
-    required_error: "Este campo é obrigatório",
-  }),
+  peso: nullValidation,
+  altura: nullValidation,
   pressao_arterial: z.string(),
   fc_repouso: z.union([z.number(), z.null()]),
-  consumo_ideal_agua: z.union([z.number(), z.null()], {
-    required_error: "Este campo é obrigatório",
-  }),
-  objetivo: z.string(),
+  consumo_ideal_agua: z
+    .number({
+      invalid_type_error: "Este campo deve ser um número",
+      required_error: "Este campo é obrigatório",
+    })
+    .positive()
+    .nullable()
+    .transform((value, ctx) => {
+      if (value == null) {
+        ctx.addIssue({
+          code: "invalid_type",
+          expected: "number",
+          received: "null",
+        })
+        return z.NEVER
+      }
+      return value
+    }),
+  objetivo: z.string({ required_error: "Este campo é obrigatório" }),
   plano: z.enum(["BASIC", "PRO", "ULTIMATE"], {
     required_error: "Este campo é obrigatório",
   }),
   perimetro: perimetrosSchema,
   composicao_corporal: composicaoSchema,
-  fator_atv_fisica: z.union([z.number(), z.null()], {
-    required_error: "Este campo é obrigatório",
-  }),
+  fator_atv_fisica: nullValidation,
 })
 
 export type AddEvaluationSchema = z.infer<typeof addEvaluationSchema>
+
+export type AddEvaluationSchemaInput = z.input<typeof addEvaluationSchema>
+export type AddEvaluationSchemaOutput = z.output<typeof addEvaluationSchema>

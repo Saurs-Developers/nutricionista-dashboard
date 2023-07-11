@@ -3,7 +3,6 @@
 import { useEffect, useState } from "react"
 import { SelectSingleEventHandler } from "react-day-picker"
 import { Controller, useFormContext } from "react-hook-form"
-import { Label } from "@radix-ui/react-label"
 import { format } from "date-fns"
 import { ptBR } from "date-fns/locale"
 import { CalendarIcon, Check, ChevronsUpDown, Loader2Icon } from "lucide-react"
@@ -18,6 +17,7 @@ import {
   CommandItem,
 } from "@/components/shared/command"
 import { Input } from "@/components/shared/input"
+import { Label } from "@/components/shared/label"
 import {
   Popover,
   PopoverContent,
@@ -67,47 +67,45 @@ export function StepOne() {
         placeholder="Ex: Alírio"
         error={errors.nome?.message}
       />
-      <div className="flex flex-col justify-end gap-1 h-[4.25rem]">
-        <Label className="text-sm">Data de nascimento</Label>
+      <div>
+        <Label>Data de nascimento</Label>
         <Controller
           name="data_nascimento"
           render={({ field: { onChange, value } }) => (
-            <>
-              <Popover>
-                <PopoverTrigger asChild>
-                  <Button
-                    variant={"outline-default"}
-                    className={cn(
-                      "justify-start text-left font-normal",
-                      !value && "text-muted-foreground",
-                    )}
-                  >
-                    <CalendarIcon className="mr-2 h-4 w-4" />
-                    {value ? (
-                      format(new Date(value), "PPP", { locale: ptBR })
-                    ) : (
-                      <span>Selecionar data</span>
-                    )}
-                  </Button>
-                </PopoverTrigger>
-                <PopoverContent align="start" className="p-0">
-                  <Calendar
-                    mode="single"
-                    selected={new Date(value)}
-                    onSelect={onChange as unknown as SelectSingleEventHandler}
-                    initialFocus
-                  />
-                </PopoverContent>
-              </Popover>
-              {errors.data_nascimento?.message && (
-                <p className="text-red-500 text-sm mt-1">
-                  {errors.data_nascimento?.message}
-                </p>
-              )}
-            </>
+            <Popover>
+              <PopoverTrigger asChild>
+                <Button
+                  variant={"outline-default"}
+                  className={cn(
+                    "justify-start w-full text-left mt-1 font-normal",
+                    !value && "text-muted-foreground",
+                  )}
+                >
+                  <CalendarIcon className="mr-2 h-4 w-4" />
+                  {value ? (
+                    format(new Date(value), "PPP", { locale: ptBR })
+                  ) : (
+                    <span>Selecionar data</span>
+                  )}
+                </Button>
+              </PopoverTrigger>
+              <PopoverContent align="start" className="p-0">
+                <Calendar
+                  mode="single"
+                  selected={new Date(value)}
+                  onSelect={onChange as unknown as SelectSingleEventHandler}
+                  initialFocus
+                />
+              </PopoverContent>
+            </Popover>
           )}
           control={control}
         />
+        {errors.data_nascimento?.message && (
+          <p className="leading-7 text-sm text-danger mt-1 text-red-500 font-normal">
+            {errors.data_nascimento?.message}
+          </p>
+        )}
       </div>
       <Input
         {...register("email")}
@@ -115,8 +113,7 @@ export function StepOne() {
         placeholder="Ex: email@exemplo.com"
         error={errors.email?.message}
       />
-
-      <div className="flex flex-col justify-end gap-1 h-[4.25rem]">
+      <div>
         <Label className="text-sm">Sexo</Label>
         <Controller
           control={control}
@@ -124,7 +121,7 @@ export function StepOne() {
           render={({ field: { onChange, value } }) => (
             <>
               <Select value={value} onValueChange={onChange}>
-                <SelectTrigger>
+                <SelectTrigger className="mt-1">
                   <SelectValue placeholder="Selecionar" />
                 </SelectTrigger>
                 <SelectContent>
@@ -143,7 +140,7 @@ export function StepOne() {
           )}
         />
       </div>
-      <div className="flex flex-col justify-start gap-1 h-[4.25rem]">
+      <div>
         <Label className="text-sm">Estado</Label>
         <Select
           value={uf.length > 0 ? uf : undefined}
@@ -171,7 +168,7 @@ export function StepOne() {
           <p className="text-red-500 text-sm mt-1">{errors.estado?.message}</p>
         )}
       </div>
-      <div className="flex flex-col justify-start gap-1 h-[4.25rem]">
+      <div>
         <Label className="block text-sm">Cidade</Label>
         <Popover open={open} onOpenChange={setOpen}>
           <PopoverTrigger
@@ -182,7 +179,7 @@ export function StepOne() {
               variant="outline-default"
               role="combobox"
               aria-expanded={open}
-              className="justify-between"
+              className="justify-between mt-1 w-full"
             >
               {isCidadesLoading && (
                 <Loader2Icon className="w-4 h-4 animate-spin" />
@@ -249,7 +246,6 @@ export function StepOne() {
         placeholder="Ex: (69) 99999-9999"
         error={errors.contato?.message}
       />
-
       <div className="col-span-2">
         <Label className="text-sm">Notas</Label>
         <Textarea

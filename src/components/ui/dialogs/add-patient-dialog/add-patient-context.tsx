@@ -16,6 +16,7 @@ import { Cliente } from "@/@types/clientes"
 import { toast } from "@/components/shared/use-toast"
 import { useMultiStepForm } from "@/hooks/useMultiStepForm"
 import { client } from "@/lib/axios"
+import { AddPatientSchema } from "@/schemas/add_patient"
 
 import { StepOne } from "./step-1"
 import { StepTwo } from "./step-2"
@@ -32,7 +33,7 @@ interface AddPatientContext {
   cidades?: District[]
   estados?: State[]
   isCidadesLoading?: boolean
-  submitCliente: (data: Cliente) => void
+  submitCliente: (data: AddPatientSchema) => void
   isSubmitLoading: boolean
 }
 
@@ -76,9 +77,13 @@ export function PatientContextProvider({ children }: { children: ReactNode }) {
   })
 
   const { mutate: submitCliente, isLoading: isSubmitLoading } = useMutation({
-    mutationFn: async (data: Cliente) => {
+    mutationFn: async (data: AddPatientSchema) => {
       const res = await client.post("/clientes", {
         data,
+        headers: {
+          "Content-Type": "application/json",
+          "x-api-uri": "/v1/clientes/",
+        },
       })
 
       return res

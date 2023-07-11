@@ -13,15 +13,20 @@ import {
   DialogTrigger,
 } from "@/components/shared/dialog"
 import {
-  AddEvaluationSchema,
   addEvaluationSchema,
+  AddEvaluationSchemaInput,
+  AddEvaluationSchemaOutput,
 } from "@/schemas/add_evaluation"
 
 import { AddEvaluationContextProvider } from "./add-evaluation-context"
 import { CurrentStep } from "./current-step"
 
 export function AddEvaluationDialog() {
-  const methods = useForm<AddEvaluationSchema>({
+  const methods = useForm<
+    AddEvaluationSchemaInput,
+    never,
+    AddEvaluationSchemaOutput
+  >({
     resolver: zodResolver(addEvaluationSchema),
     mode: "onChange",
     defaultValues: {
@@ -78,13 +83,6 @@ export function AddEvaluationDialog() {
         <FormProvider {...methods}>
           <AddEvaluationContextProvider>
             <CurrentStep />
-            <Button onClick={() => console.log(methods.getValues())}>
-              values
-            </Button>
-            <Button onClick={() => console.log(methods.reset())}>reset</Button>
-            <Button onClick={() => console.log(methods.formState.errors)}>
-              errors
-            </Button>
           </AddEvaluationContextProvider>
         </FormProvider>
       </DialogContent>

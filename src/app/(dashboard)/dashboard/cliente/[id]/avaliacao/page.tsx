@@ -13,8 +13,6 @@ export default async function Evaluation({
 
   const data = await getAvaliacoes(id)
 
-  console.log(data)
-
   return (
     <div className="space-y-4 mt-4">
       <Typography>

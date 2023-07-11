@@ -28,7 +28,6 @@ export default function Login() {
   })
 
   const onSubmit = async (data: LoginBody) => {
-    console.log(data)
     try {
       signIn("credentials", {
         email: data.email,

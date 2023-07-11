@@ -47,8 +47,6 @@ export async function middleware(req: NextRequest, res: NextResponse) {
           method: "POST",
         })
       }
-    } else {
-      console.log("tokens are still valid")
     }
   } else {
     response.cookies.delete("next-auth.session-token")

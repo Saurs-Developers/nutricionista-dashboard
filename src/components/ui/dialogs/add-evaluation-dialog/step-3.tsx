@@ -1,16 +1,29 @@
 import { useFormContext } from "react-hook-form"
+import { Loader2Icon } from "lucide-react"
 
 import { Button } from "@/components/shared/button"
 import { Input } from "@/components/shared/input"
 import { Typography } from "@/components/shared/typography"
-import { AddEvaluationSchema } from "@/schemas/add_evaluation"
+import {
+  AddEvaluationSchemaInput,
+  AddEvaluationSchemaOutput,
+} from "@/schemas/add_evaluation"
 import { doubleMask, numberMask } from "@/utils/masks"
 
 import { useAddEvaluationContext } from "./add-evaluation-context"
 
 export function StepThree() {
-  const { handlePreviousStep } = useAddEvaluationContext()
-  const { register, watch, setValue } = useFormContext<AddEvaluationSchema>()
+  const { handlePreviousStep, isSubmitLoading } = useAddEvaluationContext()
+  const {
+    register,
+    watch,
+    setValue,
+    formState: { errors },
+  } = useFormContext<
+    AddEvaluationSchemaInput,
+    never,
+    AddEvaluationSchemaOutput
+  >()
 
   const setInputValue = (field: any, value: string) => {
     setValue(field, numberMask(value))
@@ -54,66 +67,77 @@ export function StepThree() {
           maxLength={3}
           label="Coxa"
           placeholder="Ex: 7"
+          error={errors.composicao_corporal?.coxa?.message}
         />
         <Input
           {...createInputProps("composicao_corporal.abdomen")}
           maxLength={3}
           label="Abdominal"
           placeholder="Ex: 18"
+          error={errors.composicao_corporal?.abdomen?.message}
         />
         <Input
           {...createInputProps("composicao_corporal.suprailiaca")}
           maxLength={3}
           label="Supra-ilíaca"
           placeholder="Ex: 17"
+          error={errors.composicao_corporal?.suprailiaca?.message}
         />
         <Input
           {...createInputProps("composicao_corporal.peitoral")}
           maxLength={3}
           label="Peitoral"
           placeholder="Ex: 5"
+          error={errors.composicao_corporal?.peitoral?.message}
         />
         <Input
           {...createInputProps("composicao_corporal.axilar_media")}
           maxLength={3}
           label="Axilar-média"
           placeholder="Ex: 14"
+          error={errors.composicao_corporal?.axilar_media?.message}
         />
         <Input
           {...createInputProps("composicao_corporal.bicepital")}
           maxLength={3}
           label="Bicipital"
           placeholder="Ex: 5"
+          error={errors.composicao_corporal?.bicepital?.message}
         />
         <Input
           {...createInputProps("composicao_corporal.tricipital")}
           maxLength={3}
           label="Tricipital"
           placeholder="Ex: 6"
+          error={errors.composicao_corporal?.tricipital?.message}
         />
         <Input
           {...createInputProps("composicao_corporal.subescapular")}
           maxLength={3}
           label="Subescapular"
           placeholder="Ex: 14"
+          error={errors.composicao_corporal?.subescapular?.message}
         />
         <Input
           {...createInputProps("composicao_corporal.opcional_1")}
           maxLength={3}
           label="Opcional 1"
           placeholder="Ex: 43"
+          error={errors.composicao_corporal?.opcional_1?.message}
         />
         <Input
           {...createInputProps("composicao_corporal.opcional_2")}
           maxLength={3}
           label="Opcional 2"
           placeholder="Ex: 14"
+          error={errors.composicao_corporal?.opcional_2?.message}
         />
         <Input
           {...createInputProps("composicao_corporal.panturrilha")}
           maxLength={3}
           label="Panturrilha"
           placeholder="Ex: 14"
+          error={errors.composicao_corporal?.panturrilha?.message}
         />
         <Input
           {...register("fator_atv_fisica", {
@@ -133,6 +157,7 @@ export function StepThree() {
           maxLength={5}
           label="Fator atividade física"
           placeholder="Ex: 1.2"
+          error={errors.fator_atv_fisica?.message}
         />
         <Input
           containerStyles="col-span-2"
@@ -144,7 +169,12 @@ export function StepThree() {
           <Button type="button" onClick={handlePreviousStep}>
             Voltar
           </Button>
-          <Button type="submit">Finalizar</Button>
+          <Button disabled={isSubmitLoading} type="submit">
+            {isSubmitLoading && (
+              <Loader2Icon className="w-4 h-4 mr-2 animate-spin" />
+            )}
+            Finalizar
+          </Button>
         </div>
       </div>
     </div>

@@ -8,8 +8,13 @@ import React, {
   useContext,
   useState,
 } from "react"
+import { useMutation } from "@tanstack/react-query"
+import { useRouter } from "next/navigation"
 
+import { toast } from "@/components/shared/use-toast"
 import { useMultiStepForm } from "@/hooks/useMultiStepForm"
+import { client } from "@/lib/axios"
+import { AddEvaluationSchema } from "@/schemas/add_evaluation"
 
 import { StepOne } from "./step-1"
 import { StepTwo } from "./step-2"
@@ -23,6 +28,14 @@ interface AddEvaluationContext {
   currentStep: number
   waterConsumption: number
   setWaterConsumption: Dispatch<SetStateAction<number>>
+  submitAvaliacao: ({
+    data,
+    id,
+  }: {
+    data: AddEvaluationSchema
+    id: string
+  }) => void
+  isSubmitLoading: boolean
 }
 
 export const addEvaluationContext = createContext({} as AddEvaluationContext)
@@ -39,9 +52,57 @@ export function AddEvaluationContextProvider({
 
   const [waterConsumption, setWaterConsumption] = useState(0)
 
+  const router = useRouter()
+
+  const { mutate: submitAvaliacao, isLoading: isSubmitLoading } = useMutation({
+    mutationFn: async ({
+      data,
+      id,
+    }: {
+      data: AddEvaluationSchema
+      id: string
+    }) => {
+      const res = await client.post(
+        "/clientes",
+        {
+          data,
+        },
+        {
+          headers: {
+            "Content-Type": "application/json",
+            "x-api-uri": "/v1/clientes/" + id + "/avaliacoes",
+          },
+        },
+      )
+
+      return res
+    },
+    onError: (e) => {
+      toast({
+        title: "Ocorreu um erro ao cadastrar a avaliação.",
+        description:
+          "Se o erro persistir, contate um administrador. Mensagem: " + e,
+      })
+      setWaterConsumption(0)
+    },
+    onSuccess: () => {
+      toast({
+        title: "Avaliação cadastrada com sucesso!",
+        description:
+          "A avaliação foi cadastrada com sucesso, redirecionando em 3 segundos...",
+      })
+      setTimeout(() => {
+        router.refresh()
+        console.log("EAE")
+      }, 3000)
+    },
+  })
+
   return (
     <addEvaluationContext.Provider
       value={{
+        submitAvaliacao,
+        isSubmitLoading,
         waterConsumption,
         setWaterConsumption,
         returnCurrentStep,
@@ -63,6 +124,8 @@ export const useAddEvaluationContext = () => {
   }
 
   const {
+    isSubmitLoading,
+    submitAvaliacao,
     handleNextStep,
     handlePreviousStep,
     returnCurrentStep,
@@ -72,6 +135,8 @@ export const useAddEvaluationContext = () => {
   } = context
 
   return {
+    isSubmitLoading,
+    submitAvaliacao,
     handleNextStep,
     handlePreviousStep,
     returnCurrentStep,
