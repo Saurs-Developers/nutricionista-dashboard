@@ -32,85 +32,85 @@ export function StepTwo() {
       </Typography>
       <div className="grid grid-cols-2 gap-y-4 gap-x-6">
         <Input
-          {...createInputProps("perimetros.torax")}
+          {...createInputProps("perimetro.torax")}
           maxLength={6}
           label="Torax"
           placeholder="Ex: 105"
         />
         <Input
-          {...createInputProps("perimetros.cintura")}
+          {...createInputProps("perimetro.cintura")}
           maxLength={6}
           label="Cintura"
           placeholder="Ex: 78"
         />
         <Input
-          {...createInputProps("perimetros.abdomem")}
+          {...createInputProps("perimetro.abdominal")}
           maxLength={6}
           label="Abdômem"
           placeholder="Ex: 82"
         />
         <Input
-          {...createInputProps("perimetros.quadril")}
+          {...createInputProps("perimetro.quadril")}
           maxLength={6}
           label="Quadril"
           placeholder="Ex: 100"
         />
         <Input
-          {...createInputProps("perimetros.antebraco_e")}
+          {...createInputProps("perimetro.antebraco_e")}
           maxLength={6}
           label="Antebraço esquerdo"
           placeholder="Ex: 29"
         />
         <Input
-          {...createInputProps("perimetros.antebraco_d")}
+          {...createInputProps("perimetro.antebraco_d")}
           maxLength={6}
           label="Antebraço direito"
           placeholder="Ex: 29"
         />
         <Input
-          {...createInputProps("perimetros.braco_e")}
+          {...createInputProps("perimetro.braco_e")}
           maxLength={6}
           label="Braço esquerdo"
           placeholder="Ex: 38"
         />
         <Input
-          {...createInputProps("perimetros.braco_d")}
+          {...createInputProps("perimetro.braco_d")}
           maxLength={6}
           label="Braço direito"
           placeholder="Ex: 37"
         />
         <Input
-          {...createInputProps("perimetros.pescoco")}
+          {...createInputProps("perimetro.pescoco")}
           maxLength={6}
           label="Pescoço"
           placeholder="Ex: 40"
         />
         <Input
-          {...createInputProps("perimetros.ombro")}
+          {...createInputProps("perimetro.ombro")}
           maxLength={6}
           label="Ombro"
           placeholder="Ex: 100"
         />
         <Input
-          {...createInputProps("perimetros.coxa_e")}
+          {...createInputProps("perimetro.coxa_e")}
           maxLength={6}
           label="Coxa esquerda"
           placeholder="Ex: 60"
         />
         <Input
-          {...createInputProps("perimetros.coxa_d")}
+          {...createInputProps("perimetro.coxa_d")}
           maxLength={6}
           label="Coxa direita"
           placeholder="Ex: 60"
         />
         <Input
-          {...createInputProps("perimetros.panturrilha_e")}
+          {...createInputProps("perimetro.panturrilha_e")}
           maxLength={6}
           label="Panturrilha esquerda"
           placeholder="Ex: 60"
         />
         <Input
-          {...createInputProps("perimetros.panturrilha_d")}
+          {...createInputProps("perimetro.panturrilha_d")}
           maxLength={6}
           label="Panturrilha direita"
           placeholder="Ex: 60"

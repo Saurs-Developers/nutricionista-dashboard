@@ -31,11 +31,11 @@ export function AddEvaluationDialog() {
       fc_repouso: null,
       objetivo: "",
       plano: "ULTIMATE",
-      fator_atv_fisica: 0,
-      perimetros: {
+      fator_atv_fisica: null,
+      perimetro: {
         torax: null,
         cintura: null,
-        abdomem: null,
+        abdominal: null,
         quadril: null,
         antebraco_e: null,
         antebraco_d: null,
@@ -48,9 +48,9 @@ export function AddEvaluationDialog() {
         panturrilha_e: null,
         panturrilha_d: null,
       },
-      composicao: {
+      composicao_corporal: {
         coxa: null,
-        abdominal: null,
+        abdomen: null,
         suprailiaca: null,
         peitoral: null,
         axilar_media: null,

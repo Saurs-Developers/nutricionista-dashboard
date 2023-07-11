@@ -19,7 +19,7 @@ const perimetrosSchema = z.object({
   coxa_e: z.union([z.number(), z.null()], {
     required_error: "Este campo é obrigatório",
   }),
-  abdomem: z.union([z.number(), z.null()], {
+  abdominal: z.union([z.number(), z.null()], {
     required_error: "Este campo é obrigatório",
   }),
   braco_d: z.union([z.number(), z.null()], {
@@ -46,7 +46,7 @@ const perimetrosSchema = z.object({
 })
 
 const composicaoSchema = z.object({
-  abdominal: z.union([z.number(), z.null()], {
+  abdomen: z.union([z.number(), z.null()], {
     required_error: "Este campo é obrigatório",
   }),
   coxa: z.union([z.number(), z.null()], {
@@ -97,8 +97,8 @@ export const addEvaluationSchema = z.object({
   plano: z.enum(["BASIC", "PRO", "ULTIMATE"], {
     required_error: "Este campo é obrigatório",
   }),
-  perimetros: perimetrosSchema,
-  composicao: composicaoSchema,
+  perimetro: perimetrosSchema,
+  composicao_corporal: composicaoSchema,
   fator_atv_fisica: z.union([z.number(), z.null()], {
     required_error: "Este campo é obrigatório",
   }),

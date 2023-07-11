@@ -1,3 +1,4 @@
+import { ChangeEvent } from "react"
 import { Controller, useFormContext } from "react-hook-form"
 import { Dumbbell, Flame, Zap } from "lucide-react"
 
@@ -6,6 +7,7 @@ import { Input } from "@/components/shared/input"
 import { Label } from "@/components/shared/label"
 import { RadioGroup, RadioGroupItem } from "@/components/shared/radio-group"
 import { Typography } from "@/components/shared/typography"
+import { AddEvaluationSchema } from "@/schemas/add_evaluation"
 import { bloodPressureMask, doubleMask, numberMask } from "@/utils/masks"
 
 import { useAddEvaluationContext } from "./add-evaluation-context"
@@ -13,7 +15,8 @@ import { useAddEvaluationContext } from "./add-evaluation-context"
 export function StepOne() {
   const { handleNextStep, waterConsumption, setWaterConsumption } =
     useAddEvaluationContext()
-  const { register, control, setValue, watch } = useFormContext()
+  const { register, control, setValue, watch } =
+    useFormContext<AddEvaluationSchema>()
 
   const peso = watch("peso")
 
@@ -23,7 +26,7 @@ export function StepOne() {
         {...register("peso", {
           valueAsNumber: true,
           onChange: (e) => {
-            setValue("peso", doubleMask(e.target.value))
+            setValue("peso", doubleMask(e.target.value) as unknown as number)
           },
           onBlur: (e) => {
             if (e.target.value === "") {
@@ -38,7 +41,8 @@ export function StepOne() {
       <Input
         {...register("altura", {
           valueAsNumber: true,
-          onChange: (e) => setValue("altura", numberMask(e.target.value)),
+          onChange: (e) =>
+            setValue("altura", Number(numberMask(e.target.value))),
           onBlur: (e) => {
             if (e.target.value === "") {
               setValue("altura", null)
@@ -62,7 +66,8 @@ export function StepOne() {
       <Input
         {...register("fc_repouso", {
           valueAsNumber: true,
-          onChange: (e) => setValue("fc_repouso", numberMask(e.target.value)),
+          onChange: (e) =>
+            setValue("fc_repouso", Number(numberMask(e.target.value))),
           onBlur: (e) => {
             if (e.target.value === "") {
               setValue("fc_repouso", null)
@@ -79,7 +84,7 @@ export function StepOne() {
           setWaterConsumption(Number(e.target.value))
           setValue(
             "consumo_ideal_agua",
-            Math.floor(Number(e.target.value) * peso),
+            Math.floor(Number(e.target.value) * Number(peso!)),
           )
         }}
         label="Quantidade de água (ml/kg corporal)"
@@ -88,7 +93,7 @@ export function StepOne() {
       />
       <Input
         readOnly
-        {...register("consumo_ideal_agua")}
+        {...register("consumo_ideal_agua", { valueAsNumber: true })}
         label="Consumo de água diário"
       />
       <Input
@@ -106,7 +111,7 @@ export function StepOne() {
           render={({ field: { onChange, value } }) => (
             <RadioGroup
               className="flex-col"
-              onValueChange={onChange}
+              onValueChange={onChange as (value: string) => void}
               id="plano"
               value={value}
               defaultValue="ULTIMATE"
