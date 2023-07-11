@@ -4,7 +4,7 @@ import { Button } from "@/components/shared/button"
 import { Input } from "@/components/shared/input"
 import { Typography } from "@/components/shared/typography"
 import { AddEvaluationSchema } from "@/schemas/add_evaluation"
-import { numberMask } from "@/utils/masks"
+import { doubleMask, numberMask } from "@/utils/masks"
 
 import { useAddEvaluationContext } from "./add-evaluation-context"
 
@@ -111,8 +111,12 @@ export function StepThree() {
           placeholder="Ex: 14"
         />
         <Input
-          {...createInputProps("fator_atv_fisica")}
-          maxLength={3}
+          {...register("fator_atv_fisica", {
+            valueAsNumber: true,
+            onChange: (e) =>
+              setValue("fator_atv_fisica", doubleMask(e.target.value)),
+          })}
+          maxLength={5}
           label="Fator atividade física"
           placeholder="Ex: 1.2"
         />
@@ -126,7 +130,6 @@ export function StepThree() {
           <Button type="button" onClick={handlePreviousStep}>
             Voltar
           </Button>
-          <Button type="submit">Finalizar</Button>
         </div>
       </div>
     </div>

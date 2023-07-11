@@ -4,14 +4,15 @@ export const numberMask = (value: string | undefined) => {
 }
 
 export const doubleMask = (value: string) => {
-  value = value.replace(".", "").replace(",", "").replace(/\D/g, "")
+  value = value.replace(/\D/g, "")
+  value = value.replace(",", ".")
 
-  const options = { minimumFractionDigits: 2 }
-  const result = new Intl.NumberFormat("en-US", options).format(
-    parseFloat(value) / 100,
-  )
+  const result = new Intl.NumberFormat("en-US", {
+    style: "decimal",
+    minimumFractionDigits: 2,
+  }).format(parseFloat(value) / 100)
 
-  if (result === "NaN") return parseFloat("0.00")
+  if (result === "NaN") return null
   return result
 }
 

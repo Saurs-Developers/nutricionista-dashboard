@@ -2,7 +2,7 @@
 
 import { ChangeEvent, useEffect, useRef, useState } from "react"
 import { Check, ChevronsUpDown } from "lucide-react"
-import { useRouter } from "next/navigation"
+import { usePathname, useRouter } from "next/navigation"
 
 import { Region } from "@/@types"
 import { Button } from "@/components/shared/button"
@@ -28,9 +28,10 @@ interface Props {
 }
 
 export function PatientsNavBar({ states }: Props) {
+  const path = usePathname()
   const router = useRouter()
 
-  const url = new URL(window.location.href)
+  const url = new URL("http://localhost:3000" + path)
   const params = new URLSearchParams(url.search)
 
   const [open, setOpen] = useState(false)

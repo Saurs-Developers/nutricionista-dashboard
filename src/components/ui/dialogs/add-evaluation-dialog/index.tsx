@@ -24,6 +24,44 @@ export function AddEvaluationDialog() {
   const methods = useForm<AddEvaluationSchema>({
     resolver: zodResolver(addEvaluationSchema),
     mode: "onChange",
+    defaultValues: {
+      peso: null,
+      altura: null,
+      pressao_arterial: "",
+      fc_repouso: null,
+      objetivo: "",
+      plano: "ULTIMATE",
+      fator_atv_fisica: 0,
+      perimetros: {
+        torax: null,
+        cintura: null,
+        abdomem: null,
+        quadril: null,
+        antebraco_e: null,
+        antebraco_d: null,
+        braco_e: null,
+        braco_d: null,
+        pescoco: null,
+        ombro: null,
+        coxa_e: null,
+        coxa_d: null,
+        panturrilha_e: null,
+        panturrilha_d: null,
+      },
+      composicao: {
+        coxa: null,
+        abdominal: null,
+        suprailiaca: null,
+        peitoral: null,
+        axilar_media: null,
+        bicepital: null,
+        tricipital: null,
+        subescapular: null,
+        opcional_1: null,
+        opcional_2: null,
+        panturrilha: null,
+      },
+    },
   })
 
   return (
@@ -40,13 +78,14 @@ export function AddEvaluationDialog() {
         <FormProvider {...methods}>
           <AddEvaluationContextProvider>
             <CurrentStep />
-            <button onClick={() => console.log(methods.getValues())}>
-              Valores
-            </button>
+            <Button onClick={() => console.log(methods.getValues())}>
+              values
+            </Button>
+            <Button onClick={() => console.log(methods.reset())}>reset</Button>
+            <Button onClick={() => console.log(methods.formState.errors)}>
+              errors
+            </Button>
           </AddEvaluationContextProvider>
-          <Button onClick={() => console.log(methods.formState.errors)}>
-            Erros
-          </Button>
         </FormProvider>
       </DialogContent>
     </Dialog>

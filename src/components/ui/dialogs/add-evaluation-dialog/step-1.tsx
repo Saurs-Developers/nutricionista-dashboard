@@ -25,6 +25,11 @@ export function StepOne() {
           onChange: (e) => {
             setValue("peso", doubleMask(e.target.value))
           },
+          onBlur: (e) => {
+            if (e.target.value === "") {
+              setValue("peso", null)
+            }
+          },
         })}
         maxLength={6}
         label="Peso (kg)"
@@ -33,13 +38,16 @@ export function StepOne() {
       <Input
         {...register("altura", {
           valueAsNumber: true,
-          onChange: (e) => {
-            setValue("altura", numberMask(e.target.value))
+          onChange: (e) => setValue("altura", numberMask(e.target.value)),
+          onBlur: (e) => {
+            if (e.target.value === "") {
+              setValue("altura", null)
+            }
           },
         })}
+        maxLength={3}
         label="Altura (cm)"
         placeholder="Ex: 183"
-        maxLength={3}
       />
       <Input
         {...register("pressao_arterial", {
@@ -54,8 +62,11 @@ export function StepOne() {
       <Input
         {...register("fc_repouso", {
           valueAsNumber: true,
-          onChange: (e) => {
-            setValue("fc_repouso", numberMask(e.target.value))
+          onChange: (e) => setValue("fc_repouso", numberMask(e.target.value)),
+          onBlur: (e) => {
+            if (e.target.value === "") {
+              setValue("fc_repouso", null)
+            }
           },
         })}
         maxLength={3}
@@ -68,17 +79,17 @@ export function StepOne() {
           setWaterConsumption(Number(e.target.value))
           setValue(
             "consumo_ideal_agua",
-            Math.floor(waterConsumption * Number(peso) * 10),
+            Math.floor(Number(e.target.value) * peso),
           )
         }}
         label="Quantidade de água (ml/kg corporal)"
         placeholder="Ex: 50"
+        maxLength={2}
       />
       <Input
         readOnly
         {...register("consumo_ideal_agua")}
         label="Consumo de água diário"
-        placeholder="Ex: 85"
       />
       <Input
         {...register("objetivo")}

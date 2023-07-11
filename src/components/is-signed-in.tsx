@@ -1,22 +1,16 @@
-"use client"
-
 import { ReactNode } from "react"
-import { useRouter } from "next/navigation"
-import { useSession } from "next-auth/react"
+import { headers } from "next/headers"
+import { redirect } from "next/navigation"
+import { Session } from "next-auth"
 
-import { Fallback } from "./shared/fallback"
+export async function IsSignedIn({ children }: { children: ReactNode }) {
+  const res = await fetch("http://localhost:3000/api/auth/session", {
+    headers: headers(),
+  })
 
-export function IsSignedIn({ children }: { children: ReactNode }) {
-  const { status } = useSession()
-  const router = useRouter()
+  const data: Session = await res.json()
 
-  console.log(status)
-
-  if (status === "loading") {
-    return <Fallback />
-  }
-
-  if (status === "unauthenticated") router.push("/auth/login")
+  if (!data.user) return redirect("/auth/login")
 
   return <>{children}</>
 }

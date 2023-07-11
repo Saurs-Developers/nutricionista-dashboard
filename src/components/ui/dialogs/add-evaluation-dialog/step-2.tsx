@@ -4,7 +4,7 @@ import { Button } from "@/components/shared/button"
 import { Input } from "@/components/shared/input"
 import { Typography } from "@/components/shared/typography"
 import { AddEvaluationSchema } from "@/schemas/add_evaluation"
-import { doubleMask, numberMask } from "@/utils/masks"
+import { doubleMask } from "@/utils/masks"
 
 import { useAddEvaluationContext } from "./add-evaluation-context"
 
