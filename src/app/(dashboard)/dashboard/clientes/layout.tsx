@@ -1,7 +1,7 @@
 import { ReactNode } from "react"
 
 import { Typography } from "@/components/shared/typography"
-import { PatientsNavBar } from "@/components/ui/patients-navbar"
+import { WorkoutDialog } from "@/components/ui/dialogs/workout-dialog"
 
 export default async function Layout({ children }: { children: ReactNode }) {
   const estados = await getEstados()
@@ -11,7 +11,8 @@ export default async function Layout({ children }: { children: ReactNode }) {
       <Typography weight="bold" variant="h2">
         Pacientes
       </Typography>
-      <PatientsNavBar states={estados} />
+      {/* <PatientsNavBar states={estados} /> */}
+      <WorkoutDialog />
       {children}
     </div>
   )

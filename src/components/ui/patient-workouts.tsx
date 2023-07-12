@@ -3,7 +3,7 @@ import { Trash2 } from "lucide-react"
 import Link from "next/link"
 
 import { Table } from "@/components/shared/table"
-import { AddWorkoutDialog } from "@/components/ui/dialogs/add-workout-dialog"
+import { AddWorkoutDialog } from "@/components/ui/dialogs/workout-dialog"
 
 import { DestructiveActionDialog } from "./dialogs/destructive-action-dialog"
 import { WorkoutDialog } from "./dialogs/workout-dialog"

@@ -1,8 +1,9 @@
 "use client"
 
-import { useState } from "react"
-import { Eye } from "lucide-react"
+import { FormProvider, useForm } from "react-hook-form"
+import { Dumbbell } from "lucide-react"
 
+import { Button } from "@/components/shared/button"
 import {
   Dialog,
   DialogContent,
@@ -11,36 +12,32 @@ import {
   DialogTrigger,
 } from "@/components/shared/dialog"
 
-import { ExerciseList } from "./exercice-list"
+import { StepTwo } from "./step-2"
 
 export function WorkoutDialog() {
-  const [editMode, setEditMode] = useState(false)
+  const methods = useForm()
 
-  const handleToggleEditMode = () => {
-    setEditMode((prev) => !prev)
+  const onSubmit = (data: any) => {
+    console.log(data)
   }
 
   return (
-    <Dialog
-      onOpenChange={() => {
-        editMode === true && setEditMode(false)
-      }}
-    >
+    <Dialog>
       <DialogTrigger asChild>
-        <button>
-          <Eye size={24} />
-        </button>
+        <Button variant="default">
+          Criar treino <Dumbbell className="ml-3" />
+        </Button>
       </DialogTrigger>
 
-      <DialogContent className="max-w-[1280px] w-full max-h-[648px] overflow-auto">
+      <DialogContent className="max-w-[1024px] w-full max-h-[648px] overflow-auto">
         <DialogHeader>
-          {editMode ? (
-            <DialogTitle>Treino A - Editar</DialogTitle>
-          ) : (
-            <DialogTitle>Treino A</DialogTitle>
-          )}
+          <DialogTitle>Criar treino</DialogTitle>
         </DialogHeader>
-        <ExerciseList toggleEditMode={handleToggleEditMode} />
+        <FormProvider {...methods}>
+          <form onSubmit={methods.handleSubmit(onSubmit)}>
+            <StepTwo />
+          </form>
+        </FormProvider>
       </DialogContent>
     </Dialog>
   )

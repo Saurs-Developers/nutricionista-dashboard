@@ -39,8 +39,8 @@ export const nextAuthConfig: NextAuthOptions = {
         return { ...token, ...userInfo }
       }
 
-      if ((token.access_token_expires as number) < Date.now()) {
-        console.log("tokens valid")
+      if ((token.access_token_expires as number) * 1000 > Date.now()) {
+        return token
       } else {
         try {
           const res = await fetch(
@@ -76,8 +76,6 @@ export const nextAuthConfig: NextAuthOptions = {
           }
         }
       }
-
-      return token
     },
     async session({ session, token }) {
       session.user = token as any

@@ -1,5 +1,4 @@
 import axios from "axios"
-import { cookies } from "next/headers"
 import { NextRequest, NextResponse } from "next/server"
 
 import { HttpMethod } from "@/@types/http-methods"
@@ -11,9 +10,7 @@ const routeHandler = async (req: NextRequest) => {
   let retryCount = 0
 
   const apiUri = req.headers.get("x-api-uri")
-
-  const cookieStore = cookies()
-  const token = cookieStore.get("token")?.value
+  const authorization = req.headers.get("Authorization")
 
   while (retryCount < maxRetries) {
     try {
@@ -23,7 +20,7 @@ const routeHandler = async (req: NextRequest) => {
           method: method,
           headers: {
             "Content-Type": "application/json",
-            Authorization: "Bearer " + token,
+            Authorization: authorization,
           },
         })
 
@@ -34,15 +31,27 @@ const routeHandler = async (req: NextRequest) => {
 
       const request = await req.json()
 
+      // console.log(request)
+
       const response = await axios.request({
         url: process.env.NEXT_PUBLIC_BASE_URL! + apiUri,
         method: method,
-        data: request.data,
+        data: request,
         headers: {
           "Content-Type": "application/json",
-          Authorization: "Bearer " + token,
+          Authorization: authorization,
         },
       })
+
+      // console.log({
+      //   url: process.env.NEXT_PUBLIC_BASE_URL! + apiUri,
+      //   method: method,
+      //   data: request.data,
+      //   headers: {
+      //     "Content-Type": "application/json",
+      //     Authorization: authorization,
+      //   },
+      // })
 
       const data = await response.data
 
@@ -50,7 +59,7 @@ const routeHandler = async (req: NextRequest) => {
     } catch (error) {
       console.error("API request failed:", error)
       retryCount++
-      await delay(500)
+      await delay(1000)
     }
   }
 }

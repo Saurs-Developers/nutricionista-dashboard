@@ -2,14 +2,21 @@
 
 import { useFormContext } from "react-hook-form"
 import { useRouter } from "next/navigation"
+import { useSession } from "next-auth/react"
 
-import { Cliente } from "@/@types/clientes"
 import { AddPatientSchema } from "@/schemas/add_patient"
 
 import { steps, useAddPatientContext } from "./add-patient-context"
 
 export function CurrentStep() {
-  const { currentStep, submitCliente } = useAddPatientContext()
+  const { currentStep, submitCliente, handleNextStep } = useAddPatientContext()
+
+  const { data: session } = useSession({
+    required: true,
+    onUnauthenticated() {
+      router.push("/auth/login")
+    },
+  })
 
   const router = useRouter()
 
@@ -17,13 +24,34 @@ export function CurrentStep() {
 
   const CurrentStep = steps[currentStep]
 
-  const onSubmit = (data: AddPatientSchema) => {
-    submitCliente(data)
-    // reset()
+  const submit = async (data: AddPatientSchema) => {
+    const res = await fetch(process.env.NEXT_PUBLIC_HANDLER_URL + "/proxy", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + session!.user.access_token,
+        Accept: "application/json",
+        "x-api-uri": "/v1/clientes",
+      },
+      body: JSON.stringify(data),
+    })
 
-    // setTimeout(() => {
-    //   router.refresh()
-    // }, 5000)
+    const cliente_res = await res.json()
+
+    return cliente_res
+  }
+
+  const onSubmit = async (data: AddPatientSchema) => {
+    const res = await submit(data)
+
+    if (res) {
+      handleNextStep()
+      setTimeout(() => {
+        router.refresh()
+      }, 5000)
+    }
+
+    console.log(res)
   }
 
   return (

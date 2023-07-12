@@ -7,9 +7,9 @@ import { nextAuthConfig } from "@/lib/auth"
 export async function IsSignedIn({ children }: { children: ReactNode }) {
   const session = await getServerSession(nextAuthConfig)
 
-  console.log(session)
-
-  if (!session) redirect("/auth/login")
+  if (!session) {
+    redirect("/auth/login")
+  }
 
   return <>{children}</>
 }
