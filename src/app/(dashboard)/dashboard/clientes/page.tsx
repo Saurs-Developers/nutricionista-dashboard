@@ -64,7 +64,6 @@ const getClientes = async (page: number, estado: string, nome: string) => {
     headers: {
       Authorization: "Bearer " + session!.user.access_token,
     },
-    cache: "force-cache",
   })
 
   return res.json()

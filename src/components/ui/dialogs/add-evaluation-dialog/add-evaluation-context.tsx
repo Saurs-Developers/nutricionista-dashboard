@@ -63,9 +63,9 @@ export function AddEvaluationContextProvider({
       id: string
     }) => {
       const res = await client.post(
-        "/clientes",
+        "/proxy",
         {
-          data,
+          ...data,
         },
         {
           headers: {
@@ -86,15 +86,7 @@ export function AddEvaluationContextProvider({
       setWaterConsumption(0)
     },
     onSuccess: () => {
-      toast({
-        title: "Avaliação cadastrada com sucesso!",
-        description:
-          "A avaliação foi cadastrada com sucesso, redirecionando em 3 segundos...",
-      })
-      setTimeout(() => {
-        router.refresh()
-        console.log("EAE")
-      }, 3000)
+      router.refresh()
     },
   })
 
