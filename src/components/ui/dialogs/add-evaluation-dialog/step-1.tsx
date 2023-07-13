@@ -19,7 +19,6 @@ export function StepOne() {
     useAddEvaluationContext()
   const {
     register,
-    control,
     setValue,
     watch,
     formState: { errors },
@@ -124,7 +123,6 @@ export function StepOne() {
         <Controller
           defaultValue="ULTIMATE"
           name="plano"
-          control={control}
           render={({ field: { onChange, value } }) => (
             <RadioGroup
               className="flex-col"

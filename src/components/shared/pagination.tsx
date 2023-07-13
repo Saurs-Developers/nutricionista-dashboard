@@ -18,6 +18,7 @@ export function Pagination({ lastPage, currentPage }: Props) {
           currentPage === 1 ? "opacity-50 pointer-events-none" : "",
         )}
         href={`/dashboard/clientes/${currentPage - 1}`}
+        prefetch={false}
       >
         <ChevronLeft /> Prev
       </Link>
@@ -43,6 +44,7 @@ export function Pagination({ lastPage, currentPage }: Props) {
           currentPage === lastPage ? "opacity-50 pointer-events-none" : "",
         )}
         href={`/dashboard/clientes/${currentPage + 1}`}
+        prefetch={false}
       >
         Next <ChevronRight />
       </Link>

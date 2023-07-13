@@ -5,8 +5,8 @@ export interface Observacao {
   historico_doenca_familiar: string
   possui_historico_doenca_pessoal: boolean
   historico_doenca_pessoal: string
-  possui_lesao_musculoesqueletica: boolean
-  lesao_musculoesqueletica: string
+  possui_lesao_osteomuscular: boolean
+  lesao_osteomuscular: string
   possui_historico_cirurgia: boolean
   historico_cirurgia: string
   possui_medicacao: boolean
@@ -18,7 +18,7 @@ export interface Observacao {
   possui_alergia_medicamento: boolean
   alergia_medicamento: string
   preferencia_ou_aversao_alimentar: string
-  avaliacao_postural_e_mudancas_musculoesqueleticas: string
+  avaliacao_postural_e_alteracoes_musculoesqueleticas: string
   tempo_trabalho_diario: string
   ciclo_sono: string
   outras_observacoes: string

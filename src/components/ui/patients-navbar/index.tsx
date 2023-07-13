@@ -29,7 +29,7 @@ interface Props {
 
 export function PatientsNavBar({ states }: Props) {
   const path = usePathname()
-  const router = useRouter()
+  // const router = useRouter()
 
   const url = new URL("http://localhost:3000" + path)
   const params = new URLSearchParams(url.search)
@@ -38,33 +38,33 @@ export function PatientsNavBar({ states }: Props) {
   const value = useRef(params.get("estado") ?? "")
   const [search, setSearch] = useState(params.get("nome") ?? "")
 
-  useEffect(() => {
-    const timeout = setTimeout(() => {
-      if (search.length > 0) {
-        params.set("nome", search)
-      } else {
-        params.delete("nome")
-      }
+  // useEffect(() => {
+  //   const timeout = setTimeout(() => {
+  //     if (search.length > 0) {
+  //       params.set("nome", search)
+  //     } else {
+  //       params.delete("nome")
+  //     }
 
-      url.search = params.toString()
-      router.push(url.search)
-    }, 1000)
+  //     url.search = params.toString()
+  //     router.push(url.search)
+  //   }, 1000)
 
-    return () => {
-      clearTimeout(timeout)
-    }
-  }, [search])
+  //   return () => {
+  //     clearTimeout(timeout)
+  //   }
+  // }, [search])
 
-  useEffect(() => {
-    if (value.current.length > 0) {
-      params.set("estado", value.current)
-    } else {
-      params.delete("estado")
-    }
+  // useEffect(() => {
+  //   if (value.current.length > 0) {
+  //     params.set("estado", value.current)
+  //   } else {
+  //     params.delete("estado")
+  //   }
 
-    url.search = params.toString()
-    router.push(url.search)
-  }, [value.current])
+  //   url.search = params.toString()
+  //   router.push(url.search)
+  // }, [value.current])
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     setSearch(e.target.value)

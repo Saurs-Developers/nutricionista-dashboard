@@ -1,7 +1,7 @@
 import { ReactNode } from "react"
 
 import { Typography } from "@/components/shared/typography"
-import { WorkoutDialog } from "@/components/ui/dialogs/workout-dialog"
+import { PatientsNavBar } from "@/components/ui/patients-navbar"
 
 export default async function Layout({ children }: { children: ReactNode }) {
   const estados = await getEstados()
@@ -11,8 +11,7 @@ export default async function Layout({ children }: { children: ReactNode }) {
       <Typography weight="bold" variant="h2">
         Pacientes
       </Typography>
-      {/* <PatientsNavBar states={estados} /> */}
-      <WorkoutDialog />
+      <PatientsNavBar states={estados} />
       {children}
     </div>
   )
@@ -21,9 +20,10 @@ export default async function Layout({ children }: { children: ReactNode }) {
 const getEstados = async () => {
   const res = await fetch(
     "http://servicodados.ibge.gov.br/api/v1/localidades/estados",
+    {
+      cache: "default",
+    },
   )
 
-  const data = await res.json()
-
-  return data
+  return res.json()
 }

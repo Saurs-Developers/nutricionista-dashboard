@@ -9,7 +9,7 @@ import { AddPatientSchema } from "@/schemas/add_patient"
 import { steps, useAddPatientContext } from "./add-patient-context"
 
 export function CurrentStep() {
-  const { currentStep, submitCliente, handleNextStep } = useAddPatientContext()
+  const { currentStep, handleNextStep } = useAddPatientContext()
 
   const { data: session } = useSession({
     required: true,
@@ -47,7 +47,7 @@ export function CurrentStep() {
     if (res) {
       handleNextStep()
       setTimeout(() => {
-        router.refresh()
+        window.location.reload()
       }, 5000)
     }
 

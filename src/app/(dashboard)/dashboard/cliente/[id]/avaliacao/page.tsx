@@ -1,9 +1,10 @@
-import { headers } from "next/headers"
+import { getServerSession } from "next-auth"
 
 import { AvaliacaoResponse } from "@/@types/avaliacao"
 import { Typography } from "@/components/shared/typography"
 import { AddEvaluationDialog } from "@/components/ui/dialogs/add-evaluation-dialog"
 import { EvaluationContent } from "@/components/ui/evaluation-content"
+import { nextAuthConfig } from "@/lib/auth"
 
 export default async function Evaluation({
   params,
@@ -33,14 +34,14 @@ export default async function Evaluation({
 }
 
 const getAvaliacoes = async (id: string) => {
-  const apiUri = "/v1/clientes/" + id + "/avaliacoes"
+  const session = await getServerSession(nextAuthConfig)
 
-  const headersInstance = headers()
-  const headerCollection = new Headers(headersInstance)
-  headerCollection.append("x-api-uri", apiUri)
-
-  const res = await fetch("http://localhost:3000/api/clientes", {
-    headers: headerCollection,
+  const res = await fetch("http://localhost:3000/api/proxy", {
+    headers: {
+      "Content-Type": "application/json",
+      "x-api-uri": "/v1/clientes/" + id + "/avaliacoes",
+      Authorization: "Bearer " + session!.user.access_token,
+    },
   })
 
   const data: AvaliacaoResponse = await res.json()
@@ -49,14 +50,14 @@ const getAvaliacoes = async (id: string) => {
 }
 
 const getCliente = async (id: string) => {
-  const headersInstance = headers()
+  const session = await getServerSession(nextAuthConfig)
 
-  const headerCollection = new Headers(headersInstance)
-
-  headerCollection.append("x-api-uri", "/v1/clientes/" + id)
-
-  const res = await fetch("http://localhost:3000/api/clientes", {
-    headers: headerCollection,
+  const res = await fetch("http://localhost:3000/api/proxy", {
+    headers: {
+      "Content-Type": "application/json",
+      "x-api-uri": "/v1/clientes/" + id,
+      Authorization: "Bearer " + session!.user.access_token,
+    },
   })
 
   const data = await res.json()

@@ -1,17 +1,11 @@
-import { Eye } from "lucide-react"
-import { Trash2 } from "lucide-react"
-import Link from "next/link"
-
 import { Table } from "@/components/shared/table"
-import { AddWorkoutDialog } from "@/components/ui/dialogs/workout-dialog"
 
 import { DestructiveActionDialog } from "./dialogs/destructive-action-dialog"
-import { WorkoutDialog } from "./dialogs/workout-dialog"
+import { WorkoutDialog } from "./dialogs/workout-dialog/create-workout"
 
 export function PatientWorkouts() {
   return (
     <div className="mt-6">
-      <AddWorkoutDialog />
       <Table>
         <Table.Head>
           <Table.HeadCell>Nome</Table.HeadCell>

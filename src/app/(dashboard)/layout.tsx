@@ -1,6 +1,5 @@
 import { ReactNode } from "react"
 
-import { IsSignedIn } from "@/components/is-signed-in"
 import { Navbar } from "@/components/ui/navbar"
 
 export default function Layout({ children }: { children: ReactNode }) {

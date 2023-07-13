@@ -2,7 +2,7 @@ import React from "react"
 import { Nunito } from "next/font/google"
 
 import { QueryProvider } from "@/components/query-provider"
-import { Toaster } from "@/components/shared/toaster"
+import { Navbar } from "@/components/ui/navbar"
 import { NextAuthSession } from "@/components/ui/nextauth-session"
 
 import "./globals.css"
@@ -22,12 +22,7 @@ export default function RootLayout({
   return (
     <html lang="pt-br">
       <QueryProvider>
-        <NextAuthSession>
-          <body className={`${nunito.className} text-zinc-700`}>
-            {children}
-            <Toaster />
-          </body>
-        </NextAuthSession>
+        <body className={`${nunito.className} text-zinc-700`}>{children}</body>
       </QueryProvider>
     </html>
   )

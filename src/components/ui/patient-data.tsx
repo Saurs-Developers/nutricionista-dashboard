@@ -55,67 +55,124 @@ export function PatientData({ cliente }: { cliente: Cliente }) {
           <Input
             readOnly
             label="Histórico de doenças na família"
-            value={cliente.observacao.historico_doenca_familiar}
+            value={
+              cliente.observacao.historico_doenca_familiar.length > 0
+                ? cliente.observacao.historico_doenca_familiar
+                : "Não"
+            }
           />
           <Input
             readOnly
             label="Já apresentou alergia a algum medicamento"
-            value={cliente.observacao.alergia_medicamento}
+            value={
+              cliente.observacao.alergia_medicamento.length > 0
+                ? cliente.observacao.alergia_medicamento
+                : "Não"
+            }
           />
           <Input
             readOnly
             label="Histórico de doenças pessoais"
-            value={cliente.observacao.historico_doenca_pessoal}
+            value={
+              cliente.observacao.historico_doenca_pessoal.length > 0
+                ? cliente.observacao.historico_doenca_pessoal
+                : "Não"
+            }
           />
           <Input
             readOnly
             label="Aversão / Preferencia alimentar"
-            value={cliente.observacao.preferencia_ou_aversao_alimentar}
+            value={
+              cliente.observacao.preferencia_ou_aversao_alimentar.length > 0
+                ? cliente.observacao.preferencia_ou_aversao_alimentar
+                : "Não"
+            }
           />
           <Input
             readOnly
             label="Lesão/Acidente osteomuscular"
-            value={cliente.observacao.lesao_musculoesqueletica}
+            value={
+              cliente.observacao.lesao_osteomuscular.length > 0
+                ? cliente.observacao.lesao_osteomuscular
+                : "Não"
+            }
           />
           <Input
             readOnly
             label="Horário de trabalho, atividade diária"
-            value={cliente.observacao.tempo_trabalho_diario}
+            value={
+              cliente.observacao.tempo_trabalho_diario.length > 0
+                ? cliente.observacao.tempo_trabalho_diario
+                : "Não"
+            }
           />
           <Input
             readOnly
             label="Foi submetido a alguma cirurgia"
-            value={cliente.observacao.historico_cirurgia}
+            value={
+              cliente.observacao.historico_cirurgia.length > 0
+                ? cliente.observacao.historico_cirurgia
+                : "Não"
+            }
           />
           <Input
             readOnly
             label="Ciclo de sono"
-            value={cliente.observacao.ciclo_sono}
+            value={
+              cliente.observacao.ciclo_sono.length > 0
+                ? cliente.observacao.ciclo_sono
+                : "Não"
+            }
           />
           <Input
             readOnly
             label="Utiliza algum tipo de medicamento"
-            value={cliente.observacao.medicacao}
+            value={
+              cliente.observacao.medicacao.length > 0
+                ? cliente.observacao.medicacao
+                : "Não"
+            }
           />
+
+          <Input
+            readOnly
+            label="Tem ou teve hábito de fumar ou beber"
+            value={
+              cliente.observacao.habito_fumar_ou_beber.length > 0
+                ? cliente.observacao.habito_fumar_ou_beber
+                : "Não"
+            }
+          />
+          <Input
+            readOnly
+            label="Já apresentou algum tipo de alergia a alimento"
+            value={
+              cliente.observacao.alergia_alimentar.length > 0
+                ? cliente.observacao.alergia_alimentar
+                : "Não"
+            }
+          />
+          <Input
+            readOnly
+            label="Outros"
+            value={
+              cliente.observacao.outras_observacoes.length > 0
+                ? cliente.observacao.outras_observacoes
+                : "Não"
+            }
+          />
+
           <Input
             readOnly
             label="Avaliação postural / Alterações musculoesqueléticas"
             value={
               cliente.observacao
-                .avaliacao_postural_e_mudancas_musculoesqueleticas
+                .avaliacao_postural_e_alteracoes_musculoesqueleticas.length > 0
+                ? cliente.observacao
+                    .avaliacao_postural_e_alteracoes_musculoesqueleticas
+                : "Não"
             }
           />
-          <Input
-            readOnly
-            label="Tem ou teve hábito de fumar ou beber"
-            value={cliente.observacao.habito_fumar_ou_beber}
-          />
-          <Input
-            readOnly
-            label="Já apresentou algum tipo de alergia a alimento"
-            value={cliente.observacao.alergia_alimentar}
-          />
-          <Input readOnly label="Outros" value="Não" />
         </div>
       </Box>
     </div>
