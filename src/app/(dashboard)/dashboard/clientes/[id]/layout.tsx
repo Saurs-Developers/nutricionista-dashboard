@@ -24,7 +24,10 @@ export default async function Layout({ children, params }: Props) {
       </Typography>
       <Link
         className="flex items-center gap-2 my-4 text-zinc-900 hover:underline"
-        href="/dashboard/clientes/1"
+        href={{
+          pathname: "/dashboard/clientes",
+          query: { page: 1 },
+        }}
       >
         <ArrowLeft size={16} /> Voltar para a listagem de pacientes
       </Link>
@@ -37,10 +40,9 @@ export default async function Layout({ children, params }: Props) {
 const getCliente = async (id: number) => {
   const session = await getServerSession(nextAuthConfig)
 
-  const res = await fetch("http://localhost:3000/api/proxy", {
+  const res = await fetch("http://localhost/api/v1/clientes/" + id, {
     headers: {
       "Content-Type": "application/json",
-      "x-api-uri": "/v1/clientes/" + id,
       Authorization: "Bearer " + session!.user.access_token,
     },
   })

@@ -1,13 +1,15 @@
 import axios from "axios"
 import { NextRequest, NextResponse } from "next/server"
+import { getServerSession } from "next-auth"
 
 import { HttpMethod } from "@/@types/http-methods"
+import { nextAuthConfig } from "@/lib/auth"
 
 const routeHandler = async (req: NextRequest) => {
   const method = req.method as HttpMethod
 
   const apiUri = req.headers.get("x-api-uri")
-  const authorization = req.headers.get("Authorization")
+  const session = await getServerSession(nextAuthConfig)
 
   try {
     if (method === "GET") {
@@ -16,7 +18,7 @@ const routeHandler = async (req: NextRequest) => {
         method: method,
         headers: {
           "Content-Type": "application/json",
-          Authorization: authorization,
+          Authorization: session!.user.access_token,
         },
       })
 
@@ -26,7 +28,7 @@ const routeHandler = async (req: NextRequest) => {
     } else {
       const request = await req.json()
 
-      // console.log(request)
+      // console.log(JSON.stringify(request))
 
       const response = await axios.request({
         url: process.env.NEXT_PUBLIC_BASE_URL! + apiUri,
@@ -34,7 +36,7 @@ const routeHandler = async (req: NextRequest) => {
         data: request,
         headers: {
           "Content-Type": "application/json",
-          Authorization: authorization,
+          Authorization: "Bearer " + session!.user.access_token,
         },
       })
 
@@ -44,7 +46,7 @@ const routeHandler = async (req: NextRequest) => {
       //   data: request.data,
       //   headers: {
       //     "Content-Type": "application/json",
-      //     Authorization: authorization,
+      //     Authorization: "Bearer " + session!.user.access_token,
       //   },
       // })
 
@@ -54,6 +56,7 @@ const routeHandler = async (req: NextRequest) => {
     }
   } catch (error) {
     console.error("API request failed:", error)
+    return NextResponse.error()
   }
 }
 

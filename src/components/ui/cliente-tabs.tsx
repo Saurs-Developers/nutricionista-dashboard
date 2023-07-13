@@ -16,16 +16,16 @@ export default function ClienteTabs({ id }: { id: number }) {
       className={cn("flex items-center text-muted-foreground")}
     >
       <Link
-        href={"/dashboard/cliente/" + id + "/avaliacao"}
+        href={"/dashboard/clientes/" + id}
         className={cn(
           "inline-flex items-center border-b-2 justify-center whitespace-nowrap px-4 py-2 text-sm font-medium transition-all focus-visible:outline-none focus-visible:zinc-900 disabled:pointer-events-none disabled:opacity-50",
-          pathName === "avaliacao" && "text-zinc-900 border-zinc-900",
+          pathName === null && "text-zinc-900 border-zinc-900",
         )}
       >
         Avaliação antropométrica
       </Link>
       <Link
-        href={"/dashboard/cliente/" + id + "/treinos"}
+        href={"/dashboard/clientes/" + id + "/treinos"}
         className={cn(
           "inline-flex items-center border-b-2 justify-center whitespace-nowrap px-4 py-2 text-sm font-medium transition-all focus-visible:outline-none focus-visible:text-zinc-900 disabled:pointer-events-none disabled:opacity-50",
           pathName === "treinos" && "text-zinc-900 border-zinc-900",
@@ -34,7 +34,7 @@ export default function ClienteTabs({ id }: { id: number }) {
         Treinos
       </Link>
       <Link
-        href={"/dashboard/cliente/" + id + "/dietas"}
+        href={"/dashboard/clientes/" + id + "/dietas"}
         className={cn(
           "inline-flex items-center border-b-2 data-[state=active]:border-zinc-900 justify-center whitespace-nowrap px-4 py-2 text-sm font-medium transition-all focus-visible:outline-none focus-visible:text-zinc-900 disabled:pointer-events-none disabled:opacity-50 data-[state=active]:text-zinc-900",
           pathName === "dietas" && "text-zinc-900 border-zinc-900",
@@ -43,7 +43,7 @@ export default function ClienteTabs({ id }: { id: number }) {
         Dietas
       </Link>
       <Link
-        href={"/dashboard/cliente/" + id + "/dados"}
+        href={"/dashboard/clientes/" + id + "/dados"}
         className={cn(
           "inline-flex items-center border-b-2 data-[state=active]:border-zinc-900 justify-center whitespace-nowrap px-4 py-2 text-sm font-medium transition-all focus-visible:outline-none focus-visible:text-zinc-900 disabled:pointer-events-none disabled:opacity-50 data-[state=active]:text-zinc-900",
           pathName === "dados" && "text-zinc-900 border-zinc-900",

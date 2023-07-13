@@ -36,8 +36,8 @@ export function StepTwo() {
       />
       <DynamicRadioField
         label="Possui algum acidente ou lesão osteomuscular?"
-        field="observacao.lesao_musculoesqueletica"
-        hasField="observacao.possui_lesao_musculoesqueletica"
+        field="observacao.lesao_osteomuscular"
+        hasField="observacao.lesao_osteomuscular"
         error={errors.observacao?.lesao_musculoesqueletica?.message!}
       />
       <DynamicRadioField
@@ -77,7 +77,7 @@ export function StepTwo() {
       />
       <Input
         {...register(
-          "observacao.avaliacao_postural_e_mudancas_musculoesqueleticas",
+          "observacao.avaliacao_postural_e_alteracoes_musculoesqueleticas",
         )}
         placeholder="Ex: Escoliose"
         label="Avaliação postural / Alterações musculoesqueléticas"

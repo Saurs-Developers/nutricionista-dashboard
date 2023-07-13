@@ -14,10 +14,9 @@ export default async function Dados({ params }: { params: { id: number } }) {
 const getCliente = async (id: number) => {
   const session = await getServerSession(nextAuthConfig)
 
-  const res = await fetch("http://localhost:3000/api/proxy", {
+  const res = await fetch("http://localhost/api/v1/clientes/" + id, {
     headers: {
       "Content-Type": "application/json",
-      "x-api-uri": "/v1/clientes/" + id,
       Authorization: "Bearer " + session!.user.access_token,
     },
   })

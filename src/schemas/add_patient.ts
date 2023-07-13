@@ -17,7 +17,7 @@ const observacaoSchema = z
       .transform((data) => (data === "true" ? true : false)),
 
     historico_doenca_pessoal: z.string(),
-    possui_lesao_musculoesqueletica: z
+    possui_lesao_osteomuscular: z
       .string()
       .optional()
       .transform((data) => (data === "true" ? true : false)),
@@ -54,7 +54,7 @@ const observacaoSchema = z
 
     alergia_medicamento: z.string(),
 
-    avaliacao_postural_e_mudancas_musculoesqueleticas: z.string().optional(),
+    avaliacao_postural_e_alteracoes_musculoesqueleticas: z.string().optional(),
     preferencia_ou_aversao_alimentar: z.string().optional(),
     ciclo_sono: z.string().optional(),
     outras_observacoes: z.string().optional(),
@@ -84,7 +84,7 @@ const observacaoSchema = z
     }
 
     if (
-      values.possui_lesao_musculoesqueletica &&
+      values.possui_lesao_osteomuscular &&
       values.lesao_musculoesqueletica.length === 0
     ) {
       ctx.addIssue({

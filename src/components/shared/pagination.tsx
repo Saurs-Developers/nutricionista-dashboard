@@ -17,7 +17,7 @@ export function Pagination({ lastPage, currentPage }: Props) {
           "flex items-center gap-2",
           currentPage === 1 ? "opacity-50 pointer-events-none" : "",
         )}
-        href={`/dashboard/clientes/${currentPage - 1}`}
+        href={`/dashboard/clientes?page=${currentPage - 1}`}
         prefetch={false}
       >
         <ChevronLeft /> Prev
@@ -31,7 +31,7 @@ export function Pagination({ lastPage, currentPage }: Props) {
                 key + 1 === currentPage ? "bg-neutral-200" : "",
               )}
               key={key}
-              href={`/dashboard/clientes/${key + 1}`}
+              href={`/dashboard/clientes?page=${key + 1}`}
             >
               {key + 1}
             </Link>
@@ -43,7 +43,7 @@ export function Pagination({ lastPage, currentPage }: Props) {
           "flex items-center gap-2",
           currentPage === lastPage ? "opacity-50 pointer-events-none" : "",
         )}
-        href={`/dashboard/clientes/${currentPage + 1}`}
+        href={`/dashboard/clientes?page=${currentPage + 1}`}
         prefetch={false}
       >
         Next <ChevronRight />

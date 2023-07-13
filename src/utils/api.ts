@@ -3,7 +3,6 @@ export function delay(ms: number) {
 }
 
 import axios from "axios"
-import { JWT } from "next-auth"
 
 export const client = axios.create({
   baseURL: process.env.NEXT_PUBLIC_HANDLER_URL,

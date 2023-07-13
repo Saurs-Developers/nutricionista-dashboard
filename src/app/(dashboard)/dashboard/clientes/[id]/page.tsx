@@ -1,57 +1,67 @@
 import { getServerSession } from "next-auth"
 
-import { Pagination } from "@/components/shared/pagination"
+import { AvaliacaoResponse } from "@/@types/avaliacao"
 import { Typography } from "@/components/shared/typography"
-import { PatientList } from "@/components/ui/patient-list"
+import { AddEvaluationDialog } from "@/components/ui/dialogs/add-evaluation-dialog"
+import { EvaluationContent } from "@/components/ui/evaluation-content"
 import { nextAuthConfig } from "@/lib/auth"
 
-interface Props {
-  searchParams: { [key: string]: string | string[] | undefined }
-  params: { id: number }
-}
-
-export default async function Dashboard({ searchParams, params }: Props) {
+export default async function Evaluation({
+  params,
+}: {
+  params: { id: string }
+}) {
   const { id } = params
-  const { estado } = searchParams
-  const { nome } = searchParams
 
-  const clientes = await getClientes(id - 1, estado as string, nome as string)
+  const data = await getAvaliacoes(id)
+  const cliente = await getCliente(id)
 
   return (
-    <div>
-      {clientes.results.length > 0 ? (
+    <div className="space-y-4 mt-4">
+      {data.results.length === 0 ? (
         <>
-          <PatientList data={clientes.results} />
-          <Pagination
-            currentPage={clientes.current_page + 1}
-            lastPage={clientes.total_pages}
-          />
+          <Typography>
+            O paciente ainda não possui nenhuma avaliação. Para criar uma,
+            utilize o botão abaixo.
+          </Typography>
+          <AddEvaluationDialog />
         </>
       ) : (
-        <Typography variant="body" className="mt-5">
-          Você não possui nenhum paciente cadastrado.
-        </Typography>
+        <EvaluationContent cliente={cliente} evaluation={data.results[0]} />
       )}
     </div>
   )
 }
 
-const getClientes = async (id: number, estado: string, nome: string) => {
+const getAvaliacoes = async (id: string) => {
   const session = await getServerSession(nextAuthConfig)
 
-  const apiUri =
-    "/v1/clientes/profissionais/" +
-    session!.user.user_id +
-    "?page=" +
-    id +
-    "&size=6&orderBy=createdAt"
+  const res = await fetch(
+    "http://localhost/api/v1/clientes/" + id + "/avaliacoes",
+    {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + session!.user.access_token,
+      },
+    },
+  )
 
-  const res = await fetch("http://localhost/api" + apiUri, {
+  const data: AvaliacaoResponse = await res.json()
+
+  return data
+}
+
+const getCliente = async (id: string) => {
+  const session = await getServerSession(nextAuthConfig)
+
+  const res = await fetch("http://localhost/api/v1/clientes/" + id, {
     headers: {
+      "Content-Type": "application/json",
       Authorization: "Bearer " + session!.user.access_token,
     },
-    cache: "force-cache",
   })
 
-  return res.json()
+  const data = await res.json()
+
+  return data
 }

@@ -1,5 +1,3 @@
-"use client"
-
 import {
   createContext,
   Dispatch,
@@ -8,9 +6,8 @@ import {
   useContext,
   useState,
 } from "react"
-import { useMutation, useQuery } from "@tanstack/react-query"
-import axios from "axios"
-import { useRouter } from "next/navigation"
+import { UseMutateFunction, useMutation, useQuery } from "@tanstack/react-query"
+import axios, { AxiosResponse } from "axios"
 
 import { District, State } from "@/@types"
 import { toast } from "@/components/shared/use-toast"
@@ -33,7 +30,11 @@ interface AddPatientContext {
   cidades?: District[]
   estados?: State[]
   isCidadesLoading?: boolean
-  submitCliente: (data: AddPatientSchema) => void
+  submitCliente: UseMutateFunction<
+    AxiosResponse<any, any>,
+    unknown,
+    AddPatientSchema
+  >
   isSubmitLoading: boolean
 }
 
@@ -45,11 +46,9 @@ export function PatientContextProvider({ children }: { children: ReactNode }) {
   const { currentStep, handleNextStep, handlePreviousStep, returnCurrentStep } =
     useMultiStepForm(steps)
 
-  const router = useRouter()
-
   const [uf, setUf] = useState("")
 
-  const { data: estados, isLoading: isEstadosLoading } = useQuery<State[]>({
+  const { data: estados } = useQuery<State[]>({
     queryKey: ["states"],
     queryFn: async () => {
       const states = await axios.get(
@@ -81,9 +80,9 @@ export function PatientContextProvider({ children }: { children: ReactNode }) {
   const { mutate: submitCliente, isLoading: isSubmitLoading } = useMutation({
     mutationFn: async (data: AddPatientSchema) => {
       const res = await client.post(
-        "/clientes",
+        "/proxy",
         {
-          data,
+          ...data,
         },
         {
           headers: {
@@ -105,6 +104,9 @@ export function PatientContextProvider({ children }: { children: ReactNode }) {
     },
     onSuccess: () => {
       handleNextStep()
+      setTimeout(() => {
+        window.location.reload()
+      }, 5000)
     },
   })
 
