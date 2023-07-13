@@ -28,7 +28,7 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
           {...props}
         />
         {error && (
-          <Typography className="text-sm text-danger mt-1 text-red-500">
+          <Typography className="leading-7 text-sm text-danger mt-1 text-red-500 font-normal">
             {error}
           </Typography>
         )}

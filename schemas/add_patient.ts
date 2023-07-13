@@ -16,12 +16,12 @@ const observacaoSchema = z
       .transform((data) => (data === "true" ? true : false)),
 
     historico_doenca_pessoal: z.string(),
-    possui_lesao_musculoesqueletica: z
+    possui_lesao_osteomuscular: z
       .string()
       .optional()
       .transform((data) => (data === "true" ? true : false)),
 
-    lesao_musculoesqueletica: z.string(),
+    lesao_osteomuscular: z.string(),
     possui_historico_cirurgia: z
       .string()
       .optional()
@@ -83,12 +83,12 @@ const observacaoSchema = z
     }
 
     if (
-      values.possui_lesao_musculoesqueletica &&
-      values.lesao_musculoesqueletica.length === 0
+      values.possui_lesao_osteomuscular &&
+      values.lesao_osteomuscular.length === 0
     ) {
       ctx.addIssue({
         code: z.ZodIssueCode.custom,
-        path: ["lesao_musculoesqueletica"],
+        path: ["lesao_osteomuscular"],
         message: "Ao marcar que sim, Este campo se torna obrigatório.",
       })
     }

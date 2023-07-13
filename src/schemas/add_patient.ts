@@ -22,7 +22,7 @@ const observacaoSchema = z
       .optional()
       .transform((data) => (data === "true" ? true : false)),
 
-    lesao_musculoesqueletica: z.string(),
+    lesao_osteomuscular: z.string(),
     possui_historico_cirurgia: z
       .string()
       .optional()
@@ -85,11 +85,11 @@ const observacaoSchema = z
 
     if (
       values.possui_lesao_osteomuscular &&
-      values.lesao_musculoesqueletica.length === 0
+      values.lesao_osteomuscular.length === 0
     ) {
       ctx.addIssue({
         code: z.ZodIssueCode.custom,
-        path: ["lesao_musculoesqueletica"],
+        path: ["lesao_osteomuscular"],
         message: "Ao marcar que sim, Este campo se torna obrigatório.",
       })
     }
@@ -156,8 +156,12 @@ export const addPatientSchema = z.z.object({
   email: z
     .string({ required_error: "Este campo é obrigatório" })
     .email({ message: "Insira um endereço de e-mail válido." }),
-  estado: z.string({ required_error: "Este campo é obrigatório." }),
-  cidade: z.string({ required_error: "Este campo é obrigatório." }),
+  estado: z
+    .string({ required_error: "Este campo é obrigatório." })
+    .min(1, { message: "Este campo é obirgatório" }),
+  cidade: z
+    .string({ required_error: "Este campo é obrigatório." })
+    .min(1, { message: "Este campo é obirgatório" }),
   sexo: z.string({ required_error: "Este campo é obrigatório" }),
   data_nascimento: z
     .date({ required_error: "Este campo é obrigatório" })
@@ -165,15 +169,18 @@ export const addPatientSchema = z.z.object({
       return format(data, "yyyy-MM-dd")
     }),
   notas: z.string().optional(),
-  contato: z.string({ required_error: "Este campo é obrigatório." }).refine(
-    (value) => {
-      const phoneNumber = new AsYouType().input(value)
-      return phoneNumber.length >= 10
-    },
-    {
-      message: "Número de celular inválido.",
-    },
-  ),
+  contato: z
+    .string({ required_error: "Este campo é obrigatório." })
+    .min(1, { message: "Este campo é obirgatório" })
+    .refine(
+      (value) => {
+        const phoneNumber = new AsYouType().input(value)
+        return phoneNumber.length >= 10
+      },
+      {
+        message: "Número de celular inválido.",
+      },
+    ),
   objetivo: z.string().optional(),
   observacao: observacaoSchema,
 })

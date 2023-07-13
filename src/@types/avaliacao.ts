@@ -45,4 +45,26 @@ export interface Avaliacao {
   composicao_corporal: ComposicaoCorporal
 }
 
-export interface AvaliacaoResponse extends PaginatedResponse<Avaliacao> {}
+export interface Treino {
+  titulo: string
+  foco: string
+  observacao: string
+  dias: string[]
+}
+
+export interface GetTreino extends Treino {
+  id: string
+  exercicios: []
+  created_at: string
+  updated_at: string
+}
+
+export interface GetAvaliacao extends Avaliacao {
+  id: string
+  treinos: []
+  dietas: []
+}
+
+export interface AvaliacaoResponse extends PaginatedResponse<GetAvaliacao> {}
+
+export interface TreinoResponse extends PaginatedResponse<GetTreino> {}

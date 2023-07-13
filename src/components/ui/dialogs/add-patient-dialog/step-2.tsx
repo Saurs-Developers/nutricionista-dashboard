@@ -38,7 +38,7 @@ export function StepTwo() {
         label="Possui algum acidente ou lesão osteomuscular?"
         field="observacao.lesao_osteomuscular"
         hasField="observacao.lesao_osteomuscular"
-        error={errors.observacao?.lesao_musculoesqueletica?.message!}
+        error={errors.observacao?.possui_lesao_osteomuscular?.message!}
       />
       <DynamicRadioField
         label="Foi submetido a alguma cirurgia?"

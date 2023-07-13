@@ -22,7 +22,7 @@ export function AddPatientDialog() {
       observacao: {
         historico_doenca_familiar: "",
         historico_doenca_pessoal: "",
-        lesao_musculoesqueletica: "",
+        lesao_osteomuscular: "",
         historico_cirurgia: "",
         medicacao: "",
         habito_fumar_ou_beber: "",

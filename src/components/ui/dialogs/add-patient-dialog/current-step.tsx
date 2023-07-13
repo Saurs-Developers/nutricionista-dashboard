@@ -1,17 +1,13 @@
 "use client"
 
 import { useFormContext } from "react-hook-form"
-import { useRouter } from "next/navigation"
 
-import { RefreshPage } from "@/components/refresh-page"
 import { AddPatientSchema } from "@/schemas/add_patient"
 
 import { steps, useAddPatientContext } from "./add-patient-context"
 
 export function CurrentStep() {
   const { currentStep, submitCliente } = useAddPatientContext()
-
-  const router = useRouter()
 
   const { handleSubmit } = useFormContext<AddPatientSchema>()
 

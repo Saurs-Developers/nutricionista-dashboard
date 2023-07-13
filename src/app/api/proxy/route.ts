@@ -12,13 +12,13 @@ const routeHandler = async (req: NextRequest) => {
   const session = await getServerSession(nextAuthConfig)
 
   try {
-    if (method === "GET") {
+    if (method === "GET" || method === "DELETE") {
       const response = await axios.request({
         url: process.env.NEXT_PUBLIC_BASE_URL! + apiUri,
         method: method,
         headers: {
           "Content-Type": "application/json",
-          Authorization: session!.user.access_token,
+          Authorization: "Bearer " + session!.user.access_token,
         },
       })
 
@@ -50,12 +50,15 @@ const routeHandler = async (req: NextRequest) => {
       //   },
       // })
 
-      const data = await response.data
+      if (response.status === 204) return NextResponse.json(response.data)
 
-      return NextResponse.json(data)
+      return NextResponse.json(
+        { message: response.data.message },
+        { status: response.data.status },
+      )
     }
   } catch (error) {
-    console.error("API request failed:", error)
+    console.log(error)
     return NextResponse.error()
   }
 }

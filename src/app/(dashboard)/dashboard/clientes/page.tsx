@@ -17,7 +17,7 @@ export default async function Dashboard({ searchParams, params }: Props) {
   const { estado } = searchParams
   const { nome } = searchParams
 
-  const clientesData = await getClientes(
+  const clientesData = await getCliente(
     Number(page) - 1,
     estado as string,
     nome as string,
@@ -50,7 +50,7 @@ export default async function Dashboard({ searchParams, params }: Props) {
   )
 }
 
-const getClientes = async (page: number, estado: string, nome: string) => {
+const getCliente = async (page: number, estado: string, nome: string) => {
   const session = await getServerSession(nextAuthConfig)
 
   const apiUri =
@@ -73,7 +73,7 @@ const getEstados = async () => {
   const res = await fetch(
     "http://servicodados.ibge.gov.br/api/v1/localidades/estados",
     {
-      cache: "default",
+      cache: "force-cache",
     },
   )
 

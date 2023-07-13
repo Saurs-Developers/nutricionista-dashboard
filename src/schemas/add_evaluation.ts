@@ -2,7 +2,7 @@ import * as z from "zod"
 
 const nullValidation = z
   .number({ invalid_type_error: "Este campo deve ser um número" })
-  .positive()
+  .positive({ message: "Este campo deve ser um número positivo" })
   .nullable()
   .transform((value, ctx) => {
     if (value == null) {
